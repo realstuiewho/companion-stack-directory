@@ -66,8 +66,9 @@
         <button onclick="filterKit('edge', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-amber-500/30 text-amber-400 hover:bg-amber-950/40 transition">
           🤖 Autonomous Edge Rig
         </button>
-        <button onclick="openBOMModal()" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow">
-          <span>📋 Export Parts List (BOM)</span>
+        <!-- Interactive New-Tab Checklist Button -->
+        <button onclick="openInteractiveChecklistTab()" class="px-3.5 py-1 rounded-full text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400 shadow-lg shadow-indigo-600/30 transition flex items-center gap-1.5">
+          <span>↗ Open Clickable Checklist (New Tab)</span>
         </button>
       </div>
     </section>
@@ -150,33 +151,6 @@
 
     <!-- Cards Grid -->
     <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
-  </div>
-
-  <!-- Bill of Materials (BOM) Modal -->
-  <div id="bom-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative">
-      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <div>
-          <h3 id="bom-title" class="text-lg font-bold text-white">📋 Bill of Materials (Parts Checklist)</h3>
-          <p id="bom-desc" class="text-xs text-slate-400 mt-0.5">Shopping list and specifications for your companion stack.</p>
-        </div>
-        <button onclick="closeBOMModal()" class="text-slate-400 hover:text-white text-lg font-bold px-2 py-0.5 rounded-lg bg-slate-800">✕</button>
-      </div>
-
-      <div class="mt-4">
-        <textarea id="bom-text" readonly class="w-full h-64 bg-slate-950 border border-slate-800 rounded-xl p-3.5 font-mono text-xs text-slate-300 focus:outline-none select-all leading-relaxed"></textarea>
-      </div>
-
-      <div class="mt-4 flex justify-between items-center">
-        <span id="bom-copied-msg" class="text-xs text-emerald-400 font-semibold opacity-0 transition-opacity duration-300">✓ Copied to clipboard!</span>
-        <div class="flex gap-2">
-          <button onclick="closeBOMModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Close</button>
-          <button onclick="copyBOMText()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
-            <span>Copy Checklist</span>
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Compliance Footer -->
@@ -563,61 +537,145 @@
       }
     }
 
-    // --- Bill of Materials (BOM) Logic ---
-    function openBOMModal() {
-      let itemsToExport = tools;
-      let kitTitle = "Complete Stack Directory (All 37 Components)";
-      
+    // --- Interactive New Tab BOM Checklist Generator (Preserves Hyperlinks) ---
+    function openInteractiveChecklistTab() {
+      let items = tools;
+      let title = "DeskbotStack &mdash; Complete Master Components Checklist";
+      let subtitle = "Curated Hardware, Voice Engines, & Local Runtimes";
+
       if (currentKit === 'budget') {
-        itemsToExport = tools.filter(t => t.kits && t.kits.includes('budget'));
-        kitTitle = "⚡ $50 Budget Deskbot (Bill of Materials)";
+        items = tools.filter(t => t.kits && t.kits.includes('budget'));
+        title = "⚡ $50 Budget Deskbot &mdash; Official Hardware & Software Checklist";
+        subtitle = "Affordable Microcontroller Stack with ESP32-S3, Vosk & Piper TTS";
       } else if (currentKit === 'pro') {
-        itemsToExport = tools.filter(t => t.kits && t.kits.includes('pro'));
-        kitTitle = "🧠 High-Fidelity Companion (Bill of Materials)";
+        items = tools.filter(t => t.kits && t.kits.includes('pro'));
+        title = "🧠 High-Fidelity Companion &mdash; Pro Embodiment Checklist";
+        subtitle = "High-Bandwidth Local AI with ElevenLabs, ReSpeaker & Unified Memory";
       } else if (currentKit === 'edge') {
-        itemsToExport = tools.filter(t => t.kits && t.kits.includes('edge'));
-        kitTitle = "🤖 Autonomous Edge Rig (Bill of Materials)";
-      } else if (currentCat !== 'all') {
-        itemsToExport = tools.filter(t => t.cat === currentCat);
-        kitTitle = `${currentCat.toUpperCase()} Checklist`;
+        items = tools.filter(t => t.kits && t.kits.includes('edge'));
+        title = "🤖 Autonomous Edge Rig &mdash; Edge Architecture Checklist";
+        subtitle = "Fully Embedded Stack with Raspberry Pi 5, ElizaOS & Vision Tracking";
       }
 
-      document.getElementById('bom-title').textContent = kitTitle;
-      
-      let text = `# ${kitTitle}\n# Exported from DeskbotStack.dev\n# Date: ${new Date().toISOString().split('T')[0]}\n\n`;
-      text += `| Item | Role / Category | Est. Price | Target Link |\n`;
-      text += `| :--- | :--- | :--- | :--- |\n`;
-      
-      itemsToExport.forEach(item => {
-        text += `| ${item.name} | ${item.role} | ${item.price} | ${item.url} |\n`;
-      });
+      const rows = items.map(t => `
+        <tr class="border-b border-slate-800 hover:bg-slate-900/40 transition">
+          <td class="py-3 px-4 text-center">
+            <input type="checkbox" class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-0 cursor-pointer" />
+          </td>
+          <td class="py-3 px-4">
+            <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="font-bold text-indigo-400 hover:text-indigo-300 hover:underline flex items-center gap-1.5">
+              <span>${t.name}</span>
+              <span class="text-[10px] text-slate-500">↗</span>
+            </a>
+            <div class="text-[11px] text-slate-400 mt-0.5">${t.role}</div>
+          </td>
+          <td class="py-3 px-4 text-xs font-semibold text-slate-300">${t.cat}</td>
+          <td class="py-3 px-4 text-xs font-mono text-emerald-400">${t.price}</td>
+          <td class="py-3 px-4 text-[11px] text-slate-400">
+            ${t.specs ? `<span class="font-mono text-indigo-300">${t.specs.interface}</span><br><span class="text-slate-500">${t.specs.wiring}</span>` : `${t.runs}`}
+          </td>
+          <td class="py-3 px-4 text-center">
+            <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="inline-block px-3 py-1 text-xs font-bold rounded-lg ${t.badge ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'} transition">
+              Get Specs &rarr;
+            </a>
+          </td>
+        </tr>
+      `).join('');
 
-      text += `\n## Hardware Wiring & Power Notes:\n`;
-      itemsToExport.filter(t => t.specs).forEach(t => {
-        text += `\n### ${t.name}\n`;
-        text += `- Interface: ${t.specs.interface}\n`;
-        text += `- Power: ${t.specs.power}\n`;
-        text += `- Connections: ${t.specs.wiring}\n`;
-        text += `- Tip: ${t.specs.tip}\n`;
-      });
+      const notes = items.filter(t => t.specs).map(t => `
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5 text-xs text-slate-300">
+          <div class="flex justify-between items-center">
+            <h4 class="font-bold text-white text-sm">
+              <a href="${t.url}" target="_blank" class="text-indigo-400 hover:underline">${t.name}</a>
+            </h4>
+            <span class="font-mono text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">${t.specs.interface}</span>
+          </div>
+          <p><strong class="text-slate-400">Power:</strong> ${t.specs.power}</p>
+          <p><strong class="text-indigo-400">Wiring Connections:</strong> <span class="font-mono text-slate-200">${t.specs.wiring}</span></p>
+          <p class="text-[11px] text-amber-400/90 bg-amber-950/20 p-2 rounded border border-amber-900/30">💡 <strong>Workbench Tip:</strong> ${t.specs.tip}</p>
+        </div>
+      `).join('');
 
-      document.getElementById('bom-text').value = text;
-      document.getElementById('bom-modal').classList.remove('hidden');
-    }
+      const checklistHtml = `
+        <!doctype html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <title>${title}</title>
+          <script src="https://cdn.tailwindcss.com"><\/script>
+          <style>
+            @media print {
+              .no-print { display: none !important; }
+              body { background: white !important; color: black !important; }
+              a { color: #1d4ed8 !important; text-decoration: underline !important; }
+              .print-border { border: 1px solid #e2e8f0 !important; }
+            }
+          </style>
+        </head>
+        <body class="bg-slate-950 text-slate-100 min-h-screen font-sans p-6 md:p-12">
+          <div class="max-w-5xl mx-auto space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+              <div>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-white">${title}</h1>
+                <p class="text-sm text-slate-400 mt-1">${subtitle}</p>
+              </div>
+              <div class="flex gap-2 no-print">
+                <button onclick="window.print()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+                  🖨️ Print / Save PDF
+                </button>
+                <button onclick="window.close()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold rounded-xl text-white transition">
+                  ✕ Close Tab
+                </button>
+              </div>
+            </div>
 
-    function closeBOMModal() {
-      document.getElementById('bom-modal').classList.add('hidden');
-      document.getElementById('bom-copied-msg').classList.add('opacity-0');
-    }
+            <div class="p-4 rounded-xl bg-indigo-950/20 border border-indigo-900/40 text-xs text-indigo-300">
+              💡 <strong>All links below are live and clickable:</strong> Click any product or model name to visit its repository, specs, or download page. Use the checkboxes to track your build progress.
+            </div>
 
-    function copyBOMText() {
-      const textarea = document.getElementById('bom-text');
-      textarea.select();
-      navigator.clipboard.writeText(textarea.value).then(() => {
-        const msg = document.getElementById('bom-copied-msg');
-        msg.classList.remove('opacity-0');
-        setTimeout(() => msg.classList.add('opacity-0'), 2500);
-      });
+            <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/50">
+              <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                  <tr class="border-b border-slate-800 bg-slate-900 text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
+                    <th class="py-3 px-4 text-center w-12">Done</th>
+                    <th class="py-3 px-4">Component & Model</th>
+                    <th class="py-3 px-4">Category</th>
+                    <th class="py-3 px-4">Est. Price</th>
+                    <th class="py-3 px-4">Bus / Connections</th>
+                    <th class="py-3 px-4 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${rows}
+                </tbody>
+              </table>
+            </div>
+
+            ${notes ? `
+              <div class="pt-6 space-y-4">
+                <h2 class="text-xl font-bold text-white border-l-4 border-indigo-500 pl-3">Hardware Wiring & Pinout Reference</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  ${notes}
+                </div>
+              </div>
+            ` : ''}
+
+            <footer class="pt-8 border-t border-slate-900 text-center text-xs text-slate-500 space-y-1">
+              <p>Generated by <strong>DeskbotStack.dev</strong> &bull; Reader-supported directory.</p>
+              <p class="text-[10px]">When you purchase components or compute through links on this checklist, we may earn an affiliate commission at no extra cost to you.</p>
+            </footer>
+          </div>
+        </body>
+        </html>
+      `;
+
+      const newWindow = window.open('', '_blank');
+      if (newWindow) {
+        newWindow.document.write(checklistHtml);
+        newWindow.document.close();
+      } else {
+        alert("Please allow pop-ups for this site to open the checklist in a new tab.");
+      }
     }
 
     function render(items) {
