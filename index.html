@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DeskbotStack - The Local AI & Companion Directory</title>
-  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, and deskbot hardware with pinout diagrams." />
+  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, deskbot hardware, and VRAM calculator." />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
@@ -17,9 +17,14 @@
           <span class="text-2xl">🤖</span>
           <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
         </div>
-        <span id="tool-counter" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-          Showing 37 Tools
-        </span>
+        <div class="flex items-center space-x-3">
+          <a href="#vram-calc" class="hidden sm:inline-block text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            🧮 VRAM Calculator
+          </a>
+          <span id="tool-counter" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            Showing 37 Tools
+          </span>
+        </div>
       </div>
     </header>
 
@@ -61,6 +66,74 @@
         <button onclick="filterKit('edge', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-amber-500/30 text-amber-400 hover:bg-amber-950/40 transition">
           🤖 Autonomous Edge Rig
         </button>
+      </div>
+    </section>
+
+    <!-- VRAM & Local Hardware Estimator Widget -->
+    <section id="vram-calc" class="max-w-6xl mx-auto px-6 mb-10">
+      <div class="p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-900/90 border border-indigo-500/30 shadow-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-800 gap-2">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🧮 Local AI VRAM & Hardware Fit Estimator</span>
+              <span class="text-[10px] uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Interactive</span>
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Determine if your companion brain fits on your deskbot's local RAM or requires cloud GPU fallback.</p>
+          </div>
+          <button onclick="toggleCalc()" id="calc-toggle-btn" class="text-xs font-semibold text-slate-400 hover:text-white self-start md:self-auto py-1 px-2.5 rounded bg-slate-800">
+            Hide Calculator ▲
+          </button>
+        </div>
+
+        <div id="calc-body" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-5">
+          <!-- Parameter 1: Model Parameter Size -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Model Parameters</label>
+            <select id="calc-params" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="3">3B (e.g. Llama 3.2 3B / Phi-3.5)</option>
+              <option value="8" selected>8B (e.g. Llama 3.1 8B / Qwen 2.5 7B)</option>
+              <option value="14">14B (e.g. Qwen 2.5 14B / DeepSeek R1 14B)</option>
+              <option value="32">32B (e.g. Qwen 2.5 32B / Command-R)</option>
+              <option value="70">70B (e.g. Llama 3.3 70B / DeepSeek 70B)</option>
+            </select>
+          </div>
+
+          <!-- Parameter 2: Quantization -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Quantization (GGUF)</label>
+            <select id="calc-quant" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="4.5" selected>Q4_K_M (4-bit Balanced & Recommended)</option>
+              <option value="5.5">Q5_K_M (5-bit Higher Quality)</option>
+              <option value="8.5">Q8_0 (8-bit Near-Lossless)</option>
+              <option value="16">FP16 (16-bit Full Precision Unquantized)</option>
+            </select>
+          </div>
+
+          <!-- Parameter 3: Context Window -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Context Window</label>
+            <select id="calc-ctx" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="0.5">4K Tokens (Standard Chat)</option>
+              <option value="1.2" selected>8K Tokens (Recommended for Agents)</option>
+              <option value="3.5">32K Tokens (Deep Memory & RAG)</option>
+              <option value="8.0">128K Tokens (Massive Document Context)</option>
+            </select>
+          </div>
+
+          <!-- Result Panel -->
+          <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-baseline">
+                <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Estimated VRAM</span>
+                <span id="calc-vram-result" class="text-xl font-extrabold text-indigo-400">~6.2 GB</span>
+              </div>
+              <p id="calc-verdict" class="text-[11px] text-emerald-400 mt-1 font-medium">⚡ Fits easily on 16GB Mini PC or Mac</p>
+            </div>
+            <div id="calc-recommendation" class="pt-2 border-t border-slate-800/80 mt-2 text-[10px] text-slate-300">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -416,6 +489,53 @@
     let currentKit = null;
     let openSpecId = null;
 
+    // --- VRAM Calculator Logic ---
+    function runCalc() {
+      const params = parseFloat(document.getElementById('calc-params').value);
+      const quant = parseFloat(document.getElementById('calc-quant').value);
+      const ctx = parseFloat(document.getElementById('calc-ctx').value);
+
+      // Model weights size (GB) + Context KV Cache overhead (GB) + 1.2GB runtime overhead
+      const weightGB = (params * quant) / 8;
+      const totalVRAM = (weightGB + ctx + 1.2).toFixed(1);
+
+      const resultEl = document.getElementById('calc-vram-result');
+      const verdictEl = document.getElementById('calc-verdict');
+      const recEl = document.getElementById('calc-recommendation');
+
+      resultEl.textContent = `~${totalVRAM} GB`;
+
+      if (totalVRAM <= 7.0) {
+        verdictEl.className = "text-[11px] text-emerald-400 mt-1 font-medium";
+        verdictEl.textContent = "⚡ Fits on 16GB Mini PC or Raspberry Pi 5 (3B)";
+        recEl.innerHTML = `Recommended: <strong>Beelink SER8</strong> or <strong>Mac Mini M4</strong> for lightning-fast 30+ tok/s.`;
+      } else if (totalVRAM <= 18.0) {
+        verdictEl.className = "text-[11px] text-indigo-400 mt-1 font-medium";
+        verdictEl.textContent = "🧠 Recommended: 24GB Unified Memory / RTX 3090/4090";
+        recEl.innerHTML = `Fits smoothly on <strong>Mac Mini M4 (24GB)</strong> or dedicated 24GB VRAM GPU rig.`;
+      } else if (totalVRAM <= 30.0) {
+        verdictEl.className = "text-[11px] text-amber-400 mt-1 font-medium";
+        verdictEl.textContent = "⚠️ High VRAM: Needs Mac Studio / Dual GPUs";
+        recEl.innerHTML = `Will swap to slow system RAM on mini PCs. Consider <strong>Mac Studio</strong> or offloading to <a href="https://runpod.io?ref=fsxzpcbt" target="_blank" class="text-indigo-400 underline font-semibold">RunPod Cloud GPU</a>.`;
+      } else {
+        verdictEl.className = "text-[11px] text-rose-400 mt-1 font-medium";
+        verdictEl.textContent = "🚨 Bottlenecks Standard Consumer Desktops";
+        recEl.innerHTML = `Requires multi-GPU hardware (e.g. 2x RTX 4090 or A100). Best choice: <a href="https://runpod.io?ref=fsxzpcbt" target="_blank" class="text-indigo-400 underline font-bold">Deploy on RunPod from $0.44/hr &rarr;</a>`;
+      }
+    }
+
+    function toggleCalc() {
+      const body = document.getElementById('calc-body');
+      const btn = document.getElementById('calc-toggle-btn');
+      if (body.classList.contains('hidden')) {
+        body.classList.remove('hidden');
+        btn.textContent = 'Hide Calculator ▲';
+      } else {
+        body.classList.add('hidden');
+        btn.textContent = 'Show Calculator ▼';
+      }
+    }
+
     function render(items) {
       counter.textContent = `Showing ${items.length} ${items.length === 1 ? 'Tool' : 'Tools'}`;
       if (items.length === 0) {
@@ -442,7 +562,7 @@
               <p><strong class="text-rose-400">Con:</strong> ${t.con}</p>
             </div>
 
-            <!-- Wiring Specs Expander (Feature 1) -->
+            <!-- Wiring Specs Expander -->
             ${t.specs ? `
               <div class="mt-4 pt-3 border-t border-slate-800/60">
                 <button 
@@ -557,6 +677,8 @@
       applyFilters();
     }
 
+    // Initial render & calculation
+    runCalc();
     render(tools);
   </script>
 </body>
