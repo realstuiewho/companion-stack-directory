@@ -23,7 +23,7 @@
             🧮 VRAM Calculator
           </a>
 
-          <!-- OPTION 1: Header Stack Tray Button -->
+          <!-- Header Stack Tray Button -->
           <div class="relative">
             <button 
               id="header-stack-btn"
@@ -631,7 +631,6 @@
       }
     }
 
-    // Close tray when clicking anywhere else
     document.addEventListener('click', (e) => {
       const tray = document.getElementById('header-stack-tray');
       const btn = document.getElementById('header-stack-btn');
@@ -649,7 +648,7 @@
         container.innerHTML = `
           <div class="py-6 text-center text-slate-500">
             <p>Your custom build is empty.</p>
-            <p class="text-[10px] mt-1 text-slate-600">Click '+ Add' on any card to add items.</p>
+            <p class="text-[10px] mt-1 text-slate-600">Click '+ Add to Stack' on any card to add items.</p>
           </div>
         `;
         return;
@@ -802,7 +801,7 @@
       }
     }
 
-    // --- Export Checklist & Pinout Tab ---
+    // --- Clean Export Checklist Tab ---
     function openCustomStackChecklistTab() {
       const selectedTools = tools.filter(t => userBuild.has(t.id));
       if (selectedTools.length === 0) {
@@ -819,9 +818,9 @@
             <input type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-0 cursor-pointer" />
           </td>
           <td class="py-3 px-4">
-            <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="font-bold text-indigo-400 hover:text-indigo-300 hover:underline flex items-center gap-1.5">
+            <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="font-bold text-indigo-400 hover:text-indigo-300 hover:underline inline-flex items-center gap-1">
               <span>${t.name}</span>
-              <span class="text-[10px] text-slate-500">↗</span>
+              <span class="text-[11px] text-slate-500 font-mono">↗</span>
             </a>
             <div class="text-[11px] text-slate-400 mt-0.5">${t.role}</div>
           </td>
@@ -934,7 +933,7 @@
       }
     }
 
-    // --- Directory Grid Render ---
+    // --- Directory Grid Render (Clean Dual-Button Alignment) ---
     function render(items) {
       counter.textContent = `Showing ${items.length} ${items.length === 1 ? 'Tool' : 'Tools'}`;
       if (items.length === 0) {
