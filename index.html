@@ -16,30 +16,46 @@
         <span class="text-2xl">🤖</span>
         <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
       </div>
-      <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-        25 Curated Tools
+      <span id="tool-counter" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+        Showing 25 Tools
       </span>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="max-w-6xl mx-auto px-6 pt-12 pb-8 text-center">
+  <section class="max-w-6xl mx-auto px-6 pt-12 pb-6 text-center">
     <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight max-w-3xl mx-auto leading-tight">
       The Open Stack for <span class="text-indigo-400">Local AI & Physical Deskbots</span>
     </h1>
     <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
       Compare offline LLM runtimes, low-latency voice engines, memory frameworks, and controller hardware.
     </p>
+
+    <!-- Search Input Bar -->
+    <div class="mt-8 max-w-md mx-auto relative">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+      <input 
+        type="text" 
+        id="search-box" 
+        placeholder="Search tools, hardware, voice models..." 
+        oninput="handleSearch()"
+        class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+      />
+    </div>
   </section>
 
-  <!-- Filter Buttons -->
+  <!-- Category Filter Buttons -->
   <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
-    <button onclick="filterCat('all')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (25)</button>
-    <button onclick="filterCat('runtimes')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes</button>
-    <button onclick="filterCat('stt')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hearing (STT)</button>
-    <button onclick="filterCat('tts')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Voices (TTS)</button>
-    <button onclick="filterCat('orchestration')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Memory & Agents</button>
-    <button onclick="filterCat('hardware')" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hardware & Controllers</button>
+    <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (25)</button>
+    <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes</button>
+    <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hearing (STT)</button>
+    <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Voices (TTS)</button>
+    <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Memory & Agents</button>
+    <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hardware & Controllers</button>
   </div>
 
   <!-- Cards Grid -->
@@ -75,8 +91,20 @@
     ];
 
     const grid = document.getElementById('grid');
+    const counter = document.getElementById('tool-counter');
+    const searchBox = document.getElementById('search-box');
+    let currentCat = 'all';
 
     function render(items) {
+      counter.textContent = `Showing ${items.length} ${items.length === 1 ? 'Tool' : 'Tools'}`;
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-500">
+            <p class="text-base">No tools or hardware match your search.</p>
+          </div>
+        `;
+        return;
+      }
       grid.innerHTML = items.map(t => `
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-slate-700 transition">
           <div>
@@ -100,16 +128,38 @@
       `).join('');
     }
 
-    function filterCat(cat) {
+    function applyFilters() {
+      const query = searchBox.value.toLowerCase().trim();
+      let filtered = tools;
+
+      if (currentCat !== 'all') {
+        filtered = filtered.filter(t => t.cat === currentCat);
+      }
+
+      if (query !== '') {
+        filtered = filtered.filter(t => 
+          t.name.toLowerCase().includes(query) ||
+          t.role.toLowerCase().includes(query) ||
+          t.pro.toLowerCase().includes(query) ||
+          t.con.toLowerCase().includes(query) ||
+          t.runs.toLowerCase().includes(query)
+        );
+      }
+
+      render(filtered);
+    }
+
+    function handleSearch() {
+      applyFilters();
+    }
+
+    function filterCat(cat, btn) {
+      currentCat = cat;
       document.querySelectorAll('.cat-btn').forEach(b => {
         b.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
       });
-      event.target.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
-      if (cat === 'all') {
-        render(tools);
-      } else {
-        render(tools.filter(t => t.cat === cat));
-      }
+      btn.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
+      applyFilters();
     }
 
     render(tools);
