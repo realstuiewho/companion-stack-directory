@@ -17,7 +17,7 @@
         <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
       </div>
       <span id="tool-counter" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-        Showing 27 Tools
+        Showing 37 Tools
       </span>
     </div>
   </header>
@@ -41,8 +41,9 @@
       <input 
         type="text" 
         id="search-box" 
-        placeholder="Search tools, voice models, hardware, GPUs..." 
+        placeholder="Search tools, hardware, servos, ESP32, voices..." 
         oninput="handleSearch()"
+        onkeyup="handleSearch()"
         class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
       />
     </div>
@@ -50,12 +51,12 @@
 
   <!-- Category Filter Buttons -->
   <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
-    <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (27)</button>
+    <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (37)</button>
     <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes & Cloud</button>
     <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hearing (STT)</button>
     <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Voices (TTS)</button>
     <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Memory & Agents</button>
-    <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hardware & Controllers</button>
+    <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hardware & Embodiment</button>
   </div>
 
   <!-- Cards Grid -->
@@ -111,7 +112,107 @@
       { name: "Beelink SER8 (Ryzen 7)", cat: "hardware", role: "Dedicated Local AI Server", price: "~$550-$650", runs: "Linux Mint, Win 11", pro: "Radeon 780M iGPU with fast dual-channel DDR5 for 8B/14B", con: "SODIMM RAM bandwidth limit vs Apple Silicon", url: "https://www.bee-link.com" },
       { name: "Mac Mini M4 (24GB)", cat: "hardware", role: "Unified Memory Brain", price: "~$799 USD", runs: "macOS", pro: "120GB/s unified bandwidth runs 14B-32B whisper quiet", con: "No post-purchase RAM upgrades", url: "https://www.apple.com/mac-mini/" },
       { name: "ESP32-S3 Dev Board", cat: "hardware", role: "Motor & Sensor Microcontroller", price: "~$5-$10 USD", runs: "MicroPython, C++", pro: "Wi-Fi, Bluetooth 5, tiny form factor, vector wake words", con: "8MB PSRAM cannot run large LLMs", url: "https://www.espressif.com/en/products/socs/esp32-s3" },
-      { name: "PCA9685 Servo Driver", cat: "hardware", role: "Head & Neck Articulation", price: "~$6-$12 USD", runs: "I2C (Pi, ESP32)", pro: "Drives 16 servos smoothly using only 2 I2C pins", con: "Needs dedicated 5V power supply rail", url: "https://www.adafruit.com/product/815" }
+      { name: "PCA9685 Servo Driver", cat: "hardware", role: "Head & Neck Articulation", price: "~$6-$12 USD", runs: "I2C (Pi, ESP32)", pro: "Drives 16 servos smoothly using only 2 I2C pins", con: "Needs dedicated 5V power supply rail", url: "https://www.adafruit.com/product/815" },
+      { 
+        name: "Waveshare 1.28\" Round Touch LCD", 
+        cat: "hardware", 
+        role: "Deskbot Eyes / Facial Display", 
+        price: "~$15-$22 USD", 
+        runs: "SPI Interface (ESP32, Pi)", 
+        pro: "240x240 circular IPS screen ideal for rendering animated bot eyes and facial moods", 
+        con: "Requires SPI display driver configuration", 
+        url: "https://www.waveshare.com/1.28inch-touch-lcd.htm" 
+      },
+      { 
+        name: "ReSpeaker 2-Mics Pi HAT", 
+        cat: "hardware", 
+        role: "Directional Hearing / Voice Capture", 
+        price: "~$12-$18 USD", 
+        runs: "I2S / GPIO (Raspberry Pi)", 
+        pro: "Far-field voice capture with dual microphones and integrated 3W DAC amplifier", 
+        con: "Requires dedicated ALSA sound drivers", 
+        url: "https://www.seeedstudio.com/ReSpeaker-2-Mics-Pi-HAT-p-2874.html" 
+      },
+      { 
+        name: "INMP441 Digital Microphone", 
+        cat: "hardware", 
+        role: "Low-Cost Micro Wake-Word Mic", 
+        price: "~$2-$4 USD", 
+        runs: "I2S (ESP32, Microcontrollers)", 
+        pro: "Direct digital I2S audio stream with high SNR, zero analog interference", 
+        con: "Requires I2S peripheral bus wiring", 
+        url: "https://invensense.tdk.com/products/digital/inmp441/" 
+      },
+      { 
+        name: "MAX98357A I2S Class D Amp", 
+        cat: "hardware", 
+        role: "Companion Voice Speaker Amplifier", 
+        price: "~$3-$6 USD", 
+        runs: "I2S (ESP32, Raspberry Pi)", 
+        pro: "Direct digital-to-analog converter and 3.2W amplifier in a tiny single breakout board", 
+        con: "Mono output (requires two for stereo)", 
+        url: "https://www.adafruit.com/product/3006" 
+      },
+      { 
+        name: "MG90S Metal Gear Micro Servos", 
+        cat: "hardware", 
+        role: "Eye & Neck Movement Mechanism", 
+        price: "~$3-$5 USD each", 
+        runs: "PWM (PCA9685, ESP32)", 
+        pro: "Durable metal gears resist stripping during repeated nodding and turning motions", 
+        con: "Slight motor hum at rest if not calibrated", 
+        url: "https://www.towerpro.com.tw/product/mg90s-3/" 
+      },
+      { 
+        name: "ESP32-CAM AI-Thinker Module", 
+        cat: "hardware", 
+        role: "Visual Perception / Face Tracking", 
+        price: "~$6-$9 USD", 
+        runs: "ESP-IDF, Arduino", 
+        pro: "Includes OV2640 2MP camera sensor and micro-SD card slot on a single micro board", 
+        con: "Requires external USB-TTL programmer for uploading code", 
+        url: "https://ai-thinker-open.github.io/ESP32-CAM/" 
+      },
+      { 
+        name: "Raspberry Pi Camera Module 3", 
+        cat: "hardware", 
+        role: "High-Res Vision / Object Recognition", 
+        price: "~$25-$35 USD", 
+        runs: "CSI ribbon (Raspberry Pi)", 
+        pro: "12MP Sony IMX708 sensor with native fast autofocus for companion eye tracking", 
+        con: "Raspberry Pi ribbon connector only", 
+        url: "https://www.raspberrypi.com/products/camera-module-3/" 
+      },
+      { 
+        name: "Seeed Studio XIAO ESP32S3 Sense", 
+        cat: "hardware", 
+        role: "Thumb-Sized Vision & Voice Sensor", 
+        price: "~$14-$18 USD", 
+        runs: "Arduino, MicroPython", 
+        pro: "Fingernail-sized with onboard camera and digital microphone for miniature companions", 
+        con: "Limited GPIO pins due to compact size", 
+        url: "https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html" 
+      },
+      { 
+        name: "VL53L0X Time-of-Flight Sensor", 
+        cat: "hardware", 
+        role: "Proximity & Hand-Wave Detection", 
+        price: "~$4-$8 USD", 
+        runs: "I2C Interface (ESP32, Pi)", 
+        pro: "Laser ToF sensor accurately detects someone approaching your desk up to 2 meters away", 
+        con: "Requires clear optical window in 3D-printed enclosure", 
+        url: "https://www.st.com/en/imaging-and-photonics-solutions/vl53l0x.html" 
+      },
+      { 
+        name: "WS2812B NeoPixel RGB Ring", 
+        cat: "hardware", 
+        role: "Mood / Thinking State Lighting", 
+        price: "~$3-$7 USD", 
+        runs: "Single Data Pin (ESP32, Pi)", 
+        pro: "Addressable color ring for companion listening, thinking, and speaking animations", 
+        con: "Can draw significant current at full white brightness", 
+        url: "https://www.adafruit.com/product/1463" 
+      }
     ];
 
     const grid = document.getElementById('grid');
@@ -154,7 +255,7 @@
     }
 
     function applyFilters() {
-      const query = searchBox.value.toLowerCase().trim();
+      const query = (searchBox ? searchBox.value : '').toLowerCase().trim();
       let filtered = tools;
 
       if (currentCat !== 'all') {
@@ -163,11 +264,12 @@
 
       if (query !== '') {
         filtered = filtered.filter(t => 
-          t.name.toLowerCase().includes(query) ||
-          t.role.toLowerCase().includes(query) ||
-          t.pro.toLowerCase().includes(query) ||
-          t.con.toLowerCase().includes(query) ||
-          t.runs.toLowerCase().includes(query)
+          (t.name && t.name.toLowerCase().includes(query)) ||
+          (t.role && t.role.toLowerCase().includes(query)) ||
+          (t.pro && t.pro.toLowerCase().includes(query)) ||
+          (t.con && t.con.toLowerCase().includes(query)) ||
+          (t.runs && t.runs.toLowerCase().includes(query)) ||
+          (t.cat && t.cat.toLowerCase().includes(query))
         );
       }
 
