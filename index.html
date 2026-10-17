@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DeskbotStack - The Local AI & Companion Directory</title>
-  <meta name="description" content="Curated index of local runtimes, low-latency voice engines, orchestration frameworks, and deskbot hardware." />
+  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, low-latency voice engines, orchestration frameworks, and deskbot hardware." />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white">
@@ -17,7 +17,7 @@
         <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
       </div>
       <span id="tool-counter" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-        Showing 25 Tools
+        Showing 26 Tools
       </span>
     </div>
   </header>
@@ -28,7 +28,7 @@
       The Open Stack for <span class="text-indigo-400">Local AI & Physical Deskbots</span>
     </h1>
     <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-      Compare offline LLM runtimes, low-latency voice engines, memory frameworks, and controller hardware.
+      Compare offline LLM runtimes, cloud GPU fallbacks, low-latency voice engines, memory frameworks, and controller hardware.
     </p>
 
     <!-- Search Input Bar -->
@@ -41,7 +41,7 @@
       <input 
         type="text" 
         id="search-box" 
-        placeholder="Search tools, hardware, voice models..." 
+        placeholder="Search tools, GPUs, hardware, voice models..." 
         oninput="handleSearch()"
         class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
       />
@@ -50,8 +50,8 @@
 
   <!-- Category Filter Buttons -->
   <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
-    <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (25)</button>
-    <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes</button>
+    <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (26)</button>
+    <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes & Cloud</button>
     <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hearing (STT)</button>
     <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Voices (TTS)</button>
     <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Memory & Agents</button>
@@ -63,6 +63,17 @@
 
   <script>
     const tools = [
+      { 
+        name: "RunPod Cloud GPUs", 
+        cat: "runtimes", 
+        role: "On-Demand Cloud GPU / Model Fallback", 
+        price: "From $0.20/hr", 
+        runs: "Cloud (A100, H100, RTX 4090)", 
+        pro: "Instant high-VRAM pods for testing 32B/70B models and fine-tuning when local hardware bottlenecks", 
+        con: "Requires paid cloud credits and active internet connection", 
+        url: "https://runpod.io?ref=fsxzpcbt",
+        featured: true
+      },
       { name: "Ollama", cat: "runtimes", role: "Brain / Core Inferencing API", price: "Free / MIT", runs: "Linux, macOS, Win, Docker", pro: "Instant model pulls, OpenAI-compatible background API", con: "CLI-first, needs Open-WebUI for chat", url: "https://ollama.com" },
       { name: "LM Studio", cat: "runtimes", role: "Brain / Model Testing GUI", price: "Free", runs: "macOS, Win, Linux", pro: "Polished GUI with built-in Hugging Face model downloader", con: "Closed source, heavier footprint", url: "https://lmstudio.ai" },
       { name: "llama.cpp", cat: "runtimes", role: "Raw C++ Inference Engine", price: "Free / MIT", runs: "Linux, macOS, Win, Pi", pro: "Extreme performance, sets the GGUF quantization standard", con: "Steep terminal compilation curve", url: "https://github.com/ggerganov/llama.cpp" },
@@ -106,7 +117,8 @@
         return;
       }
       grid.innerHTML = items.map(t => `
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-slate-700 transition">
+        <div class="bg-slate-900 border ${t.featured ? 'border-indigo-500/50 ring-1 ring-indigo-500/30' : 'border-slate-800'} rounded-2xl p-5 flex flex-col justify-between hover:border-slate-700 transition relative">
+          ${t.featured ? '<span class="absolute -top-2.5 right-4 bg-indigo-600 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full shadow">Cloud Fallback</span>' : ''}
           <div>
             <div class="flex justify-between items-start mb-2">
               <h3 class="font-bold text-lg text-white">${t.name}</h3>
@@ -120,8 +132,8 @@
             </div>
           </div>
           <div class="mt-5 pt-4 border-t border-slate-800/80">
-            <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="block text-center w-full py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition">
-              Open Tool / Specs &rarr;
+            <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="block text-center w-full py-2 px-3 ${t.featured ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'} text-white rounded-lg text-xs font-semibold transition">
+              ${t.featured ? 'Launch Pods on RunPod &rarr;' : 'Open Tool / Specs &rarr;'}
             </a>
           </div>
         </div>
