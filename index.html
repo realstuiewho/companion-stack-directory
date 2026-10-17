@@ -7,148 +7,212 @@
   <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, deskbot hardware, VRAM calculator, and interactive stack builder." />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white pb-28">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="resetToAll()">
-        <span class="text-2xl">🤖</span>
-        <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
-      </div>
-      <div class="flex items-center space-x-3">
-        <a href="#vram-calc" class="hidden sm:inline-block text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
-          🧮 VRAM Calculator
-        </a>
-        <span id="tool-counter" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-          Showing 37 Tools
-        </span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="max-w-6xl mx-auto px-6 pt-12 pb-6 text-center">
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight max-w-3xl mx-auto leading-tight">
-      The Open Stack for <span class="text-indigo-400">Local AI & Physical Deskbots</span>
-    </h1>
-    <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-      Compare offline LLM runtimes, low-latency voice models, cloud fallbacks, memory agents, and controller hardware with wiring guides.
-    </p>
-
-    <!-- Search Input Bar -->
-    <div class="mt-8 max-w-md mx-auto relative">
-      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-        </svg>
-      </div>
-      <input 
-        type="text" 
-        id="search-box" 
-        placeholder="Search tools, pinouts, I2C, servos, ESP32, voices..." 
-        oninput="handleSearch()"
-        onkeyup="handleSearch()"
-        class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
-      />
-    </div>
-
-    <!-- Quick Architecture Recipes -->
-    <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
-      <span class="text-xs text-slate-500 font-medium mr-1">Load Preset Stack:</span>
-      <button onclick="loadPresetStack('budget', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-950/40 transition">
-        ⚡ $50 Budget Deskbot
-      </button>
-      <button onclick="loadPresetStack('pro', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-950/40 transition">
-        🧠 High-Fidelity Companion
-      </button>
-      <button onclick="loadPresetStack('edge', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-amber-500/30 text-amber-400 hover:bg-amber-950/40 transition">
-        🤖 Autonomous Edge Rig
-      </button>
-      <button onclick="clearCustomStack()" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
-        Reset Build
-      </button>
-    </div>
-  </section>
-
-  <!-- VRAM & Local Hardware Estimator Widget -->
-  <section id="vram-calc" class="max-w-6xl mx-auto px-6 mb-10">
-    <div class="p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-900/90 border border-indigo-500/30 shadow-xl">
-      <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-800 gap-2">
-        <div>
-          <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <span>🧮 Local AI VRAM & Hardware Fit Estimator</span>
-            <span class="text-[10px] uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Interactive</span>
-          </h2>
-          <p class="text-xs text-slate-400 mt-0.5">Determine if your companion brain fits on your deskbot's local RAM or requires cloud GPU fallback.</p>
+  <div>
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+      <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between relative">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="resetToAll()">
+          <span class="text-2xl">🤖</span>
+          <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
         </div>
-        <button onclick="toggleCalc()" id="calc-toggle-btn" class="text-xs font-semibold text-slate-400 hover:text-white self-start md:self-auto py-1 px-2.5 rounded bg-slate-800">
-          Hide Calculator ▲
+
+        <div class="flex items-center space-x-3">
+          <a href="#vram-calc" class="hidden sm:inline-block text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            🧮 VRAM Calculator
+          </a>
+
+          <!-- OPTION 1: Header Stack Tray Button -->
+          <div class="relative">
+            <button 
+              id="header-stack-btn"
+              onclick="toggleHeaderTray(event)" 
+              class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-950/80 border border-indigo-500/50 text-indigo-300 hover:bg-indigo-900/70 hover:text-white transition flex items-center gap-1.5 shadow"
+            >
+              <span>🛠️ My Stack</span>
+              <span id="nav-count-badge" class="bg-indigo-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-mono">0</span>
+              <span id="nav-cost-badge" class="text-emerald-400 font-mono text-[11px] hidden sm:inline">&bull; $0</span>
+              <span id="nav-tray-arrow" class="text-[10px] text-slate-400">▼</span>
+            </button>
+
+            <!-- Dropdown Tray Panel -->
+            <div 
+              id="header-stack-tray" 
+              class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-4 z-50 text-xs animate-in fade-in zoom-in-95 duration-150"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                <div>
+                  <h4 class="font-bold text-white text-sm">🛠️ Your Custom Build</h4>
+                  <p id="tray-subtitle" class="text-[11px] text-slate-400 mt-0.5">0 components selected</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Est. Hardware</span>
+                  <div id="tray-total-cost" class="text-sm font-mono font-bold text-emerald-400">$0 USD</div>
+                </div>
+              </div>
+
+              <!-- Item List container -->
+              <div id="tray-items-list" class="max-h-60 overflow-y-auto divide-y divide-slate-800/60 my-2 pr-1"></div>
+
+              <div class="pt-3 border-t border-slate-800 space-y-2">
+                <div class="flex gap-2">
+                  <button 
+                    onclick="viewActiveStackOnly()" 
+                    id="tray-view-btn"
+                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center"
+                  >
+                    View Stack Only
+                  </button>
+                  <button 
+                    onclick="clearCustomStack()" 
+                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-950 hover:bg-rose-950/40 text-slate-400 hover:text-rose-300 font-semibold text-[11px] border border-slate-800 hover:border-rose-900 transition text-center"
+                  >
+                    Clear All
+                  </button>
+                </div>
+                <button 
+                  onclick="openCustomStackChecklistTab()" 
+                  class="w-full py-2.5 px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5"
+                >
+                  <span>📋 Export Checklist & Pinouts</span>
+                  <span class="text-[10px]">↗</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <span id="tool-counter" class="hidden md:inline-block text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
+            37 Tools
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="max-w-6xl mx-auto px-6 pt-12 pb-6 text-center">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight max-w-3xl mx-auto leading-tight">
+        The Open Stack for <span class="text-indigo-400">Local AI & Physical Deskbots</span>
+      </h1>
+      <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
+        Compare offline LLM runtimes, low-latency voice models, cloud fallbacks, memory agents, and controller hardware with wiring guides.
+      </p>
+
+      <!-- Search Input Bar -->
+      <div class="mt-8 max-w-md mx-auto relative">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          id="search-box" 
+          placeholder="Search tools, pinouts, I2C, servos, ESP32, voices..." 
+          oninput="handleSearch()"
+          onkeyup="handleSearch()"
+          class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+        />
+      </div>
+
+      <!-- Quick Architecture Recipes -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
+        <span class="text-xs text-slate-500 font-medium mr-1">Load Preset Stack:</span>
+        <button onclick="loadPresetStack('budget', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-950/40 transition">
+          ⚡ $50 Budget Deskbot
+        </button>
+        <button onclick="loadPresetStack('pro', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-950/40 transition">
+          🧠 High-Fidelity Companion
+        </button>
+        <button onclick="loadPresetStack('edge', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-amber-500/30 text-amber-400 hover:bg-amber-950/40 transition">
+          🤖 Autonomous Edge Rig
+        </button>
+        <button onclick="clearCustomStack()" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+          Reset Build
         </button>
       </div>
+    </section>
 
-      <div id="calc-body" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-5">
-        <div>
-          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Model Parameters</label>
-          <select id="calc-params" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
-            <option value="3">3B (e.g. Llama 3.2 3B / Phi-3.5)</option>
-            <option value="8" selected>8B (e.g. Llama 3.1 8B / Qwen 2.5 7B)</option>
-            <option value="14">14B (e.g. Qwen 2.5 14B / DeepSeek R1 14B)</option>
-            <option value="32">32B (e.g. Qwen 2.5 32B / Command-R)</option>
-            <option value="70">70B (e.g. Llama 3.3 70B / DeepSeek 70B)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Quantization (GGUF)</label>
-          <select id="calc-quant" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
-            <option value="4.5" selected>Q4_K_M (4-bit Balanced & Recommended)</option>
-            <option value="5.5">Q5_K_M (5-bit Higher Quality)</option>
-            <option value="8.5">Q8_0 (8-bit Near-Lossless)</option>
-            <option value="16">FP16 (16-bit Full Precision Unquantized)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Context Window</label>
-          <select id="calc-ctx" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
-            <option value="0.5">4K Tokens (Standard Chat)</option>
-            <option value="1.2" selected>8K Tokens (Recommended for Agents)</option>
-            <option value="3.5">32K Tokens (Deep Memory & RAG)</option>
-            <option value="8.0">128K Tokens (Massive Document Context)</option>
-          </select>
-        </div>
-
-        <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3.5 flex flex-col justify-between">
+    <!-- VRAM & Local Hardware Estimator Widget -->
+    <section id="vram-calc" class="max-w-6xl mx-auto px-6 mb-10">
+      <div class="p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-900/90 border border-indigo-500/30 shadow-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-800 gap-2">
           <div>
-            <div class="flex justify-between items-baseline">
-              <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Estimated VRAM</span>
-              <span id="calc-vram-result" class="text-xl font-extrabold text-indigo-400">~6.2 GB</span>
-            </div>
-            <p id="calc-verdict" class="text-[11px] text-emerald-400 mt-1 font-medium">⚡ Fits easily on 16GB Mini PC or Mac</p>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🧮 Local AI VRAM & Hardware Fit Estimator</span>
+              <span class="text-[10px] uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Interactive</span>
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Determine if your companion brain fits on your deskbot's local RAM or requires cloud GPU fallback.</p>
           </div>
-          <div id="calc-recommendation" class="pt-2 border-t border-slate-800/80 mt-2 text-[10px] text-slate-300"></div>
+          <button onclick="toggleCalc()" id="calc-toggle-btn" class="text-xs font-semibold text-slate-400 hover:text-white self-start md:self-auto py-1 px-2.5 rounded bg-slate-800">
+            Hide Calculator ▲
+          </button>
+        </div>
+
+        <div id="calc-body" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-5">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Model Parameters</label>
+            <select id="calc-params" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="3">3B (e.g. Llama 3.2 3B / Phi-3.5)</option>
+              <option value="8" selected>8B (e.g. Llama 3.1 8B / Qwen 2.5 7B)</option>
+              <option value="14">14B (e.g. Qwen 2.5 14B / DeepSeek R1 14B)</option>
+              <option value="32">32B (e.g. Qwen 2.5 32B / Command-R)</option>
+              <option value="70">70B (e.g. Llama 3.3 70B / DeepSeek 70B)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Quantization (GGUF)</label>
+            <select id="calc-quant" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="4.5" selected>Q4_K_M (4-bit Balanced & Recommended)</option>
+              <option value="5.5">Q5_K_M (5-bit Higher Quality)</option>
+              <option value="8.5">Q8_0 (8-bit Near-Lossless)</option>
+              <option value="16">FP16 (16-bit Full Precision Unquantized)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Context Window</label>
+            <select id="calc-ctx" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="0.5">4K Tokens (Standard Chat)</option>
+              <option value="1.2" selected>8K Tokens (Recommended for Agents)</option>
+              <option value="3.5">32K Tokens (Deep Memory & RAG)</option>
+              <option value="8.0">128K Tokens (Massive Document Context)</option>
+            </select>
+          </div>
+
+          <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-baseline">
+                <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Estimated VRAM</span>
+                <span id="calc-vram-result" class="text-xl font-extrabold text-indigo-400">~6.2 GB</span>
+              </div>
+              <p id="calc-verdict" class="text-[11px] text-emerald-400 mt-1 font-medium">⚡ Fits easily on 16GB Mini PC or Mac</p>
+            </div>
+            <div id="calc-recommendation" class="pt-2 border-t border-slate-800/80 mt-2 text-[10px] text-slate-300"></div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Category Filter Buttons -->
-  <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
-    <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (37)</button>
-    <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes & Cloud</button>
-    <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hearing (STT)</button>
-    <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Voices (TTS)</button>
-    <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Memory & Agents</button>
-    <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hardware & Embodiment</button>
+    <!-- Category Filter Buttons -->
+    <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
+      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (37)</button>
+      <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes & Cloud</button>
+      <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hearing (STT)</button>
+      <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Voices (TTS)</button>
+      <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Memory & Agents</button>
+      <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hardware & Embodiment</button>
+    </div>
+
+    <!-- Cards Grid -->
+    <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
   </div>
 
-  <!-- Cards Grid -->
-  <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
-
   <!-- Hardware Pinout Pop-up Modal Tile -->
-  <div id="spec-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150">
+  <div id="spec-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeSpecModal()">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
           <span id="modal-category" class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-800/40">Hardware Spec</span>
@@ -188,36 +252,6 @@
             Get Component Specs &rarr;
           </a>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PERSISTENT FLOATING WORKBENCH DRAWER (Live Stack Builder) -->
-  <div id="workbench-bar" class="fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-indigo-500/40 p-4 shadow-2xl transition-transform duration-300">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-4">
-        <div class="flex items-center gap-2">
-          <span class="text-xl">🛠️</span>
-          <div>
-            <h4 class="text-xs font-bold text-white uppercase tracking-wider">Your Custom Deskbot Stack</h4>
-            <p id="wb-count-text" class="text-[11px] text-slate-400"><span id="wb-item-count" class="text-indigo-400 font-bold">0</span> components selected</p>
-          </div>
-        </div>
-        <div class="h-6 w-px bg-slate-800 hidden sm:block"></div>
-        <div>
-          <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Est. Hardware BOM</span>
-          <div id="wb-cost" class="text-sm font-mono font-extrabold text-emerald-400">$0 USD</div>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-        <button onclick="viewActiveStackOnly()" id="wb-filter-btn" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition">
-          View Selected Only
-        </button>
-        <button onclick="openCustomStackChecklistTab()" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center gap-1.5">
-          <span>📋 Export Checklist & Pinouts</span>
-          <span class="text-[10px]">↗</span>
-        </button>
       </div>
     </div>
   </div>
@@ -582,7 +616,60 @@
       if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
     });
 
-    // --- Interactive Workbench Stack Controls ---
+    // --- Header Tray Dropdown Logic ---
+    function toggleHeaderTray(event) {
+      if (event) event.stopPropagation();
+      const tray = document.getElementById('header-stack-tray');
+      const arrow = document.getElementById('nav-tray-arrow');
+      if (tray.classList.contains('hidden')) {
+        updateTrayItemsList();
+        tray.classList.remove('hidden');
+        arrow.textContent = '▲';
+      } else {
+        tray.classList.add('hidden');
+        arrow.textContent = '▼';
+      }
+    }
+
+    // Close tray when clicking anywhere else
+    document.addEventListener('click', (e) => {
+      const tray = document.getElementById('header-stack-tray');
+      const btn = document.getElementById('header-stack-btn');
+      if (!tray.classList.contains('hidden') && !tray.contains(e.target) && !btn.contains(e.target)) {
+        tray.classList.add('hidden');
+        document.getElementById('nav-tray-arrow').textContent = '▼';
+      }
+    });
+
+    function updateTrayItemsList() {
+      const container = document.getElementById('tray-items-list');
+      const selected = tools.filter(t => userBuild.has(t.id));
+
+      if (selected.length === 0) {
+        container.innerHTML = `
+          <div class="py-6 text-center text-slate-500">
+            <p>Your custom build is empty.</p>
+            <p class="text-[10px] mt-1 text-slate-600">Click '+ Add' on any card to add items.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = selected.map(t => `
+        <div class="py-2 flex items-center justify-between gap-2">
+          <div class="truncate">
+            <span class="font-bold text-white text-xs">${t.name}</span>
+            <span class="text-[10px] text-slate-400 block">${t.role}</span>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <span class="font-mono text-emerald-400 text-xs">${t.price}</span>
+            <button onclick="toggleBuildItem('${t.id}', event)" class="text-slate-500 hover:text-rose-400 p-1 text-xs">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Workbench Stack Controls ---
     function toggleBuildItem(id, event) {
       if (event) event.stopPropagation();
       if (userBuild.has(id)) {
@@ -590,7 +677,8 @@
       } else {
         userBuild.add(id);
       }
-      updateWorkbench();
+      updateBuildBadges();
+      updateTrayItemsList();
       applyFilters();
     }
 
@@ -602,7 +690,8 @@
       tools.forEach(t => {
         if (t.kits && t.kits.includes(kit)) userBuild.add(t.id);
       });
-      updateWorkbench();
+      updateBuildBadges();
+      updateTrayItemsList();
       applyFilters();
     }
 
@@ -610,33 +699,36 @@
       userBuild.clear();
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('ring-2', 'ring-indigo-400'));
       viewingBuildOnly = false;
-      document.getElementById('wb-filter-btn').textContent = "View Selected Only";
-      updateWorkbench();
+      document.getElementById('tray-view-btn').textContent = "View Stack Only";
+      updateBuildBadges();
+      updateTrayItemsList();
       applyFilters();
     }
 
     function viewActiveStackOnly() {
       viewingBuildOnly = !viewingBuildOnly;
-      const btn = document.getElementById('wb-filter-btn');
+      const btn = document.getElementById('tray-view-btn');
       if (viewingBuildOnly) {
-        btn.textContent = "Show Entire Directory";
-        btn.className = "px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-xl border border-indigo-500 transition";
+        btn.textContent = "Show All Tools";
+        btn.className = "w-1/2 py-2 px-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-[11px] border border-indigo-500 transition text-center";
       } else {
-        btn.textContent = "View Selected Only";
-        btn.className = "px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition";
+        btn.textContent = "View Stack Only";
+        btn.className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center";
       }
       applyFilters();
     }
 
-    function updateWorkbench() {
+    function updateBuildBadges() {
       let cost = 0;
       userBuild.forEach(id => {
         const item = tools.find(t => t.id === id);
         if (item && item.priceVal) cost += item.priceVal;
       });
 
-      document.getElementById('wb-item-count').textContent = userBuild.size;
-      document.getElementById('wb-cost').textContent = `~$${cost} USD`;
+      document.getElementById('nav-count-badge').textContent = userBuild.size;
+      document.getElementById('nav-cost-badge').textContent = `• ~$${cost}`;
+      document.getElementById('tray-subtitle').textContent = `${userBuild.size} components in build`;
+      document.getElementById('tray-total-cost').textContent = `~$${cost} USD`;
     }
 
     // --- Modal Logic (Pop-up Tile) ---
@@ -947,8 +1039,8 @@
     function filterCat(cat, btn) {
       currentCat = cat;
       viewingBuildOnly = false;
-      document.getElementById('wb-filter-btn').textContent = "View Selected Only";
-      document.getElementById('wb-filter-btn').className = "px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition";
+      document.getElementById('tray-view-btn').textContent = "View Stack Only";
+      document.getElementById('tray-view-btn').className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center";
       
       document.querySelectorAll('.cat-btn').forEach(b => {
         b.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
@@ -961,8 +1053,8 @@
       currentCat = 'all';
       viewingBuildOnly = false;
       if (searchBox) searchBox.value = '';
-      document.getElementById('wb-filter-btn').textContent = "View Selected Only";
-      document.getElementById('wb-filter-btn').className = "px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition";
+      document.getElementById('tray-view-btn').textContent = "View Stack Only";
+      document.getElementById('tray-view-btn').className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center";
       document.querySelectorAll('.cat-btn').forEach((b, i) => {
         b.className = i === 0 ? 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white' : 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
       });
@@ -970,7 +1062,7 @@
     }
 
     runCalc();
-    updateWorkbench();
+    updateBuildBadges();
     applyFilters();
   </script>
 </body>
