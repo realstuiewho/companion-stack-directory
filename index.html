@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DeskbotStack - The Local AI & Companion Directory</title>
-  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, and deskbot hardware." />
+  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, and deskbot hardware with pinout diagrams." />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
@@ -29,7 +29,7 @@
         The Open Stack for <span class="text-indigo-400">Local AI & Physical Deskbots</span>
       </h1>
       <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-        Compare offline LLM runtimes, low-latency voice models, cloud fallbacks, memory agents, and controller hardware.
+        Compare offline LLM runtimes, low-latency voice models, cloud fallbacks, memory agents, and controller hardware with wiring guides.
       </p>
 
       <!-- Search Input Bar -->
@@ -42,14 +42,14 @@
         <input 
           type="text" 
           id="search-box" 
-          placeholder="Search tools, hardware, servos, ESP32, voices..." 
+          placeholder="Search tools, pinouts, I2C, servos, ESP32, voices..." 
           oninput="handleSearch()"
           onkeyup="handleSearch()"
           class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
         />
       </div>
 
-      <!-- Quick Architecture Recipes (Option 1) -->
+      <!-- Quick Architecture Recipes -->
       <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
         <span class="text-xs text-slate-500 font-medium mr-1">Recommended Kits:</span>
         <button onclick="filterKit('budget', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-950/40 transition">
@@ -78,7 +78,7 @@
     <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
   </div>
 
-  <!-- Compliance Footer (Option 2) -->
+  <!-- Compliance Footer -->
   <footer class="border-t border-slate-900 bg-slate-950 py-8 px-6 text-center text-xs text-slate-500 space-y-2">
     <div class="max-w-4xl mx-auto">
       <p class="font-medium text-slate-400">DeskbotStack.dev &mdash; The Open Hardware & Local AI Companion Index</p>
@@ -138,21 +138,275 @@
       { id: "elizaos", name: "ElizaOS", cat: "orchestration", role: "Character & Social Agent", price: "Free / MIT", runs: "Node.js, Linux, Docker", pro: "Built-in voice, Twitter, Discord connectors + character cards", con: "Rapidly updating repository", url: "https://github.com/elizaos/eliza", kits: ["edge"] },
       { id: "autogen", name: "AutoGen", cat: "orchestration", role: "Multi-Agent Conversation", price: "Free / MIT", runs: "Python, Linux, Win", pro: "Coordinates multi-specialist bot conversations", con: "Can loop compute if prompts are loose", url: "https://github.com/microsoft/autogen" },
       { id: "langchain", name: "LangChain", cat: "orchestration", role: "Tool & Sensor Calling", price: "Free / MIT", runs: "Python, TypeScript", pro: "Massive hardware sensor, vector, and API library", con: "Heavy abstraction layer", url: "https://www.langchain.com" },
-      { id: "rpi5", name: "Raspberry Pi 5 (8GB)", cat: "hardware", role: "Physical Edge Controller", price: "~$80 USD", runs: "Raspberry Pi OS (Linux)", pro: "Camera/mic ports, active GPIO header ecosystem", con: "Underpowered for standalone 8B LLMs", url: "https://www.raspberrypi.com/products/raspberry-pi-5/", kits: ["edge"] },
-      { id: "beelink", name: "Beelink SER8 (Ryzen 7)", cat: "hardware", role: "Dedicated Local AI Server", price: "~$550-$650", runs: "Linux Mint, Win 11", pro: "Radeon 780M iGPU with fast dual-channel DDR5 for 8B/14B", con: "SODIMM RAM bandwidth limit vs Apple Silicon", url: "https://www.bee-link.com", kits: ["pro"] },
-      { id: "macmini", name: "Mac Mini M4 (24GB)", cat: "hardware", role: "Unified Memory Brain", price: "~$799 USD", runs: "macOS", pro: "120GB/s unified bandwidth runs 14B-32B whisper quiet", con: "No post-purchase RAM upgrades", url: "https://www.apple.com/mac-mini/", kits: ["pro"] },
-      { id: "esp32s3", name: "ESP32-S3 Dev Board", cat: "hardware", role: "Motor & Sensor Microcontroller", price: "~$5-$10 USD", runs: "MicroPython, C++", pro: "Wi-Fi, Bluetooth 5, tiny form factor, vector wake words", con: "8MB PSRAM cannot run large LLMs", url: "https://www.espressif.com/en/products/socs/esp32-s3", kits: ["budget"] },
-      { id: "pca9685", name: "PCA9685 Servo Driver", cat: "hardware", role: "Head & Neck Articulation", price: "~$6-$12 USD", runs: "I2C (Pi, ESP32)", pro: "Drives 16 servos smoothly using only 2 I2C pins", con: "Needs dedicated 5V power supply rail", url: "https://www.adafruit.com/product/815", kits: ["edge", "pro"] },
-      { id: "waveshare-lcd", name: "Waveshare 1.28\" Round Touch LCD", cat: "hardware", role: "Deskbot Eyes / Facial Display", price: "~$15-$22 USD", runs: "SPI Interface (ESP32, Pi)", pro: "240x240 circular IPS screen ideal for rendering animated bot eyes and facial moods", con: "Requires SPI display driver configuration", url: "https://www.waveshare.com/1.28inch-touch-lcd.htm", kits: ["pro", "budget"] },
-      { id: "respeaker", name: "ReSpeaker 2-Mics Pi HAT", cat: "hardware", role: "Directional Hearing / Voice Capture", price: "~$12-$18 USD", runs: "I2S / GPIO (Raspberry Pi)", pro: "Far-field voice capture with dual microphones and integrated 3W DAC amplifier", con: "Requires dedicated ALSA sound drivers", url: "https://www.seeedstudio.com/ReSpeaker-2-Mics-Pi-HAT-p-2874.html", kits: ["edge", "pro"] },
-      { id: "inmp441", name: "INMP441 Digital Microphone", cat: "hardware", role: "Low-Cost Micro Wake-Word Mic", price: "~$2-$4 USD", runs: "I2S (ESP32, Microcontrollers)", pro: "Direct digital I2S audio stream with high SNR, zero analog interference", con: "Requires I2S peripheral bus wiring", url: "https://invensense.tdk.com/products/digital/inmp441/", kits: ["budget"] },
-      { id: "max98357a", name: "MAX98357A I2S Class D Amp", cat: "hardware", role: "Companion Voice Speaker Amplifier", price: "~$3-$6 USD", runs: "I2S (ESP32, Raspberry Pi)", pro: "Direct digital-to-analog converter and 3.2W amplifier in a tiny single breakout board", con: "Mono output (requires two for stereo)", url: "https://www.adafruit.com/product/3006", kits: ["budget"] },
-      { id: "mg90s", name: "MG90S Metal Gear Micro Servos", cat: "hardware", role: "Eye & Neck Movement Mechanism", price: "~$3-$5 USD each", runs: "PWM (PCA9685, ESP32)", pro: "Durable metal gears resist stripping during repeated nodding and turning motions", con: "Slight motor hum at rest if not calibrated", url: "https://www.towerpro.com.tw/product/mg90s-3/", kits: ["budget", "edge"] },
-      { id: "esp32cam", name: "ESP32-CAM AI-Thinker Module", cat: "hardware", role: "Visual Perception / Face Tracking", price: "~$6-$9 USD", runs: "ESP-IDF, Arduino", pro: "Includes OV2640 2MP camera sensor and micro-SD card slot on a single micro board", con: "Requires external USB-TTL programmer for uploading code", url: "https://ai-thinker-open.github.io/ESP32-CAM/", kits: ["budget"] },
-      { id: "picam3", name: "Raspberry Pi Camera Module 3", cat: "hardware", role: "High-Res Vision / Object Recognition", price: "~$25-$35 USD", runs: "CSI ribbon (Raspberry Pi)", pro: "12MP Sony IMX708 sensor with native fast autofocus for companion eye tracking", con: "Raspberry Pi ribbon connector only", url: "https://www.raspberrypi.com/products/camera-module-3/", kits: ["edge"] },
-      { id: "xiao-s3", name: "Seeed Studio XIAO ESP32S3 Sense", cat: "hardware", role: "Thumb-Sized Vision & Voice Sensor", price: "~$14-$18 USD", runs: "Arduino, MicroPython", pro: "Fingernail-sized with onboard camera and digital microphone for miniature companions", con: "Limited GPIO pins due to compact size", url: "https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html" },
-      { id: "vl53l0x", name: "VL53L0X Time-of-Flight Sensor", cat: "hardware", role: "Proximity & Hand-Wave Detection", price: "~$4-$8 USD", runs: "I2C Interface (ESP32, Pi)", pro: "Laser ToF sensor accurately detects someone approaching your desk up to 2 meters away", con: "Requires clear optical window in 3D-printed enclosure", url: "https://www.st.com/en/imaging-and-photonics-solutions/vl53l0x.html", kits: ["budget", "pro"] },
-      { id: "neopixel", name: "WS2812B NeoPixel RGB Ring", cat: "hardware", role: "Mood / Thinking State Lighting", price: "~$3-$7 USD", runs: "Single Data Pin (ESP32, Pi)", pro: "Addressable color ring for companion listening, thinking, and speaking animations", con: "Can draw significant current at full white brightness", url: "https://www.adafruit.com/product/1463", kits: ["budget", "pro"] }
+      { 
+        id: "rpi5", 
+        name: "Raspberry Pi 5 (8GB)", 
+        cat: "hardware", 
+        role: "Physical Edge Controller", 
+        price: "~$80 USD", 
+        runs: "Raspberry Pi OS (Linux)", 
+        pro: "Camera/mic ports, active GPIO header ecosystem", 
+        con: "Underpowered for standalone 8B LLMs", 
+        url: "https://www.raspberrypi.com/products/raspberry-pi-5/", 
+        kits: ["edge"],
+        specs: {
+          interface: "GPIO, CSI (Camera), DSI (Display), PCIe 2.0",
+          power: "5V 5A USB-C Power Delivery",
+          wiring: "Pin 1 (3.3V), Pin 2/4 (5V), Pin 6 (GND), Pin 3 (SDA/I2C), Pin 5 (SCL/I2C)",
+          tip: "Use official 27W USB-C PSU to prevent CPU throttling under simultaneous STT + TTS loads."
+        }
+      },
+      { 
+        id: "beelink", 
+        name: "Beelink SER8 (Ryzen 7)", 
+        cat: "hardware", 
+        role: "Dedicated Local AI Server", 
+        price: "~$550-$650", 
+        runs: "Linux Mint, Win 11", 
+        pro: "Radeon 780M iGPU with fast dual-channel DDR5 for 8B/14B", 
+        con: "SODIMM RAM bandwidth limit vs Apple Silicon", 
+        url: "https://www.bee-link.com", 
+        kits: ["pro"],
+        specs: {
+          interface: "USB4 40Gbps, Dual PCIe 4.0 NVMe, 2.5G LAN",
+          power: "19V 6.32A DC Barrel Jack (120W Supply)",
+          wiring: "Ethernet or Local Wi-Fi connecting to deskbot over WebSocket / HTTP REST API",
+          tip: "Allocate 8GB-16GB VRAM in BIOS (UMA Frame Buffer Size) for smooth ROCm/Vulkan model loading."
+        }
+      },
+      { 
+        id: "macmini", 
+        name: "Mac Mini M4 (24GB)", 
+        cat: "hardware", 
+        role: "Unified Memory Brain", 
+        price: "~$799 USD", 
+        runs: "macOS", 
+        pro: "120GB/s unified bandwidth runs 14B-32B whisper quiet", 
+        con: "No post-purchase RAM upgrades", 
+        url: "https://www.apple.com/mac-mini/", 
+        kits: ["pro"],
+        specs: {
+          interface: "Thunderbolt 4 / USB-C, Gigabit/10G Ethernet",
+          power: "Internal 100V-240V AC Power Supply",
+          wiring: "Headless server setup; access Ollama / MLX server via http://localhost:11434",
+          tip: "Use Apple MLX framework or llama.cpp Metal build for maximum token generation speeds."
+        }
+      },
+      { 
+        id: "esp32s3", 
+        name: "ESP32-S3 Dev Board", 
+        cat: "hardware", 
+        role: "Motor & Sensor Microcontroller", 
+        price: "~$5-$10 USD", 
+        runs: "MicroPython, C++", 
+        pro: "Wi-Fi, Bluetooth 5, tiny form factor, vector wake words", 
+        con: "8MB PSRAM cannot run large LLMs", 
+        url: "https://www.espressif.com/en/products/socs/esp32-s3", 
+        kits: ["budget"],
+        specs: {
+          interface: "I2C, SPI, I2S, Dual USB Type-C, 45 GPIOs",
+          power: "3.3V logic; power via 5V USB-C or VIN pin",
+          wiring: "I2C: GPIO 21 (SDA), GPIO 22 (SCL) | I2S: GPIO 14 (BCLK), GPIO 15 (LRC/WS), GPIO 32 (DIN)",
+          tip: "Ensure your board has 8MB or 16MB Octal PSRAM if running onboard edge wake-word models."
+        }
+      },
+      { 
+        id: "pca9685", 
+        name: "PCA9685 Servo Driver", 
+        cat: "hardware", 
+        role: "Head & Neck Articulation", 
+        price: "~$6-$12 USD", 
+        runs: "I2C (Pi, ESP32)", 
+        pro: "Drives 16 servos smoothly using only 2 I2C pins", 
+        con: "Needs dedicated 5V power supply rail", 
+        url: "https://www.adafruit.com/product/815", 
+        kits: ["edge", "pro"],
+        specs: {
+          interface: "I2C Address: 0x40 (default, solder pads 0x40 to 0x7F)",
+          power: "VCC: 3.3V-5V (Logic) | V+: 5V-6V 3A-5A External Power for Servos",
+          wiring: "SDA -> ESP32 GPIO 21 (Pi Pin 3) | SCL -> ESP32 GPIO 22 (Pi Pin 5) | GND -> Common GND",
+          tip: "NEVER power servos from the microcontroller's 5V pin! Connect an external 5V/6V supply to the screw terminal and tie all grounds together."
+        }
+      },
+      { 
+        id: "waveshare-lcd", 
+        name: "Waveshare 1.28\" Round Touch LCD", 
+        cat: "hardware", 
+        role: "Deskbot Eyes / Facial Display", 
+        price: "~$15-$22 USD", 
+        runs: "SPI Interface (ESP32, Pi)", 
+        pro: "240x240 circular IPS screen ideal for rendering animated bot eyes and facial moods", 
+        con: "Requires SPI display driver configuration", 
+        url: "https://www.waveshare.com/1.28inch-touch-lcd.htm", 
+        kits: ["pro", "budget"],
+        specs: {
+          interface: "4-wire SPI (GC9A01 Driver)",
+          power: "3.3V / 5V DC (Onboard Level Shifter)",
+          wiring: "DIN/MOSI -> GPIO 23 | CLK/SCK -> GPIO 18 | CS -> GPIO 5 | DC -> GPIO 2 | RST -> GPIO 4",
+          tip: "Use the TFT_eSPI or LovyanGFX library with GC9A01 definition for 60FPS animated eye rendering."
+        }
+      },
+      { 
+        id: "respeaker", 
+        name: "ReSpeaker 2-Mics Pi HAT", 
+        cat: "hardware", 
+        role: "Directional Hearing / Voice Capture", 
+        price: "~$12-$18 USD", 
+        runs: "I2S / GPIO (Raspberry Pi)", 
+        pro: "Far-field voice capture with dual microphones and integrated 3W DAC amplifier", 
+        con: "Requires dedicated ALSA sound drivers", 
+        url: "https://www.seeedstudio.com/ReSpeaker-2-Mics-Pi-HAT-p-2874.html", 
+        kits: ["edge", "pro"],
+        specs: {
+          interface: "Raspberry Pi 40-pin GPIO (WM8960 Audio Codec)",
+          power: "Powered directly from Raspberry Pi 5V bus",
+          wiring: "Plug directly onto Raspberry Pi 40-pin GPIO header",
+          tip: "Install Seeed's WM8960 Linux driver and set capture volume to ~80% in alsamixer to avoid clipping."
+        }
+      },
+      { 
+        id: "inmp441", 
+        name: "INMP441 Digital Microphone", 
+        cat: "hardware", 
+        role: "Low-Cost Micro Wake-Word Mic", 
+        price: "~$2-$4 USD", 
+        runs: "I2S (ESP32, Microcontrollers)", 
+        pro: "Direct digital I2S audio stream with high SNR, zero analog interference", 
+        con: "Requires I2S peripheral bus wiring", 
+        url: "https://invensense.tdk.com/products/digital/inmp441/", 
+        kits: ["budget"],
+        specs: {
+          interface: "Digital I2S Audio Bus (60dB SNR)",
+          power: "VDD: 1.8V to 3.3V (Connect to 3.3V pin)",
+          wiring: "SCK -> GPIO 14 | WS -> GPIO 15 | SD -> GPIO 32 | L/R -> GND (Left Channel) | GND -> GND",
+          tip: "Do NOT connect to 5V; this is a strict 3.3V component. Keep wire leads under 10cm to minimize clock noise."
+        }
+      },
+      { 
+        id: "max98357a", 
+        name: "MAX98357A I2S Class D Amp", 
+        cat: "hardware", 
+        role: "Companion Voice Speaker Amplifier", 
+        price: "~$3-$6 USD", 
+        runs: "I2S (ESP32, Raspberry Pi)", 
+        pro: "Direct digital-to-analog converter and 3.2W amplifier in a tiny single breakout board", 
+        con: "Mono output (requires two for stereo)", 
+        url: "https://www.adafruit.com/product/3006", 
+        kits: ["budget"],
+        specs: {
+          interface: "I2S Digital Audio Input",
+          power: "VIN: 2.5V - 5.5V (Connect to 5V rail for full 3.2W volume output)",
+          wiring: "BCLK -> GPIO 26 | LRC -> GPIO 25 | DIN -> GPIO 22 | GAIN -> GND (9dB gain default)",
+          tip: "Connect to a 4-ohm or 8-ohm 3W micro speaker. Ensure audio sampling frequency is set to 16kHz or 22.05kHz in software."
+        }
+      },
+      { 
+        id: "mg90s", 
+        name: "MG90S Metal Gear Micro Servos", 
+        cat: "hardware", 
+        role: "Eye & Neck Movement Mechanism", 
+        price: "~$3-$5 USD each", 
+        runs: "PWM (PCA9685, ESP32)", 
+        pro: "Durable metal gears resist stripping during repeated nodding and turning motions", 
+        con: "Slight motor hum at rest if not calibrated", 
+        url: "https://www.towerpro.com.tw/product/mg90s-3/", 
+        kits: ["budget", "edge"],
+        specs: {
+          interface: "Standard 3-pin PWM servo cable (50Hz frequency)",
+          power: "Operating Voltage: 4.8V to 6.0V (Stall Current: ~800mA each)",
+          wiring: "Brown: GND | Red: +5V External Rail | Orange: PWM Signal pin on PCA9685",
+          tip: "Add a 1000uF capacitor across the 5V and GND rail near the servo header to eliminate brownout resets."
+        }
+      },
+      { 
+        id: "esp32cam", 
+        name: "ESP32-CAM AI-Thinker Module", 
+        cat: "hardware", 
+        role: "Visual Perception / Face Tracking", 
+        price: "~$6-$9 USD", 
+        runs: "ESP-IDF, Arduino", 
+        pro: "Includes OV2640 2MP camera sensor and micro-SD card slot on a single micro board", 
+        con: "Requires external USB-TTL programmer for uploading code", 
+        url: "https://ai-thinker-open.github.io/ESP32-CAM/", 
+        kits: ["budget"],
+        specs: {
+          interface: "DVP Camera Interface, 8-bit SPI Flash / Micro-SD",
+          power: "5V at minimum 2A (Camera Wi-Fi bursts draw up to 500mA spikes)",
+          wiring: "Programming: U0T -> RX, U0R -> TX, GPIO 0 -> GND (Short GPIO 0 during boot to flash)",
+          tip: "Power must be clean 5V; weak 3.3V supplies cause immediate camera brownout reboots."
+        }
+      },
+      { 
+        id: "picam3", 
+        name: "Raspberry Pi Camera Module 3", 
+        cat: "hardware", 
+        role: "High-Res Vision / Object Recognition", 
+        price: "~$25-$35 USD", 
+        runs: "CSI ribbon (Raspberry Pi)", 
+        pro: "12MP Sony IMX708 sensor with native fast autofocus for companion eye tracking", 
+        con: "Raspberry Pi ribbon connector only", 
+        url: "https://www.raspberrypi.com/products/camera-module-3/", 
+        kits: ["edge"],
+        specs: {
+          interface: "2-lane MIPI CSI-2 ribbon cable",
+          power: "Powered directly through CSI connector on Raspberry Pi",
+          wiring: "Insert ribbon into Pi 5 CAM/DISP port (ensure silver contacts face towards motherboard pins)",
+          tip: "Works natively with libcamera and Picamera2 in Python for real-time OpenCV facial landmarking."
+        }
+      },
+      { 
+        id: "xiao-s3", 
+        name: "Seeed Studio XIAO ESP32S3 Sense", 
+        cat: "hardware", 
+        role: "Thumb-Sized Vision & Voice Sensor", 
+        price: "~$14-$18 USD", 
+        runs: "Arduino, MicroPython", 
+        pro: "Fingernail-sized with onboard camera and digital microphone for miniature companions", 
+        con: "Limited GPIO pins due to compact size", 
+        url: "https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html",
+        specs: {
+          interface: "Type-C USB, 11x GPIO, I2C, SPI, UART, Onboard PDM Mic",
+          power: "5V USB-C or 3.7V LiPo Battery solder pads",
+          wiring: "Camera and PDM Mic connect via daughterboard expansion headers (zero external jumper wires needed)",
+          tip: "Ideal for ultra-compact companions or deskbot heads where every millimeter matters."
+        }
+      },
+      { 
+        id: "vl53l0x", 
+        name: "VL53L0X Time-of-Flight Sensor", 
+        cat: "hardware", 
+        role: "Proximity & Hand-Wave Detection", 
+        price: "~$4-$8 USD", 
+        runs: "I2C Interface (ESP32, Pi)", 
+        pro: "Laser ToF sensor accurately detects someone approaching your desk up to 2 meters away", 
+        con: "Requires clear optical window in 3D-printed enclosure", 
+        url: "https://www.st.com/en/imaging-and-photonics-solutions/vl53l0x.html", 
+        kits: ["budget", "pro"],
+        specs: {
+          interface: "I2C Bus (Default Address: 0x29)",
+          power: "VIN: 2.8V to 5V (Onboard 2.8V voltage regulator)",
+          wiring: "VIN -> 3.3V/5V | GND -> GND | SCL -> GPIO 22 | SDA -> GPIO 21 | XSHUT -> Optional sleep GPIO",
+          tip: "Use this to trigger your deskbot to look up and say 'Hello' whenever you sit down at your workspace."
+        }
+      },
+      { 
+        id: "neopixel", 
+        name: "WS2812B NeoPixel RGB Ring", 
+        cat: "hardware", 
+        role: "Mood / Thinking State Lighting", 
+        price: "~$3-$7 USD", 
+        runs: "Single Data Pin (ESP32, Pi)", 
+        pro: "Addressable color ring for companion listening, thinking, and speaking animations", 
+        con: "Can draw significant current at full white brightness", 
+        url: "https://www.adafruit.com/product/1463", 
+        kits: ["budget", "pro"],
+        specs: {
+          interface: "Single-wire NZR timing protocol (800kHz)",
+          power: "5V DC (Each LED draws ~50mA at peak white brightness; 16-LED ring = ~800mA)",
+          wiring: "5V -> 5V Rail | GND -> GND | DI (Data In) -> GPIO 13 (with 330-470 ohm resistor inline)",
+          tip: "Place a 470-ohm resistor between the ESP32 data pin and DI pin to protect the first LED from voltage spikes."
+        }
+      }
     ];
 
     const grid = document.getElementById('grid');
@@ -160,6 +414,7 @@
     const searchBox = document.getElementById('search-box');
     let currentCat = 'all';
     let currentKit = null;
+    let openSpecId = null;
 
     function render(items) {
       counter.textContent = `Showing ${items.length} ${items.length === 1 ? 'Tool' : 'Tools'}`;
@@ -186,7 +441,27 @@
               <p><strong class="text-emerald-400">Pro:</strong> ${t.pro}</p>
               <p><strong class="text-rose-400">Con:</strong> ${t.con}</p>
             </div>
+
+            <!-- Wiring Specs Expander (Feature 1) -->
+            ${t.specs ? `
+              <div class="mt-4 pt-3 border-t border-slate-800/60">
+                <button 
+                  onclick="toggleSpec('${t.id}')" 
+                  class="w-full flex items-center justify-between text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 py-1"
+                >
+                  <span>📐 Wiring & Pinout Guide</span>
+                  <span id="icon-${t.id}">${openSpecId === t.id ? '▲' : '▼'}</span>
+                </button>
+                <div id="spec-${t.id}" class="${openSpecId === t.id ? 'block' : 'hidden'} mt-2.5 p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 space-y-2 text-[11px] text-slate-300">
+                  <p><strong class="text-slate-400">Interface:</strong> ${t.specs.interface}</p>
+                  <p><strong class="text-slate-400">Power:</strong> ${t.specs.power}</p>
+                  <p><strong class="text-indigo-400">Pin Connections:</strong> <span class="font-mono text-slate-200 text-[10px]">${t.specs.wiring}</span></p>
+                  <p class="text-[10px] text-amber-400/90 bg-amber-950/20 p-2 rounded border border-amber-900/30">💡 <strong>Workbench Tip:</strong> ${t.specs.tip}</p>
+                </div>
+              </div>
+            ` : ''}
           </div>
+          
           <div class="mt-5 pt-4 border-t border-slate-800/80">
             <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="block text-center w-full py-2 px-3 ${t.badge ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'} text-white rounded-lg text-xs font-semibold transition">
               ${t.ctaText || 'Open Tool / Specs \u2192'}
@@ -194,6 +469,22 @@
           </div>
         </div>
       `).join('');
+    }
+
+    function toggleSpec(id) {
+      const panel = document.getElementById(`spec-${id}`);
+      const icon = document.getElementById(`icon-${id}`);
+      if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        panel.classList.add('block');
+        icon.textContent = '▲';
+        openSpecId = id;
+      } else {
+        panel.classList.remove('block');
+        panel.classList.add('hidden');
+        icon.textContent = '▼';
+        openSpecId = null;
+      }
     }
 
     function applyFilters() {
@@ -213,7 +504,12 @@
           (t.pro && t.pro.toLowerCase().includes(query)) ||
           (t.con && t.con.toLowerCase().includes(query)) ||
           (t.runs && t.runs.toLowerCase().includes(query)) ||
-          (t.cat && t.cat.toLowerCase().includes(query))
+          (t.cat && t.cat.toLowerCase().includes(query)) ||
+          (t.specs && (
+            t.specs.interface.toLowerCase().includes(query) ||
+            t.specs.wiring.toLowerCase().includes(query) ||
+            t.specs.tip.toLowerCase().includes(query)
+          ))
         );
       }
 
