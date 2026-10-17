@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DeskbotStack - The Local AI & Companion Directory</title>
-  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, deskbot hardware, and VRAM calculator." />
+  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, deskbot hardware, VRAM calculator, and BOM exporter." />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
@@ -65,6 +65,9 @@
         </button>
         <button onclick="filterKit('edge', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-amber-500/30 text-amber-400 hover:bg-amber-950/40 transition">
           🤖 Autonomous Edge Rig
+        </button>
+        <button onclick="openBOMModal()" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow">
+          <span>📋 Export Parts List (BOM)</span>
         </button>
       </div>
     </section>
@@ -129,9 +132,7 @@
               </div>
               <p id="calc-verdict" class="text-[11px] text-emerald-400 mt-1 font-medium">⚡ Fits easily on 16GB Mini PC or Mac</p>
             </div>
-            <div id="calc-recommendation" class="pt-2 border-t border-slate-800/80 mt-2 text-[10px] text-slate-300">
-              <!-- Dynamically populated -->
-            </div>
+            <div id="calc-recommendation" class="pt-2 border-t border-slate-800/80 mt-2 text-[10px] text-slate-300"></div>
           </div>
         </div>
       </div>
@@ -149,6 +150,33 @@
 
     <!-- Cards Grid -->
     <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
+  </div>
+
+  <!-- Bill of Materials (BOM) Modal -->
+  <div id="bom-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative">
+      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
+        <div>
+          <h3 id="bom-title" class="text-lg font-bold text-white">📋 Bill of Materials (Parts Checklist)</h3>
+          <p id="bom-desc" class="text-xs text-slate-400 mt-0.5">Shopping list and specifications for your companion stack.</p>
+        </div>
+        <button onclick="closeBOMModal()" class="text-slate-400 hover:text-white text-lg font-bold px-2 py-0.5 rounded-lg bg-slate-800">✕</button>
+      </div>
+
+      <div class="mt-4">
+        <textarea id="bom-text" readonly class="w-full h-64 bg-slate-950 border border-slate-800 rounded-xl p-3.5 font-mono text-xs text-slate-300 focus:outline-none select-all leading-relaxed"></textarea>
+      </div>
+
+      <div class="mt-4 flex justify-between items-center">
+        <span id="bom-copied-msg" class="text-xs text-emerald-400 font-semibold opacity-0 transition-opacity duration-300">✓ Copied to clipboard!</span>
+        <div class="flex gap-2">
+          <button onclick="closeBOMModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg transition">Close</button>
+          <button onclick="copyBOMText()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5">
+            <span>Copy Checklist</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Compliance Footer -->
@@ -495,7 +523,6 @@
       const quant = parseFloat(document.getElementById('calc-quant').value);
       const ctx = parseFloat(document.getElementById('calc-ctx').value);
 
-      // Model weights size (GB) + Context KV Cache overhead (GB) + 1.2GB runtime overhead
       const weightGB = (params * quant) / 8;
       const totalVRAM = (weightGB + ctx + 1.2).toFixed(1);
 
@@ -534,6 +561,63 @@
         body.classList.add('hidden');
         btn.textContent = 'Show Calculator ▼';
       }
+    }
+
+    // --- Bill of Materials (BOM) Logic ---
+    function openBOMModal() {
+      let itemsToExport = tools;
+      let kitTitle = "Complete Stack Directory (All 37 Components)";
+      
+      if (currentKit === 'budget') {
+        itemsToExport = tools.filter(t => t.kits && t.kits.includes('budget'));
+        kitTitle = "⚡ $50 Budget Deskbot (Bill of Materials)";
+      } else if (currentKit === 'pro') {
+        itemsToExport = tools.filter(t => t.kits && t.kits.includes('pro'));
+        kitTitle = "🧠 High-Fidelity Companion (Bill of Materials)";
+      } else if (currentKit === 'edge') {
+        itemsToExport = tools.filter(t => t.kits && t.kits.includes('edge'));
+        kitTitle = "🤖 Autonomous Edge Rig (Bill of Materials)";
+      } else if (currentCat !== 'all') {
+        itemsToExport = tools.filter(t => t.cat === currentCat);
+        kitTitle = `${currentCat.toUpperCase()} Checklist`;
+      }
+
+      document.getElementById('bom-title').textContent = kitTitle;
+      
+      let text = `# ${kitTitle}\n# Exported from DeskbotStack.dev\n# Date: ${new Date().toISOString().split('T')[0]}\n\n`;
+      text += `| Item | Role / Category | Est. Price | Target Link |\n`;
+      text += `| :--- | :--- | :--- | :--- |\n`;
+      
+      itemsToExport.forEach(item => {
+        text += `| ${item.name} | ${item.role} | ${item.price} | ${item.url} |\n`;
+      });
+
+      text += `\n## Hardware Wiring & Power Notes:\n`;
+      itemsToExport.filter(t => t.specs).forEach(t => {
+        text += `\n### ${t.name}\n`;
+        text += `- Interface: ${t.specs.interface}\n`;
+        text += `- Power: ${t.specs.power}\n`;
+        text += `- Connections: ${t.specs.wiring}\n`;
+        text += `- Tip: ${t.specs.tip}\n`;
+      });
+
+      document.getElementById('bom-text').value = text;
+      document.getElementById('bom-modal').classList.remove('hidden');
+    }
+
+    function closeBOMModal() {
+      document.getElementById('bom-modal').classList.add('hidden');
+      document.getElementById('bom-copied-msg').classList.add('opacity-0');
+    }
+
+    function copyBOMText() {
+      const textarea = document.getElementById('bom-text');
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const msg = document.getElementById('bom-copied-msg');
+        msg.classList.remove('opacity-0');
+        setTimeout(() => msg.classList.add('opacity-0'), 2500);
+      });
     }
 
     function render(items) {
