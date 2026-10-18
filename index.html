@@ -164,8 +164,92 @@
       </div>
     </section>
 
+    <!-- NEW: DYNAMIC SIGNAL CHAIN VISUALIZER (Revealed when "View My Parts Only" is active) -->
+    <section id="signal-chain-section" class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 hidden">
+      <div class="p-5 sm:p-6 rounded-3xl bg-slate-900 border-2 border-indigo-500/60 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-lg border border-emerald-700/50">
+              Your Custom Companion Nervous System
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">Live Signal & Perception Pipeline</h2>
+            <p class="text-xs sm:text-sm text-slate-300">How your selected parts speak to each other from sound wave to real-world movement.</p>
+          </div>
+          <button 
+            onclick="viewActiveStackOnly()" 
+            class="px-4 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+          >
+            ✕ Exit Signal View
+          </button>
+        </div>
+
+        <!-- 5-Stage Connected Pipeline -->
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2 relative">
+          <!-- Stage 1: Ears -->
+          <div id="chain-stage-ears" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
+                <span>01 / EARS</span>
+                <span>🎙️</span>
+              </div>
+              <div id="chain-ears-content" class="text-xs sm:text-sm mt-1"></div>
+            </div>
+            <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Sound Wave &rarr;</div>
+          </div>
+
+          <!-- Stage 2: Hearing -->
+          <div id="chain-stage-stt" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
+                <span>02 / HEARING</span>
+                <span>👂</span>
+              </div>
+              <div id="chain-stt-content" class="text-xs sm:text-sm mt-1"></div>
+            </div>
+            <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Text Prompt &rarr;</div>
+          </div>
+
+          <!-- Stage 3: Brain -->
+          <div id="chain-stage-brain" class="p-3.5 rounded-2xl bg-gradient-to-b from-slate-950 to-indigo-950/40 border border-indigo-500/50 flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="flex justify-between items-center text-xs font-bold text-indigo-300 mb-1">
+                <span>03 / BRAIN</span>
+                <span>🧠</span>
+              </div>
+              <div id="chain-brain-content" class="text-xs sm:text-sm mt-1"></div>
+            </div>
+            <div class="mt-3 text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">&larr; Action & Voice &rarr;</div>
+          </div>
+
+          <!-- Stage 4: Voice -->
+          <div id="chain-stage-voice" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
+                <span>04 / VOICE</span>
+                <span>🗣️</span>
+              </div>
+              <div id="chain-voice-content" class="text-xs sm:text-sm mt-1"></div>
+            </div>
+            <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Audio Output &rarr;</div>
+          </div>
+
+          <!-- Stage 5: Body & Hardware -->
+          <div id="chain-stage-body" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
+                <span>05 / BODY</span>
+                <span>🤖</span>
+              </div>
+              <div id="chain-body-content" class="text-xs sm:text-sm mt-1"></div>
+            </div>
+            <div class="mt-3 text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">Physical Action ✓</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- STARTER BLUEPRINTS -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
+    <section id="blueprints-section" class="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
       <div class="p-5 sm:p-6 rounded-3xl bg-slate-900/90 border border-indigo-500/30 shadow-xl">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
           <div>
@@ -465,7 +549,6 @@
       class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
       onclick="event.stopPropagation()"
     >
-      <!-- Modal Header -->
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
           <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded-lg border border-emerald-800/50">
@@ -482,7 +565,6 @@
         </button>
       </div>
 
-      <!-- Quick 3-Step Setup Box -->
       <div class="mt-5 p-4 sm:p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
         <h4 class="text-sm font-bold text-white flex items-center gap-2">
           <span>🚀 The 3-Step Workbench Routine</span>
@@ -509,7 +591,6 @@
         </div>
       </div>
 
-      <!-- Interactive Accordion Drawers -->
       <div class="mt-5 space-y-3">
         <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
           🔍 Click To Learn What These Programs Actually Are:
@@ -552,7 +633,6 @@
         </details>
       </div>
 
-      <!-- Modal Footer -->
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
         <span class="text-xs text-slate-400 italic">💡 Re-open anytime by clicking "📦 Setup Files" in the header.</span>
         <button 
@@ -851,6 +931,51 @@
       document.getElementById('tool-detail-modal').classList.add('hidden');
     }
 
+    // DYNAMIC SIGNAL CHAIN RENDERER
+    function updateSignalChainVisualizer() {
+      const section = document.getElementById('signal-chain-section');
+      if (!viewingBuildOnly || userBuild.size === 0) {
+        section.classList.add('hidden');
+        return;
+      }
+
+      section.classList.remove('hidden');
+      const selected = tools.filter(t => userBuild.has(t.id));
+
+      function getSlotHtml(category, label, fallbackMsg) {
+        const matches = selected.filter(t => {
+          if (category === 'ears') return t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic' || t.id === 'usb-speakerphone';
+          if (category === 'stt') return t.cat === 'stt' && t.id !== 'inmp441' && t.id !== 'ms4030-mic' && t.id !== 'respeaker' && t.id !== 'respeaker-4mic' && t.id !== 'usb-speakerphone';
+          if (category === 'runtimes') return t.cat === 'runtimes' || t.cat === 'orchestration';
+          if (category === 'tts') return t.cat === 'tts';
+          if (category === 'hardware') return t.cat === 'hardware' && t.id !== 'inmp441' && t.id !== 'ms4030-mic' && t.id !== 'respeaker' && t.id !== 'respeaker-4mic' && t.id !== 'usb-speakerphone';
+          return false;
+        });
+
+        if (matches.length > 0) {
+          return matches.map(m => `
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800/80 mt-1 cursor-pointer hover:border-indigo-500 transition" onclick="openToolDetailModal('${m.id}')">
+              <span class="font-bold text-white block truncate text-xs sm:text-sm">${m.name}</span>
+              <span class="text-[11px] text-slate-400 block truncate">${m.role}</span>
+            </div>
+          `).join('');
+        }
+
+        return `
+          <div onclick="filterCat('${category === 'ears' ? 'stt' : category}', null)" class="p-2.5 rounded-xl border border-dashed border-slate-700 bg-slate-950/60 text-slate-400 hover:border-indigo-400 hover:text-white transition cursor-pointer text-center mt-1">
+            <span class="text-xs font-semibold block">${fallbackMsg}</span>
+            <span class="text-[10px] text-indigo-400 font-bold mt-0.5 block">+ Click to Add</span>
+          </div>
+        `;
+      }
+
+      document.getElementById('chain-ears-content').innerHTML = getSlotHtml('ears', 'Ears', 'No Mic Board Selected');
+      document.getElementById('chain-stt-content').innerHTML = getSlotHtml('stt', 'STT', 'No Hearing Model Selected');
+      document.getElementById('chain-brain-content').innerHTML = getSlotHtml('runtimes', 'Brain', 'No AI Brain Selected');
+      document.getElementById('chain-voice-content').innerHTML = getSlotHtml('tts', 'Voice', 'No Voice Engine Selected');
+      document.getElementById('chain-body-content').innerHTML = getSlotHtml('hardware', 'Body', 'No Motors/Controller Selected');
+    }
+
     // STARTER BLUEPRINTS
     function renderStarterStacks() {
       const container = document.getElementById('starter-stacks-grid');
@@ -911,6 +1036,7 @@
       document.getElementById('reset-view-btn').classList.remove('hidden');
       renderStarterStacks();
       renderHardwareBOM(selected);
+      updateSignalChainVisualizer();
       applyFilters();
     }
 
@@ -918,6 +1044,8 @@
       activeStackId = null;
       userBuild.clear();
       localStorage.setItem('deskbot_user_build', JSON.stringify([]));
+      viewingBuildOnly = false;
+      document.getElementById('tray-view-btn').textContent = "View My Parts Only";
       updateBuildBadges();
       updateTrayItemsList();
 
@@ -925,6 +1053,7 @@
       renderStarterStacks();
       const featured = starterStacks.find(s => s.id === 'conversationalist');
       if (featured) renderHardwareBOM(featured);
+      updateSignalChainVisualizer();
       applyFilters();
     }
 
@@ -1062,6 +1191,7 @@
       }
 
       render(filtered);
+      updateSignalChainVisualizer();
     }
 
     function handleSearch() { applyFilters(); }
@@ -1069,10 +1199,13 @@
     function filterCat(cat, btn) {
       currentCat = cat;
       viewingBuildOnly = false;
+      document.getElementById('tray-view-btn').textContent = "View My Parts Only";
+      document.getElementById('signal-chain-section').classList.add('hidden');
+
       document.querySelectorAll('.cat-btn').forEach(b => {
         b.className = 'cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800';
       });
-      btn.className = 'cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow';
+      if (btn) btn.className = 'cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow';
       applyFilters();
     }
 
@@ -1082,6 +1215,7 @@
       activeStackId = null;
       if (searchBox) searchBox.value = '';
       document.getElementById('reset-view-btn').classList.add('hidden');
+      document.getElementById('signal-chain-section').classList.add('hidden');
       renderStarterStacks();
 
       const featured = starterStacks.find(s => s.id === 'conversationalist');
@@ -1308,6 +1442,8 @@
       userBuild.clear();
       localStorage.setItem('deskbot_user_build', JSON.stringify([]));
       viewingBuildOnly = false;
+      document.getElementById('tray-view-btn').textContent = "View My Parts Only";
+      document.getElementById('signal-chain-section').classList.add('hidden');
       updateBuildBadges();
       updateTrayItemsList();
       applyFilters();
@@ -1315,6 +1451,14 @@
 
     function viewActiveStackOnly() {
       viewingBuildOnly = !viewingBuildOnly;
+      const btn = document.getElementById('tray-view-btn');
+      if (viewingBuildOnly) {
+        btn.textContent = "Show All Tools";
+        btn.className = "w-1/2 py-2 px-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-xs border border-indigo-500 transition text-center";
+      } else {
+        btn.textContent = "View My Parts Only";
+        btn.className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition text-center";
+      }
       applyFilters();
     }
 
