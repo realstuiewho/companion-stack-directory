@@ -7,7 +7,7 @@
   <meta name="description" content="A simple, human-friendly guide to building desk companions: pick a brain, give it ears and a voice, and wire up motors without headaches." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* High-legibility overrides for dyslexia & reading ease */
+    /* High-legibility typography for reading ease */
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       letter-spacing: 0.015em;
@@ -19,12 +19,15 @@
     .tool-tile:hover {
       transform: translateY(-2px);
     }
+    details summary::-webkit-details-marker {
+      display: none;
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
 
   <div>
-    <!-- Header with Safe Spacing (No Clipping) -->
+    <!-- Header with Safe Spacing -->
     <header class="border-b border-slate-800 bg-slate-900/95 backdrop-blur sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
         <!-- Logo -->
@@ -60,7 +63,7 @@
 
           <button 
             onclick="openBeginnerGuideModal()" 
-            class="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-xl bg-indigo-950/70 border border-indigo-700/60 hover:bg-indigo-900 text-indigo-200 hover:text-white transition shadow"
+            class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-xl bg-indigo-950 border border-indigo-500/70 hover:bg-indigo-900 text-indigo-200 hover:text-white transition shadow"
           >
             <span>📖 Beginner Guide</span>
           </button>
@@ -289,7 +292,7 @@
     </div>
   </div>
 
-  <!-- DEDICATED TOOL DETAIL MODAL (HIGH READABILITY POP-UP TILE) -->
+  <!-- DEDICATED TOOL DETAIL MODAL -->
   <div 
     id="tool-detail-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -452,43 +455,273 @@
     </div>
   </div>
 
-  <!-- WHAT'S NEXT MODAL -->
-  <div id="whats-next-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeWhatsNextModal()">
-    <div class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+  <!-- RESTORED: EXPANDABLE "WHAT DID YOU JUST DOWNLOAD?" MODAL -->
+  <div 
+    id="whats-next-modal" 
+    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
+    onclick="closeWhatsNextModal()"
+  >
+    <div 
+      class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
+      onclick="event.stopPropagation()"
+    >
+      <!-- Modal Header -->
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
-          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded-lg border border-emerald-800/50">Workbench Software</span>
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded-lg border border-emerald-800/50">
+            Workbench Software Guide
+          </span>
           <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1.5">📦 What Did You Just Download?</h3>
+          <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Everything you need to know about the software files on your desktop.</p>
         </div>
-        <button onclick="closeWhatsNextModal()" class="text-slate-400 hover:text-white text-base font-bold w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center">✕</button>
+        <button 
+          onclick="closeWhatsNextModal()" 
+          class="text-slate-400 hover:text-white text-base font-bold w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition flex-shrink-0"
+        >
+          ✕
+        </button>
       </div>
-      <div class="mt-5 space-y-3 text-sm text-slate-200">
-        <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
-          <p><strong>1. Put them in a folder:</strong> Create a folder (e.g. <code class="text-indigo-300">MyDeskbot</code>) and move both files into it.</p>
-          <p><strong>2. Rename settings file:</strong> Rename <code class="text-indigo-300">env.example</code> to <code class="text-emerald-400">.env</code>.</p>
-          <p><strong>3. Run Docker:</strong> Open your terminal in that folder and run: <code class="text-emerald-400">docker compose up -d</code></p>
+
+      <!-- Quick 3-Step Setup Box -->
+      <div class="mt-5 p-4 sm:p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
+        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>🚀 The 3-Step Workbench Routine</span>
+        </h4>
+        
+        <div class="space-y-2.5 text-xs sm:text-sm text-slate-200">
+          <div class="flex items-start gap-2.5">
+            <span class="font-bold text-indigo-400 font-mono text-base leading-none">1.</span>
+            <p><strong>Put them in a folder:</strong> Create a new folder on your computer (e.g. <code class="text-indigo-300 font-mono font-semibold">MyDeskbot</code>) and move both downloaded files into it.</p>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="font-bold text-indigo-400 font-mono text-base leading-none">2.</span>
+            <p><strong>Rename the settings file:</strong> Rename <code class="text-indigo-300 font-mono font-semibold">env.example</code> to <code class="text-emerald-400 font-mono font-bold">.env</code> (put a dot at the start). Open it in Notepad only if you need to paste private API keys.</p>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <span class="font-bold text-indigo-400 font-mono text-base leading-none">3.</span>
+            <div class="space-y-1.5">
+              <p><strong>Start your robot:</strong> Make sure <strong class="text-white">Docker Desktop</strong> is open, open a terminal in your folder, and run:</p>
+              <div class="flex items-center gap-2">
+                <code class="px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg font-mono text-emerald-400 text-xs sm:text-sm font-semibold select-all">docker compose up -d</code>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
-        <button onclick="closeWhatsNextModal()" class="px-5 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-sm">Understood</button>
+
+      <!-- Interactive Accordion Drawers -->
+      <div class="mt-5 space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
+          🔍 Click To Learn What These Programs Actually Are:
+        </h4>
+
+        <details class="group p-4 bg-slate-950/80 border border-slate-800 rounded-2xl transition hover:border-slate-700">
+          <summary class="font-bold text-sm sm:text-base text-indigo-300 cursor-pointer flex justify-between items-center select-none">
+            <span>🐳 What is "Docker Desktop" and why do I need it?</span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>Think of <strong>Docker</strong> like digital shipping containers.</p>
+            <p class="text-slate-300">Normally, installing AI models requires setting up dozens of confusing background tools, code libraries, and Python versions that can mess up your regular computer files.</p>
+            <p class="text-slate-300">Docker keeps everything neatly sealed inside its own clean sandbox. It downloads the exact tools you picked, connects them together automatically, and can be deleted cleanly in one click without leaving junk on your hard drive.</p>
+          </div>
+        </details>
+
+        <details class="group p-4 bg-slate-950/80 border border-slate-800 rounded-2xl transition hover:border-slate-700">
+          <summary class="font-bold text-sm sm:text-base text-emerald-300 cursor-pointer flex justify-between items-center select-none">
+            <span>📄 What is "docker-compose.yml"? (The Blueprint)</span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>This is a plain-text <strong>instruction recipe</strong> for your computer.</p>
+            <p class="text-slate-300">When Docker reads this file, it sees: <em>"Fetch the brain tool, open port 8283 for memory, give it a private storage folder, and hook up the voice engine."</em></p>
+            <p class="text-slate-300">Instead of typing 20 different setup commands into a terminal, this single recipe card tells your computer everything it needs to know in one breath.</p>
+          </div>
+        </details>
+
+        <details class="group p-4 bg-slate-950/80 border border-slate-800 rounded-2xl transition hover:border-slate-700">
+          <summary class="font-bold text-sm sm:text-base text-amber-300 cursor-pointer flex justify-between items-center select-none">
+            <span>🔑 What is "env.example"? (The Secret Key Safe)</span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>"ENV" stands for <strong>Environment</strong>. It’s where you safely store private account keys or passwords.</p>
+            <p class="text-slate-300">If you ever use cloud services like ElevenLabs (for realistic voices) or RunPod (for rented cloud graphics cards), you paste your secret keys into this file.</p>
+            <p class="text-slate-300">The blueprint reads your keys from here quietly so you never have to paste private passwords into your main software code!</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+        <span class="text-xs text-slate-400 italic">💡 Re-open anytime by clicking "📦 Setup Files" in the header.</span>
+        <button 
+          onclick="closeWhatsNextModal()" 
+          class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow"
+        >
+          I've Got It, Thanks!
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- BEGINNER ROADMAP MODAL -->
-  <div id="beginner-guide-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeBeginnerGuideModal()">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+  <!-- EXPANDED MULTI-CHAPTER BEGINNER MASTERCLASS GUIDE -->
+  <div 
+    id="beginner-guide-modal" 
+    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
+    onclick="closeBeginnerGuideModal()"
+  >
+    <div 
+      class="bg-slate-900 border border-slate-700 rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
+      onclick="event.stopPropagation()"
+    >
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <h3 class="text-xl font-extrabold text-white">🤖 Beginner Deskbot Roadmap</h3>
-        <button onclick="closeBeginnerGuideModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center">✕</button>
+        <div>
+          <span class="text-xs uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-800/50">
+            Masterclass Handbook
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-white mt-1.5">🤖 How to Build Your First Desk Companion</h3>
+          <p class="text-xs sm:text-sm text-slate-300 mt-0.5">The complete, no-jargon blueprint to bringing an AI brain into the physical world.</p>
+        </div>
+        <button 
+          onclick="closeBeginnerGuideModal()" 
+          class="text-slate-400 hover:text-white text-lg font-bold w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition flex-shrink-0"
+        >
+          ✕
+        </button>
       </div>
-      <div class="mt-4 space-y-3 text-sm text-slate-300">
-        <p><strong>Step 1 (The Brain):</strong> Run Ollama or LM Studio on your home PC or Mac.</p>
-        <p><strong>Step 2 (The Ears & Voice):</strong> Connect an INMP441 microphone and MAX98357A speaker amp to an ESP32 microcontroller.</p>
-        <p><strong>Step 3 (Motion):</strong> Hook up 2 micro servos using an inexpensive pan-tilt bracket to make your robot nod and turn.</p>
+
+      <!-- Chapters Accordion -->
+      <div class="mt-6 space-y-3.5 text-sm sm:text-base">
+        <!-- Chapter 1 -->
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700" open>
+          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-indigo-400 font-mono text-sm">01.</span>
+              <span>The Anatomy of a Deskbot</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>Every companion robot on this directory breaks down into five distinct sensory layers:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-slate-300 pl-1">
+              <li><strong class="text-white">🧠 The Brain:</strong> The LLM (Large Language Model) that thinks, writes answers, and decides actions (e.g. Ollama or Groq).</li>
+              <li><strong class="text-white">👂 The Ears:</strong> The microphone and speech-to-text engine that turns spoken sound waves into written sentences (e.g. INMP441 + faster-whisper).</li>
+              <li><strong class="text-white">🗣️ The Voice:</strong> The text-to-speech engine and speaker amplifier that turns text into lifelike audio (e.g. Piper or ElevenLabs).</li>
+              <li><strong class="text-white">👁️ The Eyes & Face:</strong> Circular LCD displays or camera modules that show blinking animated expressions and track your face.</li>
+              <li><strong class="text-white">🤖 The Body:</strong> Micro servos and brackets that tilt, nod, and physically orient the companion toward you.</li>
+            </ul>
+          </div>
+        </details>
+
+        <!-- Chapter 2 -->
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
+          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-indigo-400 font-mono text-sm">02.</span>
+              <span>Choosing Your Compute: Cloud vs. Local PC</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p><strong>Option A: Pure Cloud (Fastest & Lightest Hardware)</strong></p>
+            <p class="text-slate-300">You use an inexpensive $7 ESP32-S3 microcontroller on your desk. When you speak, it streams audio over your home Wi-Fi to Groq and ElevenLabs. <em>Total hardware: under $25 AUD.</em></p>
+            <p class="pt-2"><strong>Option B: 100% Sovereign Local (Private & Offline)</strong></p>
+            <p class="text-slate-300">You run a dedicated Mini PC (like an AMD Ryzen with 32GB RAM or an Apple Silicon Mac) on your desk. Ollama, Whisper, and Piper run completely offline. Zero subscriptions, zero internet required.</p>
+          </div>
+        </details>
+
+        <!-- Chapter 3 -->
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
+          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-indigo-400 font-mono text-sm">03.</span>
+              <span>The Audio Loop: Why I2S Beats Analog</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>The #1 mistake beginners make is using cheap 3.5mm analog microphone jacks plugged into hobby boards. Microcontrollers emit electrical noise that sounds like a loud frying pan to AI speech recognizers.</p>
+            <p class="text-slate-300">Always choose <strong>I2S (Inter-IC Sound)</strong> digital modules like the <strong>INMP441</strong> or <strong>MS4030</strong>. They convert sound directly into 24-bit binary data right on the silicon chip, giving the speech model pristine, noise-free audio every single time.</p>
+          </div>
+        </details>
+
+        <!-- Chapter 4 -->
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
+          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-indigo-400 font-mono text-sm">04.</span>
+              <span>Physical Motion: Servos & Head Tilts</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>To give your companion lifelike body language, you only need two motors mounted in a <strong>Pan/Tilt Gimbal Bracket (~$5)</strong>:</p>
+            <ul class="list-disc list-inside space-y-1 text-slate-300 pl-1">
+              <li><strong>Horizontal Servo:</strong> Turns the head left and right to look at you.</li>
+              <li><strong>Vertical Servo:</strong> Nods the head up and down when agreeing or acknowledging commands.</li>
+            </ul>
+            <p class="text-slate-300 mt-2">Use metal gear servos like the <strong>MG90S</strong> rather than plastic nylon gears so your companion's neck never strips when moving heavy screens or camera brackets.</p>
+          </div>
+        </details>
+
+        <!-- Chapter 5 -->
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
+          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-indigo-400 font-mono text-sm">05.</span>
+              <span>Giving It Memory & Character</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>A smart model isn't fun if it sounds like a robotic customer service bot. You can give your companion a unique identity using two tools:</p>
+            <ul class="list-disc list-inside space-y-1.5 text-slate-300 pl-1">
+              <li><strong class="text-white">System Prompt:</strong> Tell the AI: <em>"You are a witty, concise desk companion. Keep answers to 1-2 spoken sentences. Include motion tags like [NOD] or [TILT] when appropriate."</em></li>
+              <li><strong class="text-white">Letta Memory Layer:</strong> Connects a lifelong database so your bot remembers your name, projects, and past conversations across reboots.</li>
+            </ul>
+          </div>
+        </details>
+
+        <!-- Chapter 6 -->
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
+          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-indigo-400 font-mono text-sm">06.</span>
+              <span>The Top 3 Workbench Traps (Avoid These!)</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
+              <p class="font-bold text-rose-300 text-xs sm:text-sm">⚠️ Trap 1: Powering motors directly from microcontroller pins</p>
+              <p class="text-slate-400 text-xs sm:text-sm">Servos pull huge sudden spikes of current. If you wire them directly to the 5V pin of your ESP32 or Pi, the board will brown-out and reboot constantly. Always use a separate 5V power wire or capacitor.</p>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
+              <p class="font-bold text-amber-300 text-xs sm:text-sm">⚠️ Trap 2: Charge-only USB cables</p>
+              <p class="text-slate-400 text-xs sm:text-sm">Many cheap phone charging cables omit the data wires. If your computer doesn't detect your board when plugged in, switch to a verified USB-C 4-wire data cable.</p>
+            </div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
+              <p class="font-bold text-indigo-300 text-xs sm:text-sm">⚠️ Trap 3: Missing Common Ground</p>
+              <p class="text-slate-400 text-xs sm:text-sm">If using a separate battery for your motors, all GND (ground) pins between your controller and battery must be tied together, otherwise signal voltages float and servos will twitch violently.</p>
+            </div>
+          </div>
+        </details>
       </div>
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
-        <button onclick="closeBeginnerGuideModal()" class="px-5 py-2 bg-indigo-600 text-white font-bold rounded-xl text-sm">Close Guide</button>
+
+      <div class="mt-8 pt-5 border-t border-slate-800 flex justify-between items-center">
+        <button 
+          onclick="selectStarterStack('budget'); closeBeginnerGuideModal();" 
+          class="text-xs sm:text-sm font-bold text-emerald-400 hover:text-emerald-300 transition"
+        >
+          ⚡ Load $50 Budget Recipe Now
+        </button>
+        <button 
+          onclick="closeBeginnerGuideModal()" 
+          class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow"
+        >
+          Close Handbook
+        </button>
       </div>
     </div>
   </div>
@@ -572,7 +805,7 @@
       closeSuggestToolModal();
     }
 
-    // DETAIL POP-UP TILE (High Readability)
+    // DETAIL POP-UP TILE
     function openToolDetailModal(id) {
       const tool = tools.find(t => t.id === id);
       if (!tool) return;
@@ -663,7 +896,6 @@
       const selected = starterStacks.find(s => s.id === stackId);
       if (!selected) return;
 
-      // Automatically populate build tray with blueprint tools
       userBuild.clear();
       if (selected.toolIds) {
         selected.toolIds.forEach(id => userBuild.add(id));
@@ -735,7 +967,7 @@
       `).join('');
     }
 
-    // MAIN RECTANGULAR TILES WITH CATEGORY ICONS
+    // MAIN RECTANGULAR TILES
     function render(items) {
       if (items.length === 0) {
         grid.innerHTML = `
