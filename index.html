@@ -19,6 +19,15 @@
         </div>
 
         <div class="flex items-center space-x-2 sm:space-x-3">
+          <!-- Suggest a Tool Button (Header) -->
+          <button 
+            onclick="openSuggestToolModal()" 
+            class="hidden lg:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-950/70 border border-emerald-800/60 hover:bg-emerald-900 text-emerald-300 hover:text-white transition shadow"
+            title="Suggest a new tool or hardware to add to the directory"
+          >
+            <span>💡 Suggest a Tool</span>
+          </button>
+
           <!-- Permanent File & Setup Explainer Guide in Header -->
           <button 
             onclick="openWhatsNextModal()" 
@@ -364,7 +373,7 @@
 
     <!-- Category Filters -->
     <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
-      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (41)</button>
+      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (51)</button>
       <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🧠 Brains & Cloud Power</button>
       <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">👂 Ears & Listening</button>
       <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🗣️ Voices & Speaking</button>
@@ -374,6 +383,102 @@
 
     <!-- Cards Grid -->
     <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
+  </div>
+
+  <!-- COMMUNITY SUGGEST A TOOL MODAL -->
+  <div 
+    id="suggest-tool-modal" 
+    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
+    onclick="closeSuggestToolModal()"
+  >
+    <div 
+      class="bg-slate-900 border border-emerald-500/50 rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" 
+      onclick="event.stopPropagation()"
+    >
+      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
+        <div>
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded border border-emerald-800/50">
+            Community Catalog
+          </span>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1.5">💡 Suggest a Tool or Part</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Found a great open-source model, motor, or voice engine? Add it to DeskbotStack.</p>
+        </div>
+        <button 
+          onclick="closeSuggestToolModal()" 
+          class="text-slate-400 hover:text-white text-base font-bold w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition flex-shrink-0"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="mt-5 space-y-4 text-xs sm:text-sm text-slate-300">
+        <p class="text-slate-400 text-xs">
+          Submissions are automatically routed to our open GitHub repository as a structured suggestion. Once verified, it gets added directly to <code class="text-indigo-300 font-mono">tools.json</code>!
+        </p>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Tool or Component Name</label>
+            <input 
+              type="text" 
+              id="suggest-name" 
+              placeholder="e.g. Kokoro TTS, ESP32-C6, Whisper.cpp" 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-xs"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Category</label>
+            <select 
+              id="suggest-cat" 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500 text-xs"
+            >
+              <option value="🧠 Brains & Cloud Power">🧠 Brain / LLM Runtime</option>
+              <option value="👂 Ears & Listening">👂 Ears / Speech-To-Text</option>
+              <option value="🗣️ Voices & Speaking">🗣️ Voice / Text-To-Speech</option>
+              <option value="📚 Memory & Personality">📚 Memory & Personality</option>
+              <option value="🤖 Arms, Motors & Bodies">🤖 Arms, Servos & Hardware</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Website or GitHub / AliExpress Link</label>
+            <input 
+              type="url" 
+              id="suggest-url" 
+              placeholder="https://github.com/..." 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-xs"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Why is it great for desk companions?</label>
+            <textarea 
+              id="suggest-desc" 
+              rows="2" 
+              placeholder="Runs fast on low memory, super quiet motors, high cadence voice..." 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-xs resize-none"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+        <button 
+          onclick="closeSuggestToolModal()" 
+          class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition"
+        >
+          Cancel
+        </button>
+        <button 
+          onclick="submitToolToGitHub()" 
+          class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1.5"
+        >
+          <span>Submit on GitHub</span>
+          <span>↗</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- WHAT'S NEXT & LEARNING POP-UP -->
@@ -735,11 +840,28 @@
     </div>
   </div>
 
-  <!-- Compliance Footer -->
-  <footer class="border-t border-slate-900 bg-slate-950 py-8 px-6 text-center text-xs text-slate-500 space-y-2 mt-12">
-    <div class="max-w-4xl mx-auto">
+  <!-- Compliance & Community Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950 py-10 px-6 text-center text-xs text-slate-500 space-y-4 mt-12">
+    <div class="max-w-4xl mx-auto space-y-3">
+      <div class="flex items-center justify-center gap-3">
+        <button 
+          onclick="openSuggestToolModal()" 
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-emerald-300 hover:bg-emerald-900 hover:text-white transition font-medium"
+        >
+          <span>💡 Suggest a Tool or Part</span>
+        </button>
+        <a 
+          href="https://github.com/realstuiewho/companion-stack-directory" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white transition font-medium"
+        >
+          <span>⭐ Star on GitHub</span>
+        </a>
+      </div>
+
       <p class="font-medium text-slate-400">DeskbotStack.dev &mdash; The Open Hardware & Local AI Companion Index</p>
-      <p class="mt-2 text-[11px] leading-relaxed text-slate-500">
+      <p class="text-[11px] leading-relaxed text-slate-500">
         Disclosure: DeskbotStack is reader-supported. Some external product links on this site are affiliate links. If you make a purchase or subscribe to compute/voice services through these links, we may earn an affiliate commission at no additional cost to you.
       </p>
     </div>
@@ -779,6 +901,42 @@
         return buildAliExpressLink(item.aliSearchQuery);
       }
       return item.url;
+    }
+
+    // --- COMMUNITY SUGGEST TOOL MODAL & GITHUB ISSUE ROUTER ---
+    function openSuggestToolModal() {
+      document.getElementById('suggest-tool-modal').classList.remove('hidden');
+    }
+
+    function closeSuggestToolModal() {
+      document.getElementById('suggest-tool-modal').classList.add('hidden');
+    }
+
+    function submitToolToGitHub() {
+      const name = document.getElementById('suggest-name').value.trim();
+      const cat = document.getElementById('suggest-cat').value;
+      const url = document.getElementById('suggest-url').value.trim();
+      const desc = document.getElementById('suggest-desc').value.trim();
+
+      if (!name) {
+        alert("Please enter the name of the tool or hardware component!");
+        return;
+      }
+
+      const title = encodeURIComponent(`[Tool Suggestion]: ${name}`);
+      const body = encodeURIComponent(
+        `### 🤖 Proposed Component or Tool\n\n` +
+        `**Name:** ${name}\n` +
+        `**Category:** ${cat}\n` +
+        `**Official Link / Store:** ${url || 'Not provided'}\n\n` +
+        `### 💡 Why It Fits DeskbotStack:\n` +
+        `${desc || 'Recommended for companion robot builders.'}\n\n` +
+        `---\n*Submitted via Community Suggestion Modal on DeskbotStack.dev*`
+      );
+
+      const githubIssueUrl = `https://github.com/realstuiewho/companion-stack-directory/issues/new?title=${title}&body=${body}`;
+      window.open(githubIssueUrl, '_blank');
+      closeSuggestToolModal();
     }
 
     // --- STARTER STACKS LOGIC ---
@@ -836,7 +994,6 @@
       activeStackId = null;
       document.getElementById('reset-view-btn').classList.add('hidden');
       renderStarterStacks();
-      // Keep featured BOM shown for context
       const featured = starterStacks.find(s => s.id === 'conversationalist');
       if (featured) renderHardwareBOM(featured);
       applyFilters();
@@ -1375,6 +1532,7 @@
         closeExplainHelpModal();
         closeBeginnerGuideModal();
         closeWhatsNextModal();
+        closeSuggestToolModal();
       }
     });
 
@@ -1669,7 +1827,6 @@
         );
       }
 
-      // If a blueprint is active, smoothly sort matching blueprint tools to the top!
       if (activeStackId) {
         const stack = starterStacks.find(s => s.id === activeStackId);
         if (stack && stack.toolIds) {
@@ -1710,7 +1867,6 @@
       document.getElementById('reset-view-btn').classList.add('hidden');
       renderStarterStacks();
 
-      // Show default featured hardware BOM
       const featured = starterStacks.find(s => s.id === 'conversationalist');
       if (featured) renderHardwareBOM(featured);
 
@@ -1749,7 +1905,6 @@
 
       renderStarterStacks();
 
-      // Automatically render the featured hardware BOM on initial load
       const defaultStack = starterStacks.find(s => s.id === activeStackId) || starterStacks[0];
       if (defaultStack) {
         renderHardwareBOM(defaultStack);
