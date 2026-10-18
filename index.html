@@ -1,1759 +1,408 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chair Tai Chi & Venous Flow - Clinical Form Guide</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d9488">
+  <title>DeskbotStack - The Local AI & Companion Directory</title>
+  <meta name="description" content="Curated index of local runtimes, cloud GPU fallbacks, studio voice engines, orchestration frameworks, deskbot hardware, VRAM calculator, and interactive stack builder." />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            serif: ['"Cinzel"', 'serif']
-          },
-          colors: {
-            brand: {
-              50: '#f0fdfa',
-              100: '#ccfbf1',
-              400: '#2dd4bf',
-              500: '#14b8a6',
-              600: '#0d9488',
-              700: '#0f766e',
-              800: '#115e59',
-              950: '#042f2e'
-            },
-            amberGold: {
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d97706',
-              950: '#451a03'
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    /* Strict Viewport Lock */
-    html, body {
-      height: 100vh;
-      max-height: 100vh;
-      overflow: hidden;
-      background-color: #070d14;
-      color: #f1f5f9;
-      user-select: none;
-    }
-
-    .custom-scroll::-webkit-scrollbar { width: 6px; }
-    .custom-scroll::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
-    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(20, 184, 166, 0.4); border-radius: 9999px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(20, 184, 166, 0.7); }
-
-    .mac-glass-card {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .mac-gloss-btn {
-      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 10px rgba(5, 150, 105, 0.4);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .mac-gloss-btn:hover {
-      background: linear-gradient(180deg, #34d399 0%, #047857 100%);
-      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 6px 14px rgba(16, 185, 129, 0.5);
-    }
-
-    .mac-stop-btn {
-      background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 10px rgba(185, 28, 28, 0.4);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .mac-stop-btn:hover {
-      background: linear-gradient(180deg, #f87171 0%, #991b1b 100%);
-    }
-
-    /* Active Highlight States */
-    .card-active-sink {
-      border-color: #38bdf8 !important;
-      box-shadow: 0 0 30px rgba(56, 189, 248, 0.45), inset 0 0 15px rgba(56, 189, 248, 0.2) !important;
-      transform: scale(1.02);
-    }
-
-    .card-active-peak {
-      border-color: #f59e0b !important;
-      box-shadow: 0 0 30px rgba(245, 158, 11, 0.45), inset 0 0 15px rgba(245, 158, 11, 0.2) !important;
-      transform: scale(1.02);
-    }
-
-    /* Flashing Directional Arrows */
-    .flash-arrow-cyan {
-      animation: pulseCyan 1.5s infinite ease-in-out;
-    }
-    @keyframes pulseCyan {
-      0%, 100% { transform: translateY(0); opacity: 0.8; }
-      50% { transform: translateY(6px); opacity: 1; }
-    }
-
-    .flash-arrow-amber {
-      animation: pulseAmber 1.5s infinite ease-in-out;
-    }
-    @keyframes pulseAmber {
-      0%, 100% { transform: translateY(0); opacity: 0.8; }
-      50% { transform: translateY(-6px); opacity: 1; }
-    }
-
-    @media print {
-      body {
-        background: #ffffff !important;
-        color: #0f172a !important;
-        height: auto !important;
-        overflow: visible !important;
-      }
-      .no-print { display: none !important; }
-      #printClinicSheet { display: block !important; }
-    }
-  </style>
 </head>
-<body class="flex flex-col h-screen overflow-hidden bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
 
-  <!-- =========================================================
-       TOP GLOBAL HEADER
-       ========================================================= -->
-  <header class="h-16 border-b border-slate-800 bg-slate-900/95 px-5 flex items-center justify-between shrink-0 no-print z-30">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-lg shadow-brand-500/25">
-        <span class="text-slate-950 font-black text-lg">☯</span>
-      </div>
-      <div>
-        <h1 class="text-base font-extrabold tracking-tight text-white flex items-center gap-2">
-          CHAIR TAI CHI & VENOUS FLOW
-        </h1>
-        <p class="text-xs text-brand-300 font-semibold" id="headerSetupBadge">
-          670mm Seat · 370mm Rail · Fixed-Fulcrum Biomechanics
-        </p>
-      </div>
-    </div>
-
-    <!-- Mode Tabs -->
-    <div class="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
-      <button id="viewBtnStudio" onclick="switchViewMode('studio')" class="px-4 py-1.5 rounded-lg text-sm font-extrabold text-brand-300 bg-brand-950 border border-brand-500/40 transition-all flex items-center gap-2">
-        <span>⚙</span> Studio Planner
-      </button>
-      <button id="viewBtnKiosk" onclick="switchViewMode('kiosk')" class="px-4 py-1.5 rounded-lg text-sm font-extrabold text-slate-400 hover:text-white transition-all flex items-center gap-2">
-        <span>🏛</span> Kiosk Cards
-      </button>
-      <button id="viewBtnAcademy" onclick="switchViewMode('academy')" class="px-4 py-1.5 rounded-lg text-sm font-extrabold text-amberGold-400 hover:text-amberGold-300 transition-all flex items-center gap-2">
-        <span>🎓</span> Academy & Diploma
-      </button>
-    </div>
-
-    <!-- Audio & Routine Controls -->
-    <div class="flex items-center gap-3">
-      <button id="audioToggleBtn" onclick="toggleSoundSystem()" class="px-3.5 py-1.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-sm flex items-center gap-1.5 text-slate-200 transition-colors font-bold">
-        <span id="audioIcon">🔔</span>
-        <span id="audioText">Chimes On</span>
-      </button>
-
-      <div class="flex items-center gap-1.5 bg-slate-950 px-2.5 py-1.5 rounded-xl border border-slate-800 text-sm">
-        <select id="routineSelect" onchange="handleRoutineSelectChange()" class="bg-slate-900 text-brand-300 font-bold border border-slate-700 rounded-lg px-2 py-0.5 text-xs focus:outline-none focus:border-brand-500">
-        </select>
-        <button onclick="openSaveRoutineModal()" class="text-xs px-2 py-1 rounded bg-brand-600 hover:bg-brand-500 text-white font-bold transition-colors">
-          💾
-        </button>
-        <button onclick="deleteCurrentRoutine()" id="btnDeleteRoutine" class="text-xs px-1.5 py-1 rounded text-rose-400 hover:bg-rose-950/40 transition-colors" title="Delete custom routine">
-          🗑
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- =========================================================
-       MAIN WORKSPACE
-       ========================================================= -->
-  <main class="flex-1 flex overflow-hidden p-3 gap-3 no-print relative">
-
-    <!-- VIEW 1: STUDIO WORKSPACE -->
-    <div id="studioView" class="flex-1 flex gap-3 overflow-hidden">
-      
-      <!-- LEFT: MOVEMENT LIBRARY -->
-      <section class="w-80 flex flex-col bg-slate-900/70 rounded-xl border border-slate-800 shrink-0 overflow-hidden shadow-inner">
-        <div class="p-3 border-b border-slate-800 bg-slate-900 flex items-center justify-between">
-          <div>
-            <h2 class="text-xs font-bold uppercase tracking-wider text-brand-300">Exercise Library</h2>
-            <p class="text-xs text-slate-400">Click to load into center stage</p>
-          </div>
-          <span id="libBadgeCount" class="text-xs font-bold bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded-full border border-slate-700">12 moves</span>
+  <div>
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+      <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between relative">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="resetToAll()">
+          <span class="text-2xl">🤖</span>
+          <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
         </div>
 
-        <div id="exerciseLibraryList" class="flex-1 overflow-y-auto custom-scroll p-2.5 space-y-2.5"></div>
+        <div class="flex items-center space-x-3">
+          <a href="#vram-calc" class="hidden sm:inline-block text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            🧮 VRAM Calculator
+          </a>
 
-        <div class="p-3 bg-slate-950 border-t border-slate-800 text-xs text-slate-300 flex items-start gap-2.5 leading-relaxed">
-          <span class="text-amberGold-400 text-base shrink-0">⚓</span>
-          <span><strong>Hands Low Behind Chair:</strong> Gripping low rungs locks the pelvis and lumbar spine so the legs float with zero knee torque.</span>
-        </div>
-      </section>
+          <!-- Header Stack Tray Button -->
+          <div class="relative">
+            <button 
+              id="header-stack-btn"
+              onclick="toggleHeaderTray(event)" 
+              class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-950/80 border border-indigo-500/50 text-indigo-300 hover:bg-indigo-900/70 hover:text-white transition flex items-center gap-1.5 shadow"
+            >
+              <span>🛠️ My Stack</span>
+              <span id="nav-count-badge" class="bg-indigo-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-mono">0</span>
+              <span id="nav-cost-badge" class="text-emerald-400 font-mono text-[11px] hidden sm:inline">&bull; $0</span>
+              <span id="nav-tray-arrow" class="text-[10px] text-slate-400">▼</span>
+            </button>
 
-      <!-- CENTER: STAGE PREVIEW (HIGH-CONTRAST DUAL-PHASE CLINICAL CARDS) -->
-      <section class="flex-1 flex flex-col bg-slate-900/80 rounded-xl border border-slate-800 overflow-hidden relative shadow-2xl">
-        <div id="inspectorView" class="flex-1 flex flex-col p-4 overflow-hidden">
-          
-          <!-- Exercise Header & Live Controls -->
-          <div class="flex items-center justify-between pb-3 border-b border-slate-800 shrink-0 gap-3">
-            <div class="truncate">
-              <div class="flex items-center gap-2">
-                <button onclick="openHeightModal()" class="text-xs uppercase font-extrabold tracking-wider px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 hover:bg-brand-500/30 transition-colors flex items-center gap-1.5" title="Click to adjust chair & rail height">
-                  <span id="inspectBadge">Chair (670mm) & Rail (370mm)</span>
-                  <span class="text-[10px] text-brand-400">✏</span>
+            <!-- Dropdown Tray Panel -->
+            <div 
+              id="header-stack-tray" 
+              class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-4 z-50 text-xs animate-in fade-in zoom-in-95 duration-150"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                <div>
+                  <h4 class="font-bold text-white text-sm">🛠️ Your Custom Build</h4>
+                  <p id="tray-subtitle" class="text-[11px] text-slate-400 mt-0.5">0 components selected</p>
+                </div>
+                <div class="text-right">
+                  <span class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Est. Hardware</span>
+                  <div id="tray-total-cost" class="text-sm font-mono font-bold text-emerald-400">$0 USD</div>
+                </div>
+              </div>
+
+              <!-- Item List container -->
+              <div id="tray-items-list" class="max-h-60 overflow-y-auto divide-y divide-slate-800/60 my-2 pr-1"></div>
+
+              <div class="pt-3 border-t border-slate-800 space-y-2">
+                <div class="flex gap-2">
+                  <button 
+                    onclick="viewActiveStackOnly()" 
+                    id="tray-view-btn"
+                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center"
+                  >
+                    View Stack Only
+                  </button>
+                  <button 
+                    onclick="clearCustomStack()" 
+                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-950 hover:bg-rose-950/40 text-slate-400 hover:text-rose-300 font-semibold text-[11px] border border-slate-800 hover:border-rose-900 transition text-center"
+                  >
+                    Clear All
+                  </button>
+                </div>
+                <button 
+                  onclick="openCustomStackChecklistTab()" 
+                  class="w-full py-2.5 px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5"
+                >
+                  <span>📋 Export Checklist & Pinouts</span>
+                  <span class="text-[10px]">↗</span>
                 </button>
-                <span id="inspectModeSub" class="text-xs text-slate-400">Two-Phase Kinematics</span>
               </div>
-              <h3 id="inspectTitle" class="text-xl font-extrabold text-white mt-1 truncate">
-                Bar Stool & Shelf 20-Rep Ballerina Pump
-              </h3>
-            </div>
-
-            <!-- Steppers & Action Controls -->
-            <div class="flex items-center gap-2 shrink-0">
-              <div class="flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800 text-xs font-mono">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-slate-400 font-bold">REPS:</span>
-                  <button onclick="adjustCenterReps(-1)" class="w-5 h-5 rounded bg-slate-800 text-white font-bold hover:bg-slate-700">-</button>
-                  <span id="centerRepsDisplay" class="font-bold text-brand-300 text-sm w-6 text-center">20</span>
-                  <button onclick="adjustCenterReps(1)" class="w-5 h-5 rounded bg-slate-800 text-white font-bold hover:bg-slate-700">+</button>
-                </div>
-                <div class="h-4 w-px bg-slate-800"></div>
-                <div class="flex items-center gap-1.5">
-                  <span class="text-slate-400 font-bold">SETS:</span>
-                  <button onclick="adjustCenterSets(-1)" class="w-5 h-5 rounded bg-slate-800 text-white font-bold hover:bg-slate-700">-</button>
-                  <span id="centerSetsDisplay" class="font-bold text-brand-300 text-sm w-4 text-center">1</span>
-                  <button onclick="adjustCenterSets(1)" class="w-5 h-5 rounded bg-slate-800 text-white font-bold hover:bg-slate-700">+</button>
-                </div>
-              </div>
-
-              <!-- In-Place Play/Stop Button -->
-              <button id="centerPlayBtn" onclick="togglePlayThisMoveInPlace()" class="px-5 py-2 rounded-xl mac-gloss-btn text-white font-black text-xs shadow-lg transition-all flex items-center gap-1.5">
-                <span id="centerPlayBtnIcon" class="text-sm">▶</span> 
-                <span id="centerPlayBtnText">PLAY THIS MOVE</span>
-              </button>
-
-              <button onclick="addInspectedExercise()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-xs transition-colors flex items-center gap-1 shadow">
-                <span>+ Add to Queue</span>
-              </button>
             </div>
           </div>
 
-          <!-- =========================================================
-               DUAL-PHASE STATIC POSTURE CARDS
-               ========================================================= -->
-          <div class="flex-1 flex gap-4 my-2 overflow-hidden items-stretch">
-            
-            <!-- CARD 1: PHASE 1 (5s DEEP HEEL SINK) -->
-            <div id="cardPhaseA" class="flex-1 mac-glass-card rounded-2xl border border-slate-700/80 p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/70">
-              <div class="flex items-center justify-between pb-2 border-b border-slate-800 shrink-0">
-                <div class="flex items-center gap-2">
-                  <span class="w-3 h-3 rounded-full bg-sky-400 shadow-md shadow-sky-400/50"></span>
-                  <span class="text-xs font-black tracking-wider uppercase text-sky-400">PHASE 1: 5s DEEP HEEL SINK</span>
-                </div>
-                <span class="text-xs font-bold text-slate-400">Decompression & Refill</span>
-              </div>
+          <span id="tool-counter" class="hidden md:inline-block text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
+            38 Tools
+          </span>
+        </div>
+      </div>
+    </header>
 
-              <!-- Graphic Viewport -->
-              <div class="h-56 w-full flex items-center justify-center p-2 relative overflow-hidden rounded-xl bg-slate-900/60 my-2">
-                <img id="imgCardSink" src="sink.jpg" alt="Phase 1: Deep Heel Sink" class="max-h-full max-w-full object-contain rounded-lg" onerror="this.style.display='none'; document.getElementById('sinkFallbackMsg').classList.remove('hidden');" />
-                
-                <div id="sinkFallbackMsg" class="hidden text-center p-4">
-                  <p class="text-xs text-rose-400 font-bold">⚠ sink.jpg not found in folder</p>
-                  <p class="text-[11px] text-slate-400 mt-1">Save your image as 'sink.jpg' next to index.html</p>
-                </div>
+    <!-- Hero -->
+    <section class="max-w-6xl mx-auto px-6 pt-12 pb-6 text-center">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight max-w-3xl mx-auto leading-tight">
+        The Open Stack for <span class="text-indigo-400">Local AI & Physical Deskbots</span>
+      </h1>
+      <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
+        Compare offline LLM runtimes, low-latency voice models, cloud fallbacks, memory agents, and controller hardware with wiring guides.
+      </p>
 
-                <!-- Flashing Directional Indicator Arrow -->
-                <div class="absolute bottom-3 left-4 flex items-center gap-2 bg-slate-950/90 px-3 py-1 rounded-lg border border-sky-500/40 flash-arrow-cyan">
-                  <span class="text-sky-400 font-black text-base">⬇</span>
-                  <span class="text-[11px] font-extrabold text-sky-300 uppercase tracking-wide">Heel Sinks Below Shelf</span>
-                </div>
-              </div>
+      <!-- Search Input Bar -->
+      <div class="mt-8 max-w-md mx-auto relative">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          id="search-box" 
+          placeholder="Search tools, pinouts, I2C, servos, ESP32, voices..." 
+          oninput="handleSearch()"
+          onkeyup="handleSearch()"
+          class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+        />
+      </div>
 
-              <!-- Phase 1 Micro Cues -->
-              <div class="bg-slate-900/90 rounded-xl p-3 text-xs space-y-1 text-slate-300 border border-slate-800 shrink-0">
-                <div class="flex items-center gap-1.5 text-sky-400 font-extrabold text-sm">
-                  <span>⬇</span> <span>HEEL DROPS BELOW SHELF PLANE</span>
-                </div>
-                <p class="leading-relaxed text-slate-300 text-xs font-medium">Toes pinned to ledge with knee comfortably bent. Drop heel deep below the wood line to stretch the Achilles and draw blood into the calf reservoirs.</p>
-              </div>
-            </div>
+      <!-- Quick Architecture Recipes -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
+        <span class="text-xs text-slate-500 font-medium mr-1">Load Preset Stack:</span>
+        <button onclick="loadPresetStack('budget', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-950/40 transition">
+          ⚡ $50 Budget Deskbot
+        </button>
+        <button onclick="loadPresetStack('pro', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-950/40 transition">
+          🧠 High-Fidelity Companion
+        </button>
+        <button onclick="loadPresetStack('edge', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-amber-500/30 text-amber-400 hover:bg-amber-950/40 transition">
+          🤖 Autonomous Edge Rig
+        </button>
+        <button onclick="clearCustomStack()" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+          Reset Build
+        </button>
+      </div>
+    </section>
 
-            <!-- CARD 2: PHASE 2 (5s BALLERINA RISE) -->
-            <div id="cardPhaseB" class="flex-1 mac-glass-card rounded-2xl border border-slate-700/80 p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/70">
-              <div class="flex items-center justify-between pb-2 border-b border-slate-800 shrink-0">
-                <div class="flex items-center gap-2">
-                  <span class="w-3 h-3 rounded-full bg-amberGold-400 shadow-md shadow-amberGold-400/50"></span>
-                  <span class="text-xs font-black tracking-wider uppercase text-amberGold-400">PHASE 2: 5s BALLERINA RISE</span>
-                </div>
-                <span class="text-xs font-bold text-amberGold-300">Soleus Muscle Pump</span>
-              </div>
-
-              <!-- Graphic Viewport -->
-              <div class="h-56 w-full flex items-center justify-center p-2 relative overflow-hidden rounded-xl bg-slate-900/60 my-2">
-                <img id="imgCardRise" src="rise.jpg" alt="Phase 2: Ballerina Press" class="max-h-full max-w-full object-contain rounded-lg" onerror="this.style.display='none'; document.getElementById('riseFallbackMsg').classList.remove('hidden');" />
-
-                <div id="riseFallbackMsg" class="hidden text-center p-4">
-                  <p class="text-xs text-rose-400 font-bold">⚠ rise.jpg not found in folder</p>
-                  <p class="text-[11px] text-slate-400 mt-1">Save your image as 'rise.jpg' next to index.html</p>
-                </div>
-
-                <!-- Flashing Directional Indicator Arrow -->
-                <div class="absolute bottom-3 left-4 flex items-center gap-2 bg-slate-950/90 px-3 py-1 rounded-lg border border-amberGold-500/40 flash-arrow-amber">
-                  <span class="text-amberGold-400 font-black text-base">⬆</span>
-                  <span class="text-[11px] font-extrabold text-amberGold-300 uppercase tracking-wide">Heel & Knee Rise Together</span>
-                </div>
-              </div>
-
-              <!-- Phase 2 Micro Cues -->
-              <div class="bg-slate-900/90 rounded-xl p-3 text-xs space-y-1 text-slate-300 border border-slate-800 shrink-0">
-                <div class="flex items-center gap-1.5 text-amberGold-400 font-extrabold text-sm">
-                  <span>⬆</span> <span>STAND TALL ON BALLERINA TIPTOE</span>
-                </div>
-                <p class="leading-relaxed text-slate-300 text-xs font-medium">Press firmly through the ball of the foot. The heel lifts high and the knee tracks up and forward, contracting the calf muscle to eject pooled blood upward past the knee hardware.</p>
-              </div>
-            </div>
-
+    <!-- Interactive Visual Signal Architecture Diagram with Explainer Modal -->
+    <section class="max-w-6xl mx-auto px-6 mb-10">
+      <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">System Architecture</span>
+            <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2 mt-0.5">
+              <span>⚡ Companion Signal Pipeline</span>
+              <span class="text-[10px] font-normal text-slate-400 hidden sm:inline">(Click any block to filter tools)</span>
+            </h2>
           </div>
-
-          <!-- Bottom Fulcrum Rule Banner -->
-          <div class="bg-slate-950/80 rounded-xl border border-slate-800 p-2.5 flex items-center justify-between text-xs text-slate-300 shrink-0">
-            <div class="flex items-center gap-2.5">
-              <span class="text-base text-amberGold-400">⚓</span>
-              <span class="text-xs text-slate-200"><strong>The Fixed Fulcrum Rule:</strong> The ball of the foot and toes stay glued to the shelf lip. Only the heel and knee move!</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <button onclick="openHeightModal()" class="text-brand-400 hover:text-brand-300 font-bold text-xs flex items-center gap-1">
-                <span>📐 Adjust Dimensions</span>
-              </button>
-              <button onclick="openWisdomModalForInspected()" class="text-amberGold-400 hover:text-amberGold-300 font-bold text-xs flex items-center gap-1">
-                <span>💡 Read Master's Insight</span>
-              </button>
-            </div>
+          <div class="flex items-center gap-2">
+            <button 
+              onclick="openPipelineExplainerModal()" 
+              class="text-[11px] font-bold text-indigo-300 hover:text-white px-3 py-1 rounded-lg bg-indigo-950/70 border border-indigo-800/60 hover:bg-indigo-900 transition flex items-center gap-1 shadow"
+            >
+              <span>📖 How It Works</span>
+            </button>
+            <button onclick="resetToAll()" class="text-[11px] font-semibold text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 transition">
+              Reset Flow
+            </button>
           </div>
         </div>
-      </section>
 
-      <!-- RIGHT PANEL: DYNAMIC COCKPIT -->
-      <section class="w-84 flex flex-col bg-slate-900/70 rounded-xl border border-slate-800 shrink-0 overflow-hidden shadow-inner relative">
-        
-        <!-- STATE A: DEFAULT ROUTINE QUEUE VIEW -->
-        <div id="panelQueueView" class="flex-1 flex flex-col overflow-hidden">
-          <div class="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-900">
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-5 relative">
+          <div 
+            onclick="filterDiagram('stt')" 
+            id="diag-stt"
+            class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group"
+          >
             <div>
-              <h2 class="text-xs font-bold uppercase tracking-wider text-brand-300">Routine Queue</h2>
-              <div class="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5 font-mono font-semibold">
-                <span id="queueItemCount">0 items</span>
-                <span>•</span>
-                <span id="queueTotalDuration">0m 00s</span>
+              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
+                <span class="text-xs font-mono font-bold">01 / EARS</span>
+                <span class="text-base">🎙️</span>
               </div>
+              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Audio & Wake Word</h3>
+              <p class="text-[10px] text-slate-400 mt-1">INMP441, ReSpeaker, ToF Proximity Sensors</p>
             </div>
-            <button onclick="clearRoutineQueue()" class="text-xs text-rose-400 hover:text-rose-300 font-bold hover:underline">
-              Clear All
-            </button>
+            <div class="mt-3 text-[9px] font-mono text-indigo-400 font-semibold uppercase tracking-wider">I2S Audio &rarr;</div>
           </div>
 
-          <div id="queueItemsList" class="flex-1 overflow-y-auto custom-scroll p-2.5 space-y-2"></div>
-
-          <div class="p-3 border-t border-slate-800 bg-slate-950 space-y-2.5">
-            <button onclick="startGuidedFlowSession()" class="w-full py-3 rounded-xl mac-gloss-btn text-white font-extrabold text-sm shadow-xl flex items-center justify-center gap-2 transition-all">
-              <span class="text-base">▶</span> START FULL ROUTINE FLOW
-            </button>
-
-            <div class="flex gap-2">
-              <button onclick="openSaveRoutineModal()" class="flex-1 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 flex items-center justify-center gap-1.5 transition-colors">
-                <span>💾</span> Save Routine
-              </button>
-              <button onclick="window.print()" class="flex-1 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 flex items-center justify-center gap-1.5 transition-colors">
-                <span>⎙</span> Print A4
-              </button>
+          <div 
+            onclick="filterDiagram('stt')" 
+            class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group"
+          >
+            <div>
+              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
+                <span class="text-xs font-mono font-bold">02 / STT</span>
+                <span class="text-base">👂</span>
+              </div>
+              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Voice Transcription</h3>
+              <p class="text-[10px] text-slate-400 mt-1">faster-whisper, Vosk, Whisper.cpp</p>
             </div>
+            <div class="mt-3 text-[9px] font-mono text-indigo-400 font-semibold uppercase tracking-wider">Clean Text &rarr;</div>
+          </div>
+
+          <div 
+            onclick="filterDiagram('runtimes')" 
+            id="diag-runtimes"
+            class="diag-node cursor-pointer p-4 rounded-xl bg-gradient-to-b from-slate-950 to-indigo-950/30 border border-indigo-500/40 hover:border-indigo-400 transition flex flex-col justify-between group shadow-lg"
+          >
+            <div>
+              <div class="flex items-center justify-between text-indigo-400 mb-2">
+                <span class="text-xs font-mono font-bold">03 / BRAIN</span>
+                <span class="text-base">🧠</span>
+              </div>
+              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">LLM & Personality</h3>
+              <p class="text-[10px] text-slate-400 mt-1">Ollama, llama.cpp, Letta Memory, RunPod</p>
+            </div>
+            <div class="mt-3 text-[9px] font-mono text-emerald-400 font-semibold uppercase tracking-wider">&larr; Action & Voice &rarr;</div>
+          </div>
+
+          <div 
+            onclick="filterDiagram('tts')" 
+            id="diag-tts"
+            class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group"
+          >
+            <div>
+              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
+                <span class="text-xs font-mono font-bold">04 / VOICE</span>
+                <span class="text-base">🗣️</span>
+              </div>
+              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Speech Synthesis</h3>
+              <p class="text-[10px] text-slate-400 mt-1">Piper, Kokoro-82M, XTTS, ElevenLabs</p>
+            </div>
+            <div class="mt-3 text-[9px] font-mono text-indigo-400 font-semibold uppercase tracking-wider">Audio Stream &rarr;</div>
+          </div>
+
+          <div 
+            onclick="filterDiagram('hardware')" 
+            id="diag-hardware"
+            class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group"
+          >
+            <div>
+              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
+                <span class="text-xs font-mono font-bold">05 / BODY</span>
+                <span class="text-base">🤖</span>
+              </div>
+              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Actuation & Eyes</h3>
+              <p class="text-[10px] text-slate-400 mt-1">PCA9685, MG90S Servos, Round LCD, NeoPixels</p>
+            </div>
+            <div class="mt-3 text-[9px] font-mono text-emerald-400 font-semibold uppercase tracking-wider">Physical Action ✓</div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- STATE B: DYNAMIC LIVE READOUT COCKPIT -->
-        <div id="panelLiveHUDView" class="hidden flex-1 flex flex-col justify-between p-4 bg-slate-950/90">
+    <!-- VRAM & Local Hardware Estimator Widget -->
+    <section id="vram-calc" class="max-w-6xl mx-auto px-6 mb-10">
+      <div class="p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-900/90 border border-indigo-500/30 shadow-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-800 gap-2">
           <div>
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-              <div class="flex items-center gap-2">
-                <span class="relative flex h-3 w-3">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                </span>
-                <span class="text-xs font-black tracking-widest text-emerald-400 uppercase">LIVE PRACTICE COCKPIT</span>
-              </div>
-              <span class="text-xs font-mono text-slate-400" id="hudActiveTime">Pacing 5s/5s</span>
-            </div>
-
-            <div class="mt-3">
-              <span class="text-[10px] text-brand-400 uppercase font-bold tracking-wider">ACTIVE MOVEMENT</span>
-              <h3 id="hudMoveTitle" class="text-base font-extrabold text-white leading-snug line-clamp-2">
-                Bar Stool & Shelf 20-Rep Ballerina Pump
-              </h3>
-            </div>
-
-            <div class="mt-4 p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-center shadow-inner">
-              <span id="hudPhaseLabel" class="text-xs font-black tracking-widest uppercase text-sky-400 block mb-1">
-                HEEL SINK DEEP
-              </span>
-              <p id="hudMicroCue" class="text-xs text-slate-300 font-semibold leading-relaxed">
-                Drop heels below shelf edge
-              </p>
-            </div>
-
-            <div class="mt-4 flex flex-col items-center justify-center py-4 bg-slate-900/60 rounded-3xl border border-brand-500/30 shadow-2xl relative overflow-hidden">
-              <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-1">INTERVAL COUNTDOWN</span>
-              <div id="hudSecondsCountdown" class="text-7xl font-black text-white font-mono leading-none tracking-tighter my-1">
-                5
-              </div>
-              <span class="text-xs text-brand-300 font-semibold">seconds remaining</span>
-            </div>
-
-            <div class="mt-4 grid grid-cols-2 gap-2 text-center">
-              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="text-[10px] font-bold uppercase text-slate-400 block">CURRENT REP</span>
-                <span id="hudRepCount" class="text-2xl font-black text-amberGold-400 font-mono">1 / 20</span>
-              </div>
-              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <span class="text-[10px] font-bold uppercase text-slate-400 block">CURRENT SET</span>
-                <span id="hudSetCount" class="text-2xl font-black text-white font-mono">1 / 1</span>
-              </div>
-            </div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>🧮 Local AI VRAM & Hardware Fit Estimator</span>
+              <span class="text-[10px] uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Interactive</span>
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Determine if your companion brain fits on your deskbot's local RAM or requires cloud GPU fallback.</p>
           </div>
-
-          <div class="pt-3 border-t border-slate-800 space-y-2">
-            <button onclick="stopInPlacePractice()" class="w-full py-3 rounded-xl mac-stop-btn text-white font-black text-sm shadow-xl flex items-center justify-center gap-2 transition-all">
-              <span class="text-base">⏹</span> STOP PRACTICE & RETURN
-            </button>
-            <p class="text-[10px] text-center text-slate-500">Pressing 'Stop' returns directly to your routine queue</p>
-          </div>
+          <button onclick="toggleCalc()" id="calc-toggle-btn" class="text-xs font-semibold text-slate-400 hover:text-white self-start md:self-auto py-1 px-2.5 rounded bg-slate-800">
+            Hide Calculator ▲
+          </button>
         </div>
 
-      </section>
+        <div id="calc-body" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-5">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Model Parameters</label>
+            <select id="calc-params" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="3">3B (e.g. Llama 3.2 3B / Phi-3.5)</option>
+              <option value="8" selected>8B (e.g. Llama 3.1 8B / Qwen 2.5 7B)</option>
+              <option value="14">14B (e.g. Qwen 2.5 14B / DeepSeek R1 14B)</option>
+              <option value="32">32B (e.g. Qwen 2.5 32B / Command-R)</option>
+              <option value="70">70B (e.g. Llama 3.3 70B / DeepSeek 70B)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Quantization (GGUF)</label>
+            <select id="calc-quant" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="4.5" selected>Q4_K_M (4-bit Balanced & Recommended)</option>
+              <option value="5.5">Q5_K_M (5-bit Higher Quality)</option>
+              <option value="8.5">Q8_0 (8-bit Near-Lossless)</option>
+              <option value="16">FP16 (16-bit Full Precision Unquantized)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Context Window</label>
+            <select id="calc-ctx" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
+              <option value="0.5">4K Tokens (Standard Chat)</option>
+              <option value="1.2" selected>8K Tokens (Recommended for Agents)</option>
+              <option value="3.5">32K Tokens (Deep Memory & RAG)</option>
+              <option value="8.0">128K Tokens (Massive Document Context)</option>
+            </select>
+          </div>
+
+          <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-baseline">
+                <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Estimated VRAM</span>
+                <span id="calc-vram-result" class="text-xl font-extrabold text-indigo-400">~6.2 GB</span>
+              </div>
+              <p id="calc-verdict" class="text-[11px] text-emerald-400 mt-1 font-medium">⚡ Fits easily on 16GB Mini PC or Mac</p>
+            </div>
+            <div id="calc-recommendation" class="pt-2 border-t border-slate-800/80 mt-2 text-[10px] text-slate-300"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Filter Buttons -->
+    <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
+      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (38)</button>
+      <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">LLM Runtimes & Cloud</button>
+      <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hearing (STT)</button>
+      <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Voices (TTS)</button>
+      <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Memory & Agents</button>
+      <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Hardware & Embodiment</button>
     </div>
 
-    <!-- VIEW 2: KIOSK CARDS -->
-    <div id="kioskView" class="hidden flex-1 flex flex-col overflow-hidden bg-slate-950/90 rounded-2xl border border-slate-800 p-5">
-      <div class="flex items-center justify-between pb-3.5 border-b border-slate-800 shrink-0">
+    <!-- Cards Grid -->
+    <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
+  </div>
+
+  <!-- HOW IT WORKS ARCHITECTURE MODAL -->
+  <div id="pipeline-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closePipelineExplainerModal()">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
-          <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
-            <span>🏛</span> KIOSK SELECTION: THE 4 GATES OF VITALITY
-          </h2>
-          <p class="text-sm text-slate-300 mt-0.5">High-contrast text cards · Instant exercise review</p>
+          <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/40">Architecture Blueprint</span>
+          <h3 class="text-xl font-extrabold text-white mt-1">How a Local AI Companion Works</h3>
+          <p class="text-xs text-slate-400 mt-0.5">The complete 5-stage loop from microphone ear to servo motion.</p>
         </div>
-        <div class="flex gap-2 text-xs">
-          <button onclick="filterKioskGate('all')" class="kiosk-gate-btn px-4 py-1.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 font-bold">All Gates</button>
-          <button onclick="filterKioskGate('gate1')" class="kiosk-gate-btn px-4 py-1.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800 font-bold">Gate 1: The Root</button>
-          <button onclick="filterKioskGate('gate2')" class="kiosk-gate-btn px-4 py-1.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800 font-bold">Gate 2: Iron Spine</button>
-          <button onclick="filterKioskGate('gate3')" class="kiosk-gate-btn px-4 py-1.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800 font-bold">Gate 3: Ocean Breath</button>
-          <button onclick="filterKioskGate('gate4')" class="kiosk-gate-btn px-4 py-1.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800 font-bold">Gate 4: Graduation</button>
+        <button onclick="closePipelineExplainerModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
+      </div>
+
+      <div class="mt-5 space-y-4 text-xs text-slate-300 leading-relaxed">
+        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">🎙️</span>
+            <h4 class="font-bold text-white text-xs">Stage 1: Hearing & Perception (Audio Stream)</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">The companion listens via a digital I2S microphone (like the INMP441 or ReSpeaker HAT). A lightweight local wake-word listener (Vosk) runs continuously on low CPU/RAM. When triggered, the audio buffer is packaged into a PCM audio stream.</p>
+        </div>
+
+        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">👂</span>
+            <h4 class="font-bold text-white text-xs">Stage 2: Voice Transcription (Speech-To-Text)</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">The speech buffer is fed directly into an offline speech-to-text engine (faster-whisper or whisper.cpp). Running CTranslate2 quantization converts human speech into plain text tokens with sub-second latency.</p>
+        </div>
+
+        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">🧠</span>
+            <h4 class="font-bold text-white text-xs">Stage 3: LLM Brain, Tool Calling & Memory</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">The transcribed text hits an offline LLM inference daemon (Ollama, llama.cpp, or vLLM). Stateful memory agents (Letta/MemGPT) store conversational history. If local hardware bottlenecks, requests fall back seamlessly to on-demand cloud GPUs (RunPod).</p>
+        </div>
+
+        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">🗣️</span>
+            <h4 class="font-bold text-white text-xs">Stage 4: Voice Synthesis (Text-To-Speech)</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">The model's text response streams token-by-token into a local TTS engine (Piper or Kokoro-82M) or cloud voice API (ElevenLabs), converting words into natural audio without waiting for the full sentence to finish.</p>
+        </div>
+
+        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-base">🤖</span>
+            <h4 class="font-bold text-white text-xs">Stage 5: Physical Embodiment & Actuation</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">While speaking, the microcontroller (ESP32-S3 or Raspberry Pi) routes I2C commands to the PCA9685 driver to nod and turn head servos, animates expressive eyes on a round GC9A01 LCD screen, and flashes WS2812B RGB LEDs to reflect companion emotions.</p>
         </div>
       </div>
 
-      <div id="kioskTileGrid" class="flex-1 overflow-y-auto custom-scroll grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-4 pr-1"></div>
-    </div>
-
-    <!-- VIEW 3: ACADEMY PROGRESS & DIPLOMA -->
-    <div id="academyView" class="hidden flex-1 flex flex-col overflow-y-auto custom-scroll p-6 bg-slate-950/90 rounded-2xl border border-slate-800">
-      <div class="max-w-4xl mx-auto w-full space-y-6 pb-8">
-        <div class="text-center space-y-2 border-b border-slate-800 pb-5">
-          <span class="text-xs font-bold uppercase tracking-widest text-amberGold-400 bg-amberGold-950/80 px-3.5 py-1.5 rounded-full border border-amberGold-500/40">
-            THE ANCIENT DAOYIN & VASCULAR ACADEMY
-          </span>
-          <h2 class="text-2xl font-serif font-black text-white tracking-wide mt-2">
-            Mastery of Seated Vitality & Venous Restoration
-          </h2>
-          <p class="text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
-            "A tree dies from its roots; a man ages from his feet." Advance through the Four Sacred Gates to restore venous blood flow and claim your Diploma of Seated Mastery.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-4 gap-4">
-          <div class="mac-glass-card rounded-2xl p-4 text-center">
-            <div class="text-2xl mb-1">🌱</div>
-            <div class="text-xs font-bold text-emerald-400">GATE 1: THE ROOT</div>
-            <div class="text-sm text-slate-200 font-bold mt-1">Soleus Pump & Yongquan</div>
-            <div class="text-xs text-slate-400 mt-2 font-semibold">Status: <span class="text-emerald-400 font-bold">ACTIVE</span></div>
-          </div>
-          <div class="mac-glass-card rounded-2xl p-4 text-center">
-            <div class="text-2xl mb-1">⚓</div>
-            <div class="text-xs font-bold text-brand-300">GATE 2: IRON SPINE</div>
-            <div class="text-sm text-slate-200 font-bold mt-1">Daoyin Rear Staff Grip</div>
-            <div class="text-xs text-slate-400 mt-2 font-semibold">Status: <span class="text-brand-300 font-bold">UNLOCKED</span></div>
-          </div>
-          <div class="mac-glass-card rounded-2xl p-4 text-center">
-            <div class="text-2xl mb-1">🌊</div>
-            <div class="text-xs font-bold text-sky-400">GATE 3: OCEAN BREATH</div>
-            <div class="text-sm text-slate-200 font-bold mt-1">Thoracic Venous Siphon</div>
-            <div class="text-xs text-slate-400 mt-2 font-semibold">Status: <span class="text-sky-400 font-bold">PRACTICING</span></div>
-          </div>
-          <div class="mac-glass-card rounded-2xl p-4 text-center">
-            <div class="text-2xl mb-1">⚡</div>
-            <div class="text-xs font-bold text-amberGold-400">GATE 4: GRADUATION</div>
-            <div class="text-sm text-slate-200 font-bold mt-1">Sit-to-Stand Transfer</div>
-            <div class="text-xs text-slate-400 mt-2 font-semibold">Status: <span class="text-amberGold-400 font-bold">GRADUATING</span></div>
-          </div>
-        </div>
-
-        <div class="bg-gradient-to-b from-amberGold-950/40 to-slate-900 border-2 border-amberGold-500/60 rounded-3xl p-8 text-center space-y-4 shadow-2xl relative">
-          <div class="text-xs font-mono tracking-widest text-amberGold-400 font-bold uppercase">OFFICIAL CERTIFICATION OF PRACTICE</div>
-          <h3 class="text-2xl font-serif font-black text-white">Honorary Diploma of Seated Daoyin & Vascular Vitality</h3>
-          <p class="text-sm text-slate-200 max-w-xl mx-auto leading-relaxed">
-            Awarded for demonstrating true physical mastery over gravity, venous hypertension, and chair-bound stagnation through dedicated practice of the Custom Height Stool, Shelf, and Daoyin Spinal Rooting.
-          </p>
-          <div class="pt-3 flex justify-center">
-            <button onclick="window.print()" class="px-6 py-2.5 rounded-xl bg-amberGold-500 hover:bg-amberGold-400 text-slate-950 font-black text-sm shadow-xl transition-all flex items-center gap-2">
-              <span>🎓</span> Print Official Diploma (A4)
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VIEW 4: FULL GUIDED PACER RUNNER -->
-    <div id="activePacerView" class="hidden absolute inset-0 z-40 bg-slate-950/95 backdrop-blur-md flex flex-col p-6 overflow-hidden">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800 shrink-0">
-        <div class="flex items-center gap-3">
-          <span class="relative flex h-3.5 w-3.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
-          </span>
-          <div>
-            <div class="text-xs text-emerald-400 font-extrabold uppercase tracking-wider">FULL ROUTINE GUIDED FLOW</div>
-            <h3 id="activeMoveTitle" class="text-xl font-extrabold text-white">Bar Stool & Shelf 20-Rep Ballerina Pump</h3>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="text-right">
-            <span class="text-xs text-slate-400">Step</span>
-            <span id="activeStepIndex" class="text-sm font-bold text-brand-300 ml-1">1 of 1</span>
-          </div>
-          <button onclick="exitGuidedFlow()" class="px-5 py-2 rounded-xl mac-stop-btn text-white text-xs font-black shadow-lg transition-colors flex items-center gap-1.5">
-            <span>⏹</span> STOP & EXIT
-          </button>
-        </div>
-      </div>
-
-      <div class="flex-1 flex flex-col items-center justify-center relative">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="px-4 py-1 rounded-full bg-slate-900 border border-brand-500/40 text-brand-300 text-xs font-bold tracking-wide flex items-center gap-2 shadow-lg">
-            <span>SET</span>
-            <span id="activeSetBadge" class="text-white text-xs font-mono bg-slate-800 px-2.5 py-0.5 rounded">1 / 1</span>
-          </div>
-          <div class="px-5 py-1.5 rounded-full bg-slate-900 border border-amberGold-500 text-amberGold-400 text-sm font-bold tracking-wide flex items-center gap-2 shadow-lg">
-            <span>REP</span>
-            <span id="activeRepBadge" class="text-slate-950 text-base font-black font-mono bg-amberGold-400 px-3 py-0.5 rounded">1 / 20</span>
-          </div>
-        </div>
-
-        <div class="relative flex items-center justify-center">
-          <div class="w-72 h-72 rounded-full bg-slate-900 border-4 border-brand-500/60 flex flex-col items-center justify-center relative z-10 shadow-2xl p-4">
-            <div id="livePhaseLabel" class="text-xs font-black tracking-widest uppercase text-sky-400 mb-1">
-              HEEL SINK DEEP
-            </div>
-            
-            <div id="livePhaseCountdown" class="text-7xl font-black text-white tracking-tighter font-mono">
-              5
-            </div>
-            
-            <div id="liveMicroCue" class="text-xs text-slate-300 font-semibold text-center mt-2 px-2">
-              Drop heels below shelf edge
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 text-center max-w-lg px-4">
-          <div id="liveWisdomBanner" class="p-3 rounded-xl bg-amberGold-950/70 border border-amberGold-500/40 text-sm text-amberGold-200 font-medium flex items-center justify-center gap-2">
-            <span>💡</span>
-            <span id="liveWisdomText">"The Soleus is your second heart: pumping up to 60ml of blood upward every minute."</span>
-          </div>
-        </div>
-
-        <div class="w-80 h-3 bg-slate-850 rounded-full mt-5 overflow-hidden border border-slate-700">
-          <div id="liveStepProgressBar" class="h-full bg-gradient-to-r from-brand-500 via-sky-400 to-amberGold-400 transition-all duration-300" style="width: 10%;"></div>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-800 flex items-center justify-between shrink-0">
-        <button onclick="skipToPreviousStep()" class="text-xs font-bold text-slate-400 hover:text-white px-3 py-1.5 rounded hover:bg-slate-800 flex items-center gap-1">
-          <span>⏮</span> Previous Move
-        </button>
-        <div class="flex items-center gap-3">
-          <button onclick="togglePacerPause()" id="btnPacerPause" class="px-6 py-2 rounded-xl mac-gloss-btn text-white font-bold text-xs transition-colors">
-            ⏸ Pause
-          </button>
-          <button onclick="exitGuidedFlow()" class="px-6 py-2 rounded-xl mac-stop-btn text-white font-bold text-xs transition-colors">
-            ⏹ Stop Move
-          </button>
-          <button onclick="skipToNextStep()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 transition-colors">
-            Skip ⏭
-          </button>
-        </div>
-        <span class="text-xs text-slate-400 font-mono font-bold" id="liveSessionRemaining">Total left: 3m 20s</span>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- =========================================================
-       POPUP MODALS
-       ========================================================= -->
-  <div id="heightModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="mac-glass-card rounded-3xl p-6 w-full max-w-md shadow-2xl space-y-4">
-      <div class="flex justify-between items-start border-b border-slate-700/60 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="text-2xl">📐</span>
-          <div>
-            <span class="text-xs text-brand-300 font-bold uppercase tracking-wider">Ergonomic Setup</span>
-            <h3 class="text-base font-extrabold text-white">Chair & Foot Rail Heights</h3>
-          </div>
-        </div>
-        <button onclick="closeHeightModal()" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
-      </div>
-
-      <div class="space-y-4">
-        <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <label class="text-xs font-bold text-slate-300 uppercase">Chair Seat Height</label>
-            <div class="flex items-center gap-1 font-mono">
-              <input type="number" id="seatHeightInput" value="670" min="350" max="900" step="10" onchange="updateCustomHeights()" class="w-16 bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-center font-bold text-brand-300 text-xs focus:outline-none focus:border-brand-500">
-              <span class="text-slate-400 text-xs">mm</span>
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2">
-            <button onclick="setSeatPreset(450)" class="py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 text-xs font-semibold">450mm Dining</button>
-            <button onclick="setSeatPreset(520)" class="py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 text-xs font-semibold">520mm Desk</button>
-            <button onclick="setSeatPreset(670)" class="py-1.5 px-2 rounded-lg bg-brand-950 border border-brand-500/50 text-brand-300 text-xs font-bold">670mm Stool</button>
-          </div>
-        </div>
-
-        <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-800">
-          <div class="flex justify-between items-center mb-2">
-            <label class="text-xs font-bold text-slate-300 uppercase">Foot Rail / Shelf Height</label>
-            <div class="flex items-center gap-1 font-mono">
-              <input type="number" id="shelfHeightInput" value="370" min="0" max="600" step="10" onchange="updateCustomHeights()" class="w-16 bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-center font-bold text-sky-300 text-xs focus:outline-none focus:border-brand-500">
-              <span class="text-slate-400 text-xs">mm</span>
-            </div>
-          </div>
-          <div class="grid grid-cols-3 gap-2">
-            <button onclick="setShelfPreset(0)" class="py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 text-xs font-semibold">0mm Floor</button>
-            <button onclick="setShelfPreset(180)" class="py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 text-xs font-semibold">180mm Step</button>
-            <button onclick="setShelfPreset(370)" class="py-1.5 px-2 rounded-lg bg-brand-950 border border-brand-500/50 text-sky-300 text-xs font-bold">370mm Shelf</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="p-2.5 bg-slate-900/50 rounded-lg text-[11px] text-slate-400 leading-snug">
-        💡 <strong>Clinical Tip:</strong> Having seat height higher than knees reduces femoral vein pressure, easing venous return past surgical hardware.
-      </div>
-
-      <div class="flex justify-end pt-1">
-        <button onclick="closeHeightModal()" class="px-5 py-2 rounded-xl mac-gloss-btn text-white text-xs font-bold shadow">
-          Apply & Close
+      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+        <button onclick="closePipelineExplainerModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow">
+          Got It &rarr;
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Wisdom Modal -->
-  <div id="wisdomModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="mac-glass-card rounded-3xl p-7 w-full max-w-lg shadow-2xl space-y-5">
-      <div class="flex justify-between items-start border-b border-slate-700/60 pb-3.5">
-        <div class="flex items-center gap-3">
-          <span class="text-3xl">💡</span>
-          <div>
-            <span class="text-xs text-amberGold-400 font-extrabold uppercase tracking-widest">Master's Revelation</span>
-            <h3 id="wisdomModalTitle" class="text-xl font-bold text-white mt-0.5">The Second Heart Revelation</h3>
-          </div>
-        </div>
-        <button onclick="closeWisdomModal()" class="text-slate-400 hover:text-white text-2xl font-bold leading-none">&times;</button>
-      </div>
-
-      <div class="space-y-4 text-sm leading-relaxed text-slate-200">
-        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-1.5">
-          <strong class="text-emerald-400 block uppercase text-xs tracking-wider font-extrabold">🔬 Modern Vascular Science</strong>
-          <p id="wisdomModalScience" class="text-base text-slate-200 leading-normal"></p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-1.5">
-          <strong class="text-amberGold-400 block uppercase text-xs tracking-wider font-extrabold">☯ Classical Taoist Wisdom</strong>
-          <p id="wisdomModalAncient" class="text-base text-slate-200 leading-normal"></p>
-        </div>
-      </div>
-
-      <div class="flex justify-end pt-2">
-        <button onclick="closeWisdomModal()" class="px-6 py-2.5 rounded-xl bg-amberGold-500 hover:bg-amberGold-400 text-slate-950 font-black text-sm shadow-lg">
-          Got It, Master
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Save Routine Modal -->
-  <div id="saveRoutineModal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="mac-glass-card rounded-2xl p-5 w-full max-w-sm shadow-2xl">
-      <div class="flex justify-between items-start mb-3 border-b border-slate-700 pb-2">
-        <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-          <span>💾</span> Save Custom Routine
-        </h3>
-        <button onclick="closeSaveModal()" class="text-slate-400 hover:text-white">&times;</button>
-      </div>
-
-      <div class="space-y-3 text-xs">
+  <!-- Hardware Pinout Pop-up Modal Tile -->
+  <div id="spec-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeSpecModal()">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
+      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
-          <label class="block text-slate-300 font-bold mb-1">Routine Name</label>
-          <input type="text" id="saveRoutineNameInput" placeholder="e.g. Morning 20-Rep Ulcer Flow" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white font-bold focus:outline-none focus:border-brand-500 text-sm" />
+          <span id="modal-category" class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-800/40">Hardware Spec</span>
+          <h3 id="modal-title" class="text-xl font-extrabold text-white mt-1">Component Name</h3>
+          <p id="modal-role" class="text-xs text-slate-400 mt-0.5">Role in Deskbot Stack</p>
         </div>
-        <p class="text-xs text-slate-400">Saves your exact sequence, reps, sets, and custom chair/rail dimensions to this computer.</p>
+        <button onclick="closeSpecModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
       </div>
 
-      <div class="flex justify-end gap-2 mt-4 pt-3 border-t border-slate-700">
-        <button onclick="closeSaveModal()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold">Cancel</button>
-        <button onclick="confirmSaveRoutine()" class="px-4 py-1.5 rounded-lg mac-gloss-btn text-white text-xs font-bold shadow">Save Routine</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Print Clinical Sheet (A4) -->
-  <div id="printClinicSheet" class="hidden p-8 max-w-3xl mx-auto text-black bg-white">
-    <div class="border-b-2 border-slate-900 pb-3 mb-4 flex justify-between items-end">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-900">Chair Tai Chi & Venous Circulation Protocol</h1>
-        <p class="text-xs text-slate-600">Adaptive Non-Weight Bearing Flow & Vascular Decompression</p>
-      </div>
-      <div class="text-right text-xs text-slate-500">
-        <div>Routine: <strong id="printRoutineTitle">Active Flow</strong></div>
-        <div id="printDateStamp">Date: Today</div>
-      </div>
-    </div>
-
-    <div class="p-3 bg-slate-100 rounded-lg mb-4 text-xs leading-relaxed border border-slate-300">
-      <div class="font-bold text-slate-900 mb-1">Prescribed Clinical Biomechanics:</div>
-      <ul class="list-disc pl-4 space-y-1 text-slate-700">
-        <li><strong>Configured Dimensions:</strong> <span id="printSeatHeight">670mm</span> Chair Height with <span id="printShelfHeight">370mm</span> Rail/Shelf Height. Hands anchored low behind hips to lock pelvis and lumbar spine.</li>
-        <li><strong>Venous Return Protocol:</strong> 5s deep heel sink below shelf edge followed by 5s ballerina tippy-toe rise with anatomical knee elevation.</li>
-        <li><strong>Graduation Phase:</strong> 1–2 inch leg hover holds and progressive sit-to-stand unweighting transfers.</li>
-      </ul>
-    </div>
-
-    <div class="mb-4">
-      <h2 class="text-sm font-bold uppercase tracking-wider border-b border-slate-300 pb-1 mb-2 text-slate-800">Prescribed Exercise Sequence</h2>
-      <div id="printQueueContainer" class="space-y-2"></div>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT CONTROLLER -->
-  <script>
-    const MASTER_TEMPLATES = [
-      {
-        id: 'stool_ballerina',
-        gate: 'gate1',
-        gateName: 'Gate 1: The Root',
-        name: 'Bar Stool & Shelf 20-Rep Ballerina Pump',
-        mode: 'stool',
-        badge: 'Venous Return',
-        subBadge: 'Soleus Muscle Pump',
-        hasStaff: true,
-        defaultReps: 20,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 10,
-        cue: 'Sit on your chair with balls of feet on elevated rail. Hold chair low behind hips. Sink heels 5s, then push high onto ballerina tippy-toes for 5s.',
-        microSink: '5s Deep Heel Sink: Drop heels below shelf edge',
-        microPeak: '5s Ballerina Press: Stand tall on tippy-toes',
-        target: 'Soleus calf pump, popliteal venous return, ulcer prevention',
-        science: 'Deep in your calf sits the soleus muscle. Every time you press into ballerina tippy-toes, it mechanically compresses the deep venous sinuses, overcoming gravity and pumping 60ml of pooled, stagnant fluid straight back up past knee hardware.',
-        ancient: '“A tree dies from its roots; a man ages from his feet.” Stimulating the Yongquan (Bubbling Spring / Kidney 1) point on the ball of the foot awakens lower-body Qi and grounds the spirit without joint torque.'
-      },
-      {
-        id: 'toe_splay',
-        gate: 'gate1',
-        gateName: 'Gate 1: The Root',
-        name: 'Plantar Toe Splay & Dragon Claws',
-        mode: 'stool',
-        badge: 'Plantar Flow',
-        subBadge: 'Capillary Tissue Healing',
-        hasStaff: true,
-        defaultReps: 10,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 10,
-        cue: 'Balls of feet on shelf. Splay all 5 toes wide like a fan for 5s, then gently curl toes into the shelf wood for 5s.',
-        microSink: 'Splay toes wide like an open fan',
-        microPeak: 'Gently curl toe pads into shelf wood',
-        target: 'Deep plantar venous arch, micro-capillary tissue oxygenation',
-        science: 'Splaying and clawing the toes stimulates the plantar venous plexus in the sole, pumping blood through micro-capillaries to heal skin tissue.',
-        ancient: 'Awakening the Dragon Claws. Energizing the terminal Jing-Well acupuncture points at the tips of the toes.'
-      },
-      {
-        id: 'stair_ledge',
-        gate: 'gate1',
-        gateName: 'Gate 1: The Root',
-        name: 'Stair Ledge 20-Rep Ballerina Pump',
-        mode: 'step',
-        badge: 'Standing Step Edge',
-        subBadge: 'Gravity Bodyweight Decompression',
-        hasStaff: false,
-        defaultReps: 20,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 15,
-        cue: 'Stand on a step ledge with balls of feet on the edge while holding handrails. Sink heels down as far as they can for 5s, then push up onto tippy-toes for 5s.',
-        microSink: '5s Deep Hang: Drop heels below step level',
-        microPeak: '5s Ballerina Rise: Stand tall on tippy-toes',
-        target: 'Achilles stretch, full gravity soleus pump, venous drainage',
-        science: 'Using bodyweight gravity on a step edge provides maximal passive Achilles stretch and eccentric soleus recruitment.',
-        ancient: 'Grounded rooting into the stone. Opening the bladder meridian that runs down the spine and back of the calf.'
-      },
-      {
-        id: 'daoyin_rear_lock',
-        gate: 'gate2',
-        gateName: 'Gate 2: Iron Spine',
-        name: 'Daoyin Rear Staff Alignment & Low Grip Root',
-        mode: 'stool',
-        badge: 'Lumbar Protection',
-        subBadge: 'Mingmen Gate Alignment',
-        hasStaff: true,
-        defaultReps: 8,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 0,
-        cue: 'Grasp the low chair frame behind your hips or hold a wooden staff horizontally across your lower back. Sit tall, broaden the shoulders, and breathe deeply.',
-        microSink: 'Inhale into Mingmen (lower back fire)',
-        microPeak: 'Exhale sinking shoulders and elbows',
-        target: 'Pelvic stabilization, lumbar de-rotation, protecting knee hardware',
-        science: 'Locking the hands low behind the hips anchors the pelvis and stops posterior lumbar tilting, allowing the hip flexors and quads to work without shear stress on knee implants.',
-        ancient: '“Iron Bar Behind the Spine.” Sealing the Mingmen (Gate of Life) to prevent core energy leakage while rooted firmly on the seat.'
-      },
-      {
-        id: 'commencing_breath',
-        gate: 'gate3',
-        gateName: 'Gate 3: Ocean Breath',
-        name: 'Seated Commencing Form (Thoracic Suction)',
-        mode: 'stool',
-        badge: 'Mind-Body Tai Chi',
-        subBadge: 'Thoracic Vacuum for Venous Return',
-        hasStaff: false,
-        defaultReps: 6,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 0,
-        cue: 'Sit tall on stool. Inhale floating wrists to chest level; exhale slowly pressing palms down toward lap. Smooth rhythmic diaphragmatic breathing.',
-        microSink: '🌬 INHALE: Float wrists to chest level',
-        microPeak: '🌊 EXHALE: Sink palms softly toward lap',
-        target: 'Negative thoracic pressure drawing venous blood upwards to the heart',
-        science: 'When the diaphragm contracts downward on a deep inhale, it creates a powerful negative pressure (vacuum) in the chest cavity that draws blood up through the vena cava from the legs.',
-        ancient: 'Tu Na breathing (expelling the stale, drawing the fresh). Harmonizing the upper chest ocean with the lower abdominal Dan Tian.'
-      },
-      {
-        id: 'grasp_birds_tail',
-        gate: 'gate3',
-        gateName: 'Gate 3: Ocean Breath',
-        name: 'Grasp the Bird’s Tail (Seated 4-Gates)',
-        mode: 'stool',
-        badge: 'Yang Style Core',
-        subBadge: 'Ward-Off, Rollback, Press, Push',
-        hasStaff: false,
-        defaultReps: 6,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 0,
-        cue: 'Form a rounded arm frame (Ward-off), draw back to ribs (Rollback), join palms to expand (Press), then sink palms down and forward (Push). Smooth breath sync.',
-        microSink: 'Ward-off and Rollback smoothly',
-        microPeak: 'Press and Push palms forward',
-        target: 'Scapular rhythm, thoracic mobility, lymphatic pumping',
-        science: 'Moving through the 4 traditional gates rhythmically expands and contracts the ribcage and axillary lymphatic network without straining the lower limbs.',
-        ancient: 'Peng, Lu, Ji, An. The quintessential 4 energetic gates of Yang Style Tai Chi, harmonizing Yin and Yang through the arms.'
-      },
-      {
-        id: 'white_crane',
-        gate: 'gate3',
-        gateName: 'Gate 3: Ocean Breath',
-        name: 'White Crane Spreads Its Wings (Seated)',
-        mode: 'stool',
-        badge: 'Fascial Opening',
-        subBadge: 'Diagonal Torso Expansion',
-        hasStaff: false,
-        defaultReps: 8,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 0,
-        cue: 'One palm presses gently downward past the hip while the other floats up diagonally to temple height. Feel the diagonal stretch across the ribs.',
-        microSink: 'Draw palms across center line',
-        microPeak: 'Expand wings diagonally open',
-        target: 'Diagonal myofascial opening, ribcage release, axillary drainage',
-        science: 'Opens diagonal spiral fascial lines across the torso, relieving diaphragmatic compression and facilitating thoracic duct lymph flow.',
-        ancient: 'Bai He Liang Chi. Cultivating lightness and vertical poise; opening the heart and lung channels through expansive posture.'
-      },
-      {
-        id: 'cloud_hands',
-        gate: 'gate3',
-        gateName: 'Gate 3: Ocean Breath',
-        name: 'Cloud Hands Seated Rib Harmonizer',
-        mode: 'stool',
-        badge: 'Spine & Lymph Flow',
-        subBadge: 'Gentle Upper-Torso Rotation',
-        hasStaff: false,
-        defaultReps: 8,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 0,
-        cue: 'Hips and knees locked steady on stool. Gently rotate ribcage 15 degrees left and right, sweeping palms smoothly across eye level like clouds.',
-        microSink: 'Sweep left gently across eye level',
-        microPeak: 'Sweep right gently across eye level',
-        target: 'Pelvic lymphatic drainage, spinal mobility, zero leg strain',
-        science: 'Torso rotation wrings out the thoracic duct and pelvic lymph nodes, clearing fluid stagnation around the femoral vein.',
-        ancient: 'Yun Shou (Wave Hands Like Clouds). Fluid rotational Qi circulation where the waist acts like an axle while the hips remain rooted.'
-      },
-      {
-        id: 'brush_knee',
-        gate: 'gate3',
-        gateName: 'Gate 3: Ocean Breath',
-        name: 'Brush Knee and Twist Push (Seated)',
-        mode: 'stool',
-        badge: 'Rotational Core',
-        subBadge: 'Oblique & Psoas Integration',
-        hasStaff: false,
-        defaultReps: 8,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 0,
-        cue: 'Sweep clearing hand horizontally across the lap while delivering a soft forward palm push with the other hand. Keep hips firmly pinned to seat.',
-        microSink: 'Brush hand across lap smoothly',
-        microPeak: 'Deliver soft forward palm press',
-        target: 'Oblique core strength, psoas activation, pelvic alignment',
-        science: 'Trains rotary core activation while keeping the pelvis stabilized, ensuring no rotational shear forces reach knee implants.',
-        ancient: 'Lou Xi Ao Bu. Harmonizing the lower clearing action with the upper advancing palm in complete structural unison.'
-      },
-      {
-        id: 'grad_float',
-        gate: 'gate4',
-        gateName: 'Gate 4: Graduation',
-        name: 'Stage 1: 1–2" Leg Float Hold',
-        mode: 'stool',
-        badge: 'Graduation Level 1',
-        subBadge: 'Quad & Knee Stability (Zero Flex)',
-        hasStaff: true,
-        defaultReps: 6,
-        defaultSets: 2,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 15,
-        cue: 'Hands locked low behind stool to brace spine. Float foot 1 to 2 inches off the desk shelf. Hold steady in the air for 5 seconds without knee flexion, then rest.',
-        microSink: '🍃 REST & BREATHE: Lower heel softly to shelf',
-        microPeak: '⚡ FLOAT 1-2 INCHES: Sustain quad hold in air',
-        target: 'Vastus Medialis (VMO) & hip flexor engagement with zero knee flexion',
-        science: 'Holding an isometric 1–2" leg float fires the vastus medialis without rotating or grinding the femoral-tibial hardware inside the knee joint, reinforcing the patellar tendon safely.',
-        ancient: '“Golden Rooster Stands on One Leg” (Jin Ji Du Li). Achieving lightness and floatation through rooted stability behind the spine.'
-      },
-      {
-        id: 'grad_hip_hinge',
-        gate: 'gate4',
-        gateName: 'Gate 4: Graduation',
-        name: 'Stage 2: Nose-Over-Toes Hip Hinge Transfer',
-        mode: 'stool',
-        badge: 'Graduation Level 2',
-        subBadge: 'Center of Gravity Shift',
-        hasStaff: false,
-        defaultReps: 8,
-        defaultSets: 1,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 10,
-        cue: 'Feet on floor or low rail. Keeping spine completely straight, hinge from hips forward until chest is over knees. Feel weight shift into feet without standing.',
-        microSink: 'Hinge forward: transfer weight to feet',
-        microPeak: 'Press through hips: return tall to backrest',
-        target: 'Gluteal recruitment, ankle load tolerance, balance recovery',
-        science: 'Prepares the nervous system and hip extensors for standing by transferring center of mass forward over base of support with zero joint impact.',
-        ancient: 'Rooting the Center of Gravity. Moving the central equilibrium point (Zhong Ding) smoothly between Yin (seated) and Yang (feet).'
-      },
-      {
-        id: 'grad_buttock_hover',
-        gate: 'gate4',
-        gateName: 'Gate 4: Graduation',
-        name: 'Stage 3: 1-Inch Buttock Hover (Supported)',
-        mode: 'stool',
-        badge: 'Graduation Level 3',
-        subBadge: 'Partial Bodyweight Unweighting',
-        hasStaff: false,
-        defaultReps: 5,
-        defaultSets: 2,
-        defaultSinkSec: 5,
-        defaultPeakSec: 5,
-        defaultRestBetweenSets: 15,
-        cue: 'Hands on sturdy desk or walking stick. Shift weight into feet and unweight buttocks 1 inch off the seat for 5s. Lower softly and rest.',
-        microSink: 'Lower softly onto seat and relax',
-        microPeak: 'Hover buttocks 1 inch off seat (5s hold)',
-        target: 'Functional sit-to-stand strength, quad power, knee stabilization',
-        science: 'Trains concentric and isometric knee extensor capacity under hand support, building the strength needed for independent standing.',
-        ancient: 'Stillness Within Movement. Holding the suspended posture like iron wrapped in cotton.'
-      }
-    ];
-
-    const SYSTEM_PRESETS = {
-      preset_venous_20: {
-        name: '🩸 20-Rep Venous Pump (Standard)',
-        items: [
-          { templateId: 'commencing_breath', reps: 4, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 0 },
-          { templateId: 'stool_ballerina', reps: 20, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 10 },
-          { templateId: 'toe_splay', reps: 8, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 0 }
-        ]
-      },
-      preset_taichi_flow: {
-        name: '☯ Complete Seated Tai Chi Suite',
-        items: [
-          { templateId: 'commencing_breath', reps: 6, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 0 },
-          { templateId: 'grasp_birds_tail', reps: 6, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 0 },
-          { templateId: 'white_crane', reps: 6, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 0 },
-          { templateId: 'cloud_hands', reps: 8, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 0 },
-          { templateId: 'brush_knee', reps: 6, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 0 }
-        ]
-      },
-      preset_grad_progression: {
-        name: '⚡ Full 4-Stage Graduation Sequence',
-        items: [
-          { templateId: 'stool_ballerina', reps: 10, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 10 },
-          { templateId: 'grad_float', reps: 6, sets: 2, sinkSec: 5, peakSec: 5, restBetweenSets: 15 },
-          { templateId: 'grad_hip_hinge', reps: 6, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 10 },
-          { templateId: 'grad_buttock_hover', reps: 5, sets: 1, sinkSec: 5, peakSec: 5, restBetweenSets: 15 }
-        ]
-      }
-    };
-
-    let currentlyInspected = MASTER_TEMPLATES[0];
-    let customSeatHeight = 670;
-    let customShelfHeight = 370;
-    let centerReps = 20;
-    let centerSets = 1;
-    let userRoutineQueue = [];
-    let currentRoutineKey = 'preset_venous_20';
-    let activeKioskGate = 'all';
-
-    let isInPlaceRunning = false;
-    let inPlaceTimer = null;
-    let inPlaceSet = 1;
-    let inPlaceRep = 1;
-    let inPlacePhase = 'sink';
-    let inPlaceSecondsLeft = 5;
-
-    let isFlowRunning = false;
-    let isFlowPaused = false;
-    let flowQueueIndex = 0;
-    let activeFlowQueue = [];
-    let currentSetNumber = 1;
-    let currentRepNumber = 1;
-    let currentPhase = 'sink';
-    let phaseSecondsRemaining = 5;
-    let flowInterval = null;
-
-    let audioMuted = false;
-    let webAudioContext = null;
-
-    function initWebAudio() {
-      if (!webAudioContext) {
-        webAudioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-    }
-
-    function playTone(freq, duration = 0.9) {
-      if (audioMuted) return;
-      try {
-        initWebAudio();
-        if (webAudioContext.state === 'suspended') webAudioContext.resume();
-        const now = webAudioContext.currentTime;
-        const osc = webAudioContext.createOscillator();
-        const gain = webAudioContext.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now);
-        gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-        osc.connect(gain);
-        gain.connect(webAudioContext.destination);
-        osc.start(now);
-        osc.stop(now + duration);
-      } catch (e) {}
-    }
-
-    function toggleSoundSystem() {
-      audioMuted = !audioMuted;
-      document.getElementById('audioIcon').innerText = audioMuted ? '🔕' : '🔔';
-      document.getElementById('audioText').innerText = audioMuted ? 'Muted' : 'Chimes On';
-    }
-
-    function switchViewMode(mode) {
-      if (isInPlaceRunning) stopInPlacePractice();
-      if (isFlowRunning) exitGuidedFlow();
-
-      document.getElementById('studioView').classList.add('hidden');
-      document.getElementById('kioskView').classList.add('hidden');
-      document.getElementById('academyView').classList.add('hidden');
-
-      document.getElementById('viewBtnStudio').className = 'px-4 py-1.5 rounded-lg text-sm font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2';
-      document.getElementById('viewBtnKiosk').className = 'px-4 py-1.5 rounded-lg text-sm font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2';
-      document.getElementById('viewBtnAcademy').className = 'px-4 py-1.5 rounded-lg text-sm font-bold text-amberGold-400 hover:text-amberGold-300 transition-all flex items-center gap-2';
-
-      if (mode === 'studio') {
-        document.getElementById('studioView').classList.remove('hidden');
-        document.getElementById('viewBtnStudio').className = 'px-4 py-1.5 rounded-lg text-sm font-bold text-brand-300 bg-brand-950 border border-brand-500/40 transition-all flex items-center gap-2';
-      } else if (mode === 'kiosk') {
-        document.getElementById('kioskView').classList.remove('hidden');
-        document.getElementById('viewBtnKiosk').className = 'px-4 py-1.5 rounded-lg text-sm font-bold text-brand-300 bg-brand-950 border border-brand-500/40 transition-all flex items-center gap-2';
-        renderKioskCards();
-      } else if (mode === 'academy') {
-        document.getElementById('academyView').classList.remove('hidden');
-        document.getElementById('viewBtnAcademy').className = 'px-4 py-1.5 rounded-lg text-sm font-bold text-amberGold-400 bg-amberGold-950 border border-amberGold-500/40 transition-all flex items-center gap-2';
-      }
-    }
-
-    function openHeightModal() {
-      document.getElementById('heightModal').classList.remove('hidden');
-    }
-    function closeHeightModal() {
-      document.getElementById('heightModal').classList.add('hidden');
-    }
-
-    function setSeatPreset(mm) {
-      customSeatHeight = mm;
-      document.getElementById('seatHeightInput').value = mm;
-      updateCustomHeights();
-    }
-
-    function setShelfPreset(mm) {
-      customShelfHeight = mm;
-      document.getElementById('shelfHeightInput').value = mm;
-      updateCustomHeights();
-    }
-
-    function updateCustomHeights() {
-      customSeatHeight = parseInt(document.getElementById('seatHeightInput').value) || 670;
-      customShelfHeight = parseInt(document.getElementById('shelfHeightInput').value) || 370;
-
-      document.getElementById('headerSetupBadge').innerText = `${customSeatHeight}mm Seat · ${customShelfHeight}mm Rail · Fixed-Fulcrum Biomechanics`;
-      document.getElementById('inspectBadge').innerText = `Chair (${customSeatHeight}mm) & Rail (${customShelfHeight}mm)`;
-      updatePrintSheet();
-    }
-
-    function adjustCenterReps(delta) {
-      centerReps = Math.max(0, Math.min(100, centerReps + delta));
-      document.getElementById('centerRepsDisplay').innerText = centerReps;
-    }
-
-    function adjustCenterSets(delta) {
-      centerSets = Math.max(1, Math.min(10, centerSets + delta));
-      document.getElementById('centerSetsDisplay').innerText = centerSets;
-    }
-
-    /* IN-PLACE PRACTICE */
-    function togglePlayThisMoveInPlace() {
-      if (isInPlaceRunning) {
-        stopInPlacePractice();
-      } else {
-        startInPlacePractice();
-      }
-    }
-
-    function startInPlacePractice() {
-      if (!currentlyInspected) return;
-      const targetReps = centerReps > 0 ? centerReps : currentlyInspected.defaultReps;
-      centerReps = targetReps;
-      document.getElementById('centerRepsDisplay').innerText = centerReps;
-
-      initWebAudio();
-      isInPlaceRunning = true;
-      inPlaceSet = 1;
-      inPlaceRep = 1;
-      inPlacePhase = 'sink';
-      inPlaceSecondsLeft = currentlyInspected.defaultSinkSec;
-
-      const btn = document.getElementById('centerPlayBtn');
-      btn.className = 'px-5 py-2 rounded-xl mac-stop-btn text-white font-black text-xs shadow-lg transition-all flex items-center gap-1.5';
-      document.getElementById('centerPlayBtnIcon').innerText = '⏹';
-      document.getElementById('centerPlayBtnText').innerText = 'STOP MOVE';
-
-      document.getElementById('panelQueueView').classList.add('hidden');
-      document.getElementById('panelLiveHUDView').classList.remove('hidden');
-
-      document.getElementById('hudMoveTitle').innerText = currentlyInspected.name;
-      document.getElementById('hudActiveTime').innerText = `${currentlyInspected.defaultSinkSec}s / ${currentlyInspected.defaultPeakSec}s Cadence`;
-      updateInPlaceDisplay();
-      playTone(330, 0.8);
-
-      clearInterval(inPlaceTimer);
-      inPlaceTimer = setInterval(() => {
-        inPlaceSecondsLeft--;
-
-        if (inPlaceSecondsLeft <= 0) {
-          if (inPlacePhase === 'sink') {
-            inPlacePhase = 'peak';
-            inPlaceSecondsLeft = currentlyInspected.defaultPeakSec;
-            playTone(660, 0.6);
-          } else {
-            inPlaceRep++;
-            if (inPlaceRep > centerReps) {
-              inPlaceSet++;
-              if (inPlaceSet > centerSets) {
-                playTone(528, 1.5);
-                alert('Practice set complete! Well done.');
-                stopInPlacePractice();
-                return;
-              }
-              inPlaceRep = 1;
-            }
-            inPlacePhase = 'sink';
-            inPlaceSecondsLeft = currentlyInspected.defaultSinkSec;
-            playTone(330, 0.8);
-          }
-        }
-        updateInPlaceDisplay();
-      }, 1000);
-    }
-
-    function updateInPlaceDisplay() {
-      document.getElementById('hudSecondsCountdown').innerText = inPlaceSecondsLeft;
-      document.getElementById('hudRepCount').innerText = `${inPlaceRep} / ${centerReps}`;
-      document.getElementById('hudSetCount').innerText = `${inPlaceSet} / ${centerSets}`;
-
-      const cardA = document.getElementById('cardPhaseA');
-      const cardB = document.getElementById('cardPhaseB');
-
-      if (inPlacePhase === 'sink') {
-        document.getElementById('hudPhaseLabel').innerText = currentlyInspected.id.includes('grad') ? 'REST ON SHELF' : 'HEEL SINK DEEP';
-        document.getElementById('hudPhaseLabel').className = 'text-xs font-black tracking-widest uppercase text-sky-400 block mb-1';
-        document.getElementById('hudMicroCue').innerText = currentlyInspected.microSink;
-
-        // Card A Glows Cyan, Card B Dims
-        cardA.className = 'flex-1 mac-glass-card rounded-2xl border p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/90 card-active-sink';
-        cardB.className = 'flex-1 mac-glass-card rounded-2xl border border-slate-800 p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/40 opacity-60';
-      } else {
-        document.getElementById('hudPhaseLabel').innerText = currentlyInspected.id.includes('grad') ? 'FLOAT 1–2" HOLD' : 'BALLERINA PRESS';
-        document.getElementById('hudPhaseLabel').className = 'text-xs font-black tracking-widest uppercase text-amberGold-400 block mb-1';
-        document.getElementById('hudMicroCue').innerText = currentlyInspected.microPeak;
-
-        // Card B Glows Amber Gold, Card A Dims
-        cardB.className = 'flex-1 mac-glass-card rounded-2xl border p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/90 card-active-peak';
-        cardA.className = 'flex-1 mac-glass-card rounded-2xl border border-slate-800 p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/40 opacity-60';
-      }
-    }
-
-    function stopInPlacePractice() {
-      clearInterval(inPlaceTimer);
-      inPlaceTimer = null;
-      isInPlaceRunning = false;
-
-      const btn = document.getElementById('centerPlayBtn');
-      btn.className = 'px-5 py-2 rounded-xl mac-gloss-btn text-white font-black text-xs shadow-lg transition-all flex items-center gap-1.5';
-      document.getElementById('centerPlayBtnIcon').innerText = '▶';
-      document.getElementById('centerPlayBtnText').innerText = 'PLAY THIS MOVE';
-
-      document.getElementById('cardPhaseA').className = 'flex-1 mac-glass-card rounded-2xl border border-slate-700/80 p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/70';
-      document.getElementById('cardPhaseB').className = 'flex-1 mac-glass-card rounded-2xl border border-slate-700/80 p-4 flex flex-col justify-between transition-all duration-300 bg-slate-950/70';
-
-      document.getElementById('panelLiveHUDView').classList.add('hidden');
-      document.getElementById('panelQueueView').classList.remove('hidden');
-    }
-
-    function startGuidedFlowSession() {
-      if (userRoutineQueue.length === 0) return alert('Please add at least one exercise to your routine.');
-      if (isInPlaceRunning) stopInPlacePractice();
-      initWebAudio();
-      activeFlowQueue = [...userRoutineQueue];
-      isFlowRunning = true;
-      isFlowPaused = false;
-      flowQueueIndex = 0;
-      document.getElementById('activePacerView').classList.remove('hidden');
-      loadActiveFlowStep(0);
-    }
-
-    function loadActiveFlowStep(stepIdx) {
-      if (stepIdx >= activeFlowQueue.length) {
-        playTone(528, 1.5);
-        alert('Routine Complete! Venous circulation elevated.');
-        exitGuidedFlow();
-        return;
-      }
-
-      flowQueueIndex = stepIdx;
-      const current = activeFlowQueue[stepIdx];
-      currentSetNumber = 1;
-      currentRepNumber = 1;
-      currentPhase = 'sink';
-      phaseSecondsRemaining = current.sinkSec;
-
-      document.getElementById('activeMoveTitle').innerText = current.name;
-      document.getElementById('activeStepIndex').innerText = `${stepIdx + 1} of ${activeFlowQueue.length}`;
-      
-      playTone(330, 0.8);
-      updateLivePacerDisplay();
-
-      clearInterval(flowInterval);
-      flowInterval = setInterval(() => {
-        if (isFlowPaused) return;
-        phaseSecondsRemaining--;
-
-        if (phaseSecondsRemaining <= 0) {
-          if (currentPhase === 'sink') {
-            currentPhase = 'peak';
-            phaseSecondsRemaining = current.peakSec;
-            playTone(660, 0.6);
-          } else {
-            currentRepNumber++;
-            if (currentRepNumber > current.reps) {
-              currentSetNumber++;
-              if (currentSetNumber > current.sets) {
-                flowQueueIndex++;
-                loadActiveFlowStep(flowQueueIndex);
-                return;
-              }
-              currentRepNumber = 1;
-            }
-            currentPhase = 'sink';
-            phaseSecondsRemaining = current.sinkSec;
-            playTone(330, 0.8);
-          }
-        }
-        updateLivePacerDisplay();
-      }, 1000);
-    }
-
-    function updateLivePacerDisplay() {
-      const cur = activeFlowQueue[flowQueueIndex];
-      document.getElementById('activeSetBadge').innerText = `${currentSetNumber} / ${cur.sets}`;
-      document.getElementById('activeRepBadge').innerText = `${currentRepNumber} / ${cur.reps}`;
-      document.getElementById('livePhaseCountdown').innerText = phaseSecondsRemaining;
-
-      if (currentPhase === 'sink') {
-        document.getElementById('livePhaseLabel').innerText = cur.id.includes('grad') ? 'REST ON SHELF' : 'HEEL SINK DEEP';
-        document.getElementById('liveMicroCue').innerText = cur.microSink;
-      } else {
-        document.getElementById('livePhaseLabel').innerText = cur.id.includes('grad') ? 'FLOAT 1–2" HOLD' : 'BALLERINA PRESS';
-        document.getElementById('liveMicroCue').innerText = cur.microPeak;
-      }
-
-      if (currentRepNumber >= 15) {
-        document.getElementById('liveWisdomText').innerText = '"Ancient Daoyin says: A tree dies from its roots, a man ages from his feet."';
-      } else if (currentRepNumber >= 8) {
-        document.getElementById('liveWisdomText').innerText = '"Feel that gentle warmth? Nitric oxide is opening stiff vessels to clear ulcers."';
-      } else {
-        document.getElementById('liveWisdomText').innerText = '"The Soleus is your second heart: pumping up to 60ml of blood upward every minute."';
-      }
-
-      const totalReps = cur.reps * cur.sets;
-      const done = ((currentSetNumber - 1) * cur.reps) + (currentRepNumber - 1);
-      document.getElementById('liveStepProgressBar').style.width = `${Math.max(5, (done / totalReps) * 100)}%`;
-    }
-
-    function togglePacerPause() {
-      isFlowPaused = !isFlowPaused;
-      document.getElementById('btnPacerPause').innerText = isFlowPaused ? '▶ Resume' : '⏸ Pause';
-    }
-
-    function skipToNextStep() {
-      flowQueueIndex++;
-      loadActiveFlowStep(flowQueueIndex);
-    }
-
-    function skipToPreviousStep() {
-      if (flowQueueIndex > 0) {
-        flowQueueIndex--;
-        loadActiveFlowStep(flowQueueIndex);
-      }
-    }
-
-    function exitGuidedFlow() {
-      clearInterval(flowInterval);
-      flowInterval = null;
-      isFlowRunning = false;
-      isFlowPaused = false;
-      document.getElementById('activePacerView').classList.add('hidden');
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (isInPlaceRunning) stopInPlacePractice();
-        if (isFlowRunning) exitGuidedFlow();
-      }
-    });
-
-    function renderKioskCards() {
-      const container = document.getElementById('kioskTileGrid');
-      container.innerHTML = '';
-      const list = activeKioskGate === 'all' 
-        ? MASTER_TEMPLATES 
-        : MASTER_TEMPLATES.filter(t => t.gate === activeKioskGate);
-
-      list.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'mac-glass-card rounded-3xl p-5 flex flex-col justify-between cursor-pointer';
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs uppercase font-extrabold px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40">
-                ${item.gateName}
-              </span>
-              <button onclick="event.stopPropagation(); openWisdomModalForId('${item.id}')" class="text-xs text-amberGold-400 hover:text-amberGold-300 flex items-center gap-1 font-bold">
-                <span>💡 Why it works</span>
-              </button>
-            </div>
-
-            <h3 class="text-lg font-extrabold text-white mb-2 leading-snug">${item.name}</h3>
-            <p class="text-sm text-slate-200 leading-relaxed font-medium mb-4">${item.cue}</p>
+      <div class="mt-4 space-y-3.5 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Bus Interface / Driver</span>
+            <p id="modal-interface" class="font-mono text-slate-200 mt-1 text-xs">I2C / SPI</p>
           </div>
-
-          <div class="pt-3.5 border-t border-slate-700/60 flex items-center justify-between gap-3">
-            <span class="text-sm font-mono font-extrabold text-brand-300">${item.defaultReps} Reps · ${item.defaultSets} Set</span>
-            <button onclick="event.stopPropagation(); addTemplateWithDefaults('${item.id}')" class="px-5 py-2.5 rounded-xl mac-gloss-btn text-white font-extrabold text-xs shadow-lg transition-all">
-              + Add to Routine
-            </button>
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Power Supply Requirements</span>
+            <p id="modal-power" class="text-slate-200 mt-1 text-xs">5V 3A Rail</p>
           </div>
-        `;
-        container.appendChild(card);
-      });
-    }
+        </div>
 
-    function filterKioskGate(gate) {
-      activeKioskGate = gate;
-      document.querySelectorAll('.kiosk-gate-btn').forEach(btn => {
-        btn.className = 'kiosk-gate-btn px-4 py-1.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800 font-bold';
-      });
-      event.target.className = 'kiosk-gate-btn px-4 py-1.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 font-bold';
-      renderKioskCards();
-    }
-
-    function openWisdomModalForInspected() {
-      if (currentlyInspected) openWisdomModalForId(currentlyInspected.id);
-    }
-
-    function openWisdomModalForId(id) {
-      const item = MASTER_TEMPLATES.find(t => t.id === id);
-      if (!item) return;
-      document.getElementById('wisdomModalTitle').innerText = item.name;
-      document.getElementById('wisdomModalScience').innerText = item.science;
-      document.getElementById('wisdomModalAncient').innerText = item.ancient;
-      document.getElementById('wisdomModal').classList.remove('hidden');
-    }
-
-    function closeWisdomModal() {
-      document.getElementById('wisdomModal').classList.add('hidden');
-    }
-
-    const STORAGE_KEY = 'chair_taichi_routines_v1';
-    function getSavedCustomRoutines() {
-      try {
-        const data = localStorage.getItem(STORAGE_KEY);
-        return data ? JSON.parse(data) : {};
-      } catch (e) { return {}; }
-    }
-    function saveCustomRoutinesToStorage(r) { localStorage.setItem(STORAGE_KEY, JSON.stringify(r)); }
-
-    function populateRoutineSelector() {
-      const select = document.getElementById('routineSelect');
-      select.innerHTML = '';
-
-      const pGroup = document.createElement('optgroup');
-      pGroup.label = 'Default Presets';
-      Object.keys(SYSTEM_PRESETS).forEach(key => {
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.innerText = SYSTEM_PRESETS[key].name;
-        pGroup.appendChild(opt);
-      });
-      select.appendChild(pGroup);
-
-      const customR = getSavedCustomRoutines();
-      const keys = Object.keys(customR);
-      if (keys.length > 0) {
-        const cGroup = document.createElement('optgroup');
-        cGroup.label = 'Saved Routines';
-        keys.forEach(k => {
-          const opt = document.createElement('option');
-          opt.value = 'custom_' + k;
-          opt.innerText = `⭐ ${customR[k].name}`;
-          cGroup.appendChild(opt);
-        });
-        select.appendChild(cGroup);
-      }
-
-      select.value = currentRoutineKey;
-      document.getElementById('btnDeleteRoutine').style.display = currentRoutineKey.startsWith('custom_') ? 'inline-block' : 'none';
-    }
-
-    function handleRoutineSelectChange() {
-      loadRoutineByKey(document.getElementById('routineSelect').value);
-    }
-
-    function loadRoutineByKey(key) {
-      currentRoutineKey = key;
-      userRoutineQueue = [];
-      if (key.startsWith('custom_')) {
-        const saved = getSavedCustomRoutines()[key.replace('custom_', '')];
-        if (saved && saved.items) {
-          userRoutineQueue = buildQueueFromDefinitions(saved.items);
-          if (saved.seatHeight) setSeatPreset(saved.seatHeight);
-          if (saved.shelfHeight) setShelfPreset(saved.shelfHeight);
-        }
-      } else if (SYSTEM_PRESETS[key]) {
-        userRoutineQueue = buildQueueFromDefinitions(SYSTEM_PRESETS[key].items);
-      }
-      populateRoutineSelector();
-      renderRoutineQueue();
-      if (userRoutineQueue.length > 0) inspectTemplate(userRoutineQueue[0].templateId);
-    }
-
-    function buildQueueFromDefinitions(items) {
-      return items.map(def => {
-        const tpl = MASTER_TEMPLATES.find(t => t.id === def.templateId) || MASTER_TEMPLATES[0];
-        return {
-          instanceId: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-          templateId: tpl.id,
-          name: tpl.name,
-          reps: def.reps !== undefined ? def.reps : tpl.defaultReps,
-          sets: def.sets !== undefined ? def.sets : tpl.defaultSets,
-          sinkSec: def.sinkSec !== undefined ? def.sinkSec : tpl.defaultSinkSec,
-          peakSec: def.peakSec !== undefined ? def.peakSec : tpl.defaultPeakSec,
-          restBetweenSets: def.restBetweenSets !== undefined ? def.restBetweenSets : tpl.defaultRestBetweenSets,
-          cue: tpl.cue,
-          microSink: tpl.microSink,
-          microPeak: tpl.microPeak,
-          target: tpl.target,
-          badge: tpl.badge
-        };
-      });
-    }
-
-    function openSaveRoutineModal() {
-      document.getElementById('saveRoutineNameInput').value = '';
-      document.getElementById('saveRoutineModal').classList.remove('hidden');
-    }
-    function closeSaveModal() { document.getElementById('saveRoutineModal').classList.add('hidden'); }
-
-    function confirmSaveRoutine() {
-      const name = document.getElementById('saveRoutineNameInput').value.trim();
-      if (!name) return alert('Please enter a routine name.');
-      const r = getSavedCustomRoutines();
-      const k = 'rt_' + Date.now();
-      r[k] = { 
-        name: name, 
-        items: userRoutineQueue,
-        seatHeight: customSeatHeight,
-        shelfHeight: customShelfHeight
-      };
-      saveCustomRoutinesToStorage(r);
-      closeSaveModal();
-      currentRoutineKey = 'custom_' + k;
-      populateRoutineSelector();
-    }
-
-    function deleteCurrentRoutine() {
-      if (!confirm('Delete this custom routine?')) return;
-      const r = getSavedCustomRoutines();
-      delete r[currentRoutineKey.replace('custom_', '')];
-      saveCustomRoutinesToStorage(r);
-      loadRoutineByKey('preset_venous_20');
-    }
-
-    function renderLibraryTemplates() {
-      const container = document.getElementById('exerciseLibraryList');
-      container.innerHTML = '';
-      MASTER_TEMPLATES.forEach(tpl => {
-        const isSelected = currentlyInspected.id === tpl.id;
-        const card = document.createElement('div');
-        card.className = `p-3 rounded-xl border cursor-pointer transition-all ${
-          isSelected 
-            ? 'bg-brand-950/80 border-brand-500 shadow-md ring-2 ring-brand-500/40' 
-            : 'bg-slate-900 border-slate-800 hover:border-slate-700 hover:bg-slate-850'
-        }`;
-        card.innerHTML = `
-          <div class="flex items-start justify-between gap-1 mb-1">
-            <span class="text-xs font-bold px-2 py-0.5 rounded bg-brand-950 text-brand-300 border border-brand-800/60">${tpl.badge}</span>
-            <span class="text-xs text-slate-400 font-mono font-bold">${tpl.defaultReps}R · ${tpl.defaultSets}S</span>
-          </div>
-          <div class="text-sm font-bold text-slate-100 line-clamp-1">${tpl.name}</div>
-          <div class="mt-2.5 flex items-center justify-between pt-1.5 border-t border-slate-800">
-            <span class="text-xs text-brand-400 font-bold">Select ➔</span>
-            <button onclick="event.stopPropagation(); addTemplateWithDefaults('${tpl.id}')" class="text-xs px-3 py-1 rounded-md mac-gloss-btn text-white font-bold">+ Add</button>
-          </div>
-        `;
-        card.onclick = () => inspectTemplate(tpl.id);
-        container.appendChild(card);
-      });
-      document.getElementById('libBadgeCount').innerText = `${MASTER_TEMPLATES.length} exercises`;
-    }
-
-    function inspectTemplate(tplId) {
-      if (isInPlaceRunning) stopInPlacePractice();
-      const found = MASTER_TEMPLATES.find(t => t.id === tplId);
-      if (!found) return;
-      currentlyInspected = found;
-      centerReps = found.defaultReps;
-      centerSets = found.defaultSets;
-      document.getElementById('centerRepsDisplay').innerText = centerReps;
-      document.getElementById('centerSetsDisplay').innerText = centerSets;
-
-      document.getElementById('inspectBadge').innerText = `Chair (${customSeatHeight}mm) & Rail (${customShelfHeight}mm)`;
-      document.getElementById('inspectModeSub').innerText = 'Two-Phase Kinematics';
-      document.getElementById('inspectTitle').innerText = found.name;
-      document.getElementById('inspectTiming').innerText = `${found.defaultSinkSec}s Sink + ${found.defaultPeakSec}s Press`;
-
-      renderLibraryTemplates();
-    }
-
-    function addInspectedExercise() {
-      if (!currentlyInspected) return;
-      userRoutineQueue.push({
-        instanceId: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-        templateId: currentlyInspected.id,
-        name: currentlyInspected.name,
-        reps: centerReps,
-        sets: centerSets,
-        sinkSec: currentlyInspected.defaultSinkSec,
-        peakSec: currentlyInspected.defaultPeakSec,
-        restBetweenSets: currentlyInspected.defaultRestBetweenSets,
-        cue: currentlyInspected.cue,
-        microSink: currentlyInspected.microSink,
-        microPeak: currentlyInspected.microPeak,
-        target: currentlyInspected.target,
-        badge: currentlyInspected.badge
-      });
-      renderRoutineQueue();
-    }
-
-    function addTemplateWithDefaults(tplId) {
-      const tpl = MASTER_TEMPLATES.find(t => t.id === tplId);
-      if (!tpl) return;
-
-      userRoutineQueue.push({
-        instanceId: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-        templateId: tpl.id,
-        name: tpl.name,
-        reps: tpl.defaultReps,
-        sets: tpl.defaultSets,
-        sinkSec: tpl.defaultSinkSec,
-        peakSec: tpl.defaultPeakSec,
-        restBetweenSets: tpl.defaultRestBetweenSets,
-        cue: tpl.cue,
-        microSink: tpl.microSink,
-        microPeak: tpl.microPeak,
-        target: tpl.target,
-        badge: tpl.badge
-      });
-      renderRoutineQueue();
-    }
-
-    function calculateItemDurationSeconds(item) {
-      return ((item.sinkSec + item.peakSec) * item.reps * item.sets) + ((item.sets - 1) * item.restBetweenSets);
-    }
-
-    function renderRoutineQueue() {
-      const container = document.getElementById('queueItemsList');
-      container.innerHTML = '';
-      document.getElementById('queueItemCount').innerText = `${userRoutineQueue.length} items`;
-
-      let totalSec = userRoutineQueue.reduce((acc, i) => acc + calculateItemDurationSeconds(i), 0);
-      const mins = Math.floor(totalSec / 60);
-      const secs = totalSec % 60;
-      document.getElementById('queueTotalDuration').innerText = `${mins}m ${secs < 10 ? '0' : ''}${secs}s`;
-
-      if (userRoutineQueue.length === 0) {
-        container.innerHTML = `<div class="text-center p-4 text-slate-400 text-xs">Queue is empty. Select a preset or tap '+ Add'.</div>`;
-        updatePrintSheet();
-        return;
-      }
-
-      userRoutineQueue.forEach((item, idx) => {
-        const row = document.createElement('div');
-        row.className = 'p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs hover:border-slate-700 shadow';
-        row.innerHTML = `
-          <div class="truncate mr-2">
-            <span class="font-bold text-sm text-slate-100">${idx + 1}. ${item.name}</span>
-            <div class="text-xs text-brand-300 font-mono font-bold mt-0.5">${item.reps} Reps × ${item.sets} Set (${item.sinkSec}s / ${item.peakSec}s)</div>
-          </div>
-          <button onclick="removeQueueInstance('${item.instanceId}')" class="text-rose-400 hover:text-rose-300 font-black text-base p-1">✕</button>
-        `;
-        container.appendChild(row);
-      });
-
-      updatePrintSheet();
-    }
-
-    function removeQueueInstance(instanceId) {
-      userRoutineQueue = userRoutineQueue.filter(i => i.instanceId !== instanceId);
-      renderRoutineQueue();
-    }
-
-    function clearRoutineQueue() {
-      userRoutineQueue = [];
-      renderRoutineQueue();
-    }
-
-    function updatePrintSheet() {
-      const printContainer = document.getElementById('printQueueContainer');
-      printContainer.innerHTML = '';
-      document.getElementById('printDateStamp').innerText = 'Date: ' + new Date().toLocaleDateString();
-
-      const select = document.getElementById('routineSelect');
-      document.getElementById('printRoutineTitle').innerText = select.options[select.selectedIndex]?.text || 'Active Flow';
-      document.getElementById('printSeatHeight').innerText = `${customSeatHeight}mm`;
-      document.getElementById('printShelfHeight').innerText = `${customShelfHeight}mm`;
-
-      if (userRoutineQueue.length === 0) {
-        printContainer.innerHTML = '<div class="text-xs italic text-slate-500">No exercises added to this routine yet.</div>';
-        return;
-      }
-
-      userRoutineQueue.forEach((item, i) => {
-        const div = document.createElement('div');
-        div.className = 'p-3 border border-slate-300 rounded mb-2 text-xs';
-        div.innerHTML = `
-          <div class="flex justify-between items-center mb-1">
-            <strong class="text-slate-900">${i + 1}. ${item.name}</strong>
-            <span class="bg-slate-200 px-2 py-0.5 rounded font-mono font-bold">${item.reps} Reps × ${item.sets} Set (${item.sinkSec}s Sink / ${item.peakSec}s Press)</span>
-          </div>
-          <div class="text-slate-700"><strong>Prescribed Cue:</strong> ${item.cue}</div>
-          <div class="text-slate-500 mt-0.5"><strong>Target Focus:</strong> ${item.target}</div>
-        `;
-        printContainer.appendChild(div);
-      });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      renderLibraryTemplates();
-      populateRoutineSelector();
-      loadRoutineByKey('preset_venous_20');
-      updateCustomHeights();
-    });
-  </script>
-
-  <!-- PWA Service Worker Registration -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch((err) => console.log('SW registration failed:', err));
-      });
-    }
-  </script>
-</body>
-</html>
+        <div class="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800">
+          <span class="text-[10px] uppercase tracking-wider text-indigo-400 font-bold">Pinout & Wiring Connections</span>
+          <p id="modal-wiring" class="font-mono text-slate-200 text-xs mt-1 leading-relaxed">SDA -> GPIO
