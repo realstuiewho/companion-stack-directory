@@ -19,6 +19,14 @@
         </div>
 
         <div class="flex items-center space-x-3">
+          <!-- Beginner Guide Button in Header -->
+          <button 
+            onclick="openBeginnerGuideModal()" 
+            class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-950/70 border border-indigo-800/60 hover:bg-indigo-900 text-indigo-300 hover:text-white transition shadow"
+          >
+            <span>📖 Beginner Guide</span>
+          </button>
+
           <a href="#vram-calc" class="hidden sm:inline-block text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
             🧮 Check My Computer Memory
           </a>
@@ -334,6 +342,98 @@
     <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
   </div>
 
+  <!-- BEGINNER'S GUIDE MODAL -->
+  <div 
+    id="beginner-guide-modal" 
+    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
+    onclick="closeBeginnerGuideModal()"
+  >
+    <div 
+      class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto" 
+      onclick="event.stopPropagation()"
+    >
+      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
+        <div>
+          <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/40">
+            Starter Roadmap
+          </span>
+          <h3 class="text-xl font-extrabold text-white mt-1">🤖 How to Build Your First Desk Companion</h3>
+          <p class="text-xs text-slate-400 mt-0.5">A complete beginner’s guide to bringing an AI brain into the physical world.</p>
+        </div>
+        <button 
+          onclick="closeBeginnerGuideModal()" 
+          class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="mt-5 space-y-4 text-xs text-slate-300 leading-relaxed">
+        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🧠</span>
+            <h4 class="font-bold text-white text-xs">Step 1: Give It a Brain (The Software)</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">
+            Download a free program like <strong>Ollama</strong> or <strong>LM Studio</strong> to run a private AI model directly on your Mac, Windows PC, or Linux machine. Choose a compact <strong>3B model</strong> (like Llama 3.2 3B)—it uses under 4 GB of memory and responds in real-time.
+          </p>
+        </div>
+
+        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📦</span>
+            <h4 class="font-bold text-white text-xs">Step 2: Gather Your Hardware Parts (Senses & Motors)</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">
+            You only need a few inexpensive hobby parts (around $40–$50 total):
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-slate-400 text-[11px] pl-1">
+            <li><strong class="text-slate-300">ESP32-S3 Board (~$7):</strong> The microcontroller that links sensors to your PC via a USB cable.</li>
+            <li><strong class="text-slate-300">INMP441 Microphone (~$3):</strong> Digital ear that listens for your voice without static.</li>
+            <li><strong class="text-slate-300">MAX98357A Amp & Speaker (~$4):</strong> Small speaker module that speaks answers out loud.</li>
+            <li><strong class="text-slate-300">Round 1.28" LCD (~$15):</strong> Circular color screen for animated blinking eyes.</li>
+            <li><strong class="text-slate-300">MG90S Servos (~$4 ea):</strong> Metal gear micro motors that tilt and nod the robot’s head.</li>
+          </ul>
+        </div>
+
+        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🔌</span>
+            <h4 class="font-bold text-white text-xs">Step 3: Wire Everything on the Workbench</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">
+            No soldering iron required. Use female-to-female jumper wires to connect the boards to the ESP32 pins following the wiring specs on the site cards. Plug the ESP32 into your computer using a standard USB-C cable.
+          </p>
+        </div>
+
+        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
+          <div class="flex items-center gap-2">
+            <span class="text-base">⚡</span>
+            <h4 class="font-bold text-white text-xs">Step 4: The Interaction Loop</h4>
+          </div>
+          <p class="text-slate-400 text-[11px]">
+            When you say "Hey companion", the offline ear transcribes your voice to text. The computer's AI brain drafts an answer. If the answer contains motion tags like <code class="text-indigo-300">[NOD]</code>, a small signal travels down the USB wire to move the neck servos while the voice streams through the speaker.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+        <button 
+          onclick="loadPresetStack('budget', null); closeBeginnerGuideModal();" 
+          class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition"
+        >
+          ⚡ Load $50 Budget Recipe Now
+        </button>
+        <button 
+          onclick="closeBeginnerGuideModal()" 
+          class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow"
+        >
+          Close Guide
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- HOW IT WORKS MODAL -->
   <div id="pipeline-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closePipelineExplainerModal()">
     <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
@@ -531,6 +631,14 @@
         return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(item.aliSearchQuery)}`;
       }
       return item.url;
+    }
+
+    function openBeginnerGuideModal() {
+      document.getElementById('beginner-guide-modal').classList.remove('hidden');
+    }
+
+    function closeBeginnerGuideModal() {
+      document.getElementById('beginner-guide-modal').classList.add('hidden');
     }
 
     function openExplainHelpModal(type) {
@@ -1020,6 +1128,7 @@
         closePipelineExplainerModal();
         closeSnippetModal();
         closeExplainHelpModal();
+        closeBeginnerGuideModal();
       }
     });
 
@@ -1343,12 +1452,11 @@
     }
 
     // --- FETCH DATA FROM TOOLS.JSON & INITIALIZE ---
-    fetch('tools.json')
+    fetch('./tools.json')
       .then(res => res.json())
       .then(data => {
         tools = data;
 
-        // Load saved build from localStorage
         try {
           const savedBuild = localStorage.getItem('deskbot_user_build');
           if (savedBuild) {
