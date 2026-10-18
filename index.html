@@ -18,16 +18,26 @@
           <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
         </div>
 
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <!-- Permanent File & Setup Explainer Guide in Header -->
+          <button 
+            onclick="openWhatsNextModal()" 
+            class="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition shadow"
+            title="Learn how software blueprints and setup files work"
+          >
+            <span>📦 Setup & Files Guide</span>
+          </button>
+
+          <!-- Beginner Roadmap Guide in Header -->
           <button 
             onclick="openBeginnerGuideModal()" 
             class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-950/70 border border-indigo-800/60 hover:bg-indigo-900 text-indigo-300 hover:text-white transition shadow"
           >
-            <span>📖 Beginner Guide</span>
+            <span>📖 Beginner Roadmap</span>
           </button>
 
           <a href="#vram-calc" class="hidden sm:inline-block text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
-            🧮 Check My Computer Memory
+            🧮 Memory Checker
           </a>
 
           <!-- Header Stack Tray Button -->
@@ -80,7 +90,7 @@
                   </button>
                 </div>
                 
-                <!-- 1-Click Computer Setup Downloader with Pop-up Help -->
+                <!-- 1-Click Computer Setup Downloader with Pop-up Help Button -->
                 <div class="space-y-1">
                   <div class="flex items-center gap-1.5">
                     <button 
@@ -92,17 +102,20 @@
                       <span class="text-[10px]">📥</span>
                     </button>
                     <button 
-                      onclick="openExplainHelpModal('setup-file')" 
-                      title="What does this do?"
-                      class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold border border-slate-700 transition flex-shrink-0"
+                      onclick="openWhatsNextModal()" 
+                      title="Read the guide explaining these files"
+                      class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white flex items-center justify-center text-xs font-bold border border-slate-700 transition flex-shrink-0"
                     >
                       ❓
                     </button>
                   </div>
-                  <p class="text-[10px] text-slate-400 text-center">Gives you one simple file to start all selected programs together.</p>
+                  <div class="flex justify-between items-center text-[10px] text-slate-400 px-1">
+                    <span>Packages all selected brains together.</span>
+                    <button onclick="openWhatsNextModal()" class="text-indigo-400 hover:underline">How to use them &rarr;</button>
+                  </div>
                 </div>
 
-                <!-- Workbench Checklist Button with Pop-up Help -->
+                <!-- Workbench Checklist Button -->
                 <div class="space-y-1">
                   <div class="flex items-center gap-1.5">
                     <button 
@@ -341,7 +354,7 @@
     <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
   </div>
 
-  <!-- WHAT'S NEXT & LEARNING POP-UP (LARGER TEXT + EXPANDABLE EXPLAINERS) -->
+  <!-- WHAT'S NEXT & LEARNING POP-UP -->
   <div 
     id="whats-next-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -355,7 +368,7 @@
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
           <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded border border-emerald-800/50">
-            Files Downloaded Successfully!
+            Workbench Software Guide
           </span>
           <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1.5">📦 What Did You Just Download?</h3>
           <p class="text-sm text-slate-400 mt-0.5">Everything you need to know about the files on your desktop.</p>
@@ -395,13 +408,12 @@
         </div>
       </div>
 
-      <!-- Interactive Learn-The-Files Section (Expandable accordions) -->
+      <!-- Interactive Learn-The-Files Section -->
       <div class="mt-5 space-y-3">
         <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
           🔍 Click To Learn What These Programs Actually Are:
         </h4>
 
-        <!-- Accordion 1: Docker Desktop -->
         <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
           <summary class="font-bold text-sm text-indigo-300 cursor-pointer flex justify-between items-center select-none">
             <span>🐳 What is "Docker Desktop" and why do I need it?</span>
@@ -409,7 +421,7 @@
           </summary>
           <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
             <p>
-              Think of <strong>Docker</strong> like digital shipping containers. 
+              Think of <strong>Docker</strong> like digital shipping containers.
             </p>
             <p class="text-slate-400">
               Normally, installing artificial intelligence models requires installing dozens of confusing background tools, code libraries, and Python versions that can mess up your regular PC files.
@@ -420,7 +432,6 @@
           </div>
         </details>
 
-        <!-- Accordion 2: docker-compose.yml -->
         <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
           <summary class="font-bold text-sm text-emerald-300 cursor-pointer flex justify-between items-center select-none">
             <span>📄 What is "docker-compose.yml"? (The Blueprint)</span>
@@ -428,7 +439,7 @@
           </summary>
           <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
             <p>
-              This is a plain-text <strong>instruction recipe</strong> for your computer. 
+              This is a plain-text <strong>instruction recipe</strong> for your computer.
             </p>
             <p class="text-slate-400">
               When Docker reads this file, it sees: <em>"Fetch the brain tool, open port 8283 for memory, give it a private storage folder, and hook up the voice engine."</em>
@@ -439,7 +450,6 @@
           </div>
         </details>
 
-        <!-- Accordion 3: env.example -->
         <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
           <summary class="font-bold text-sm text-amber-300 cursor-pointer flex justify-between items-center select-none">
             <span>🔑 What is "env.example"? (The Secret Key Safe)</span>
@@ -450,7 +460,7 @@
               "ENV" stands for <strong>Environment</strong>. It’s where you safely store private account keys or passwords.
             </p>
             <p class="text-slate-400">
-              If you ever use cloud services like ElevenLabs (for realistic voices) or RunPod (for rented cloud graphics cards), you paste your secret keys into this file. 
+              If you ever use cloud services like ElevenLabs (for realistic voices) or RunPod (for rented cloud graphics cards), you paste your secret keys into this file.
             </p>
             <p class="text-slate-400">
               The blueprint reads your keys from here quietly so you never have to paste private passwords into your main software code!
@@ -626,7 +636,7 @@
     </div>
   </div>
 
-  <!-- POP-UP EXPLAINER MODAL (FOR QUESTION MARK BUTTONS) -->
+  <!-- POP-UP EXPLAINER MODAL -->
   <div id="explain-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeExplainHelpModal()">
     <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
@@ -1016,7 +1026,7 @@
         triggerDownload('.env.example', envContent, 'text/plain');
       }, 350);
 
-      // Open the new informative "What's Next?" pop-up modal
+      // Open the informative "What's Next?" pop-up
       setTimeout(() => {
         openWhatsNextModal();
       }, 600);
