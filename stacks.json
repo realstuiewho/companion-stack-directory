@@ -1,156 +1,141 @@
 [
   {
     "id": "conversationalist",
-    "name": "The Conversationalist",
-    "tagline": "Ultra-low latency voice-to-voice turn-taking with lifelike human inflection.",
-    "tier": "Cloud",
+    "name": "The Realtime Conversationalist",
     "badge": "Featured Blueprint",
+    "tagline": "Ultra-low latency conversational voice with expressive cadence and natural interruptions.",
     "monthlyEst": "~$15 - $30 / mo",
     "hardwareEst": "~$15 - $25 AUD",
-    "description": "Optimized for natural conversation cadence and minimal delay. Connects a compact desk audio node directly to high-speed cloud speech and language pipelines.",
-    "toolIds": [
-      "elevenlabs",
-      "groq",
-      "deepgram",
-      "esp32-s3"
-    ],
+    "toolIds": ["elevenlabs", "runpod", "faster-whisper", "esp32s3", "inmp441", "max98357a"],
     "manifest": {
-      "brain": "Groq Cloud (Llama 3.3 70B @ 300+ tokens/sec)",
+      "brain": "Groq / RunPod Cloud Inference",
       "voice": "ElevenLabs Streaming Conversational API",
-      "ears": "Deepgram Nova-2 Realtime WebSockets",
-      "body": "ESP32-S3 + INMP441 Digital Mic + MAX98357A I2S Amp"
+      "ears": "faster-whisper / WebSockets",
+      "body": "ESP32-S3 Audio Node"
     },
-    "hardwareKit": [
+    "hardware": [
       {
-        "name": "ESP32-S3 Dual Type-C Board (N16R8)",
-        "role": "Wi-Fi controller & audio streamer",
-        "searchQuery": "ESP32-S3 N16R8 dual type-c development board"
+        "part": "Controller",
+        "name": "ESP32-S3 Development Board (N16R8)",
+        "role": "Streams audio and connects to Wi-Fi",
+        "searchQuery": "ESP32-S3 Dev Board N16R8 Octal PSRAM"
       },
       {
-        "name": "INMP441 Omnidirectional Digital Mic",
-        "role": "Low-noise digital I2S voice input",
-        "searchQuery": "INMP441 I2S digital microphone module"
+        "part": "Ears",
+        "name": "INMP441 I2S Digital Microphone",
+        "role": "Hiss-free digital voice capture",
+        "searchQuery": "INMP441 I2S Omnidirectional Microphone Module"
       },
       {
-        "name": "MAX98357A 3W Class D Audio Amplifier",
-        "role": "Direct speaker output driver",
-        "searchQuery": "MAX98357A I2S 3W amplifier module"
+        "part": "Voice",
+        "name": "MAX98357A I2S 3W Amplifier",
+        "role": "Converts digital audio to clear speaker output",
+        "searchQuery": "MAX98357 I2S 3W Class D Amplifier"
       }
     ]
   },
   {
     "id": "sovereign",
-    "name": "The Sovereign",
-    "tagline": "100% offline, fully private, zero recurring monthly subscriptions.",
-    "tier": "Local",
-    "badge": "Zero Cloud",
+    "name": "The Sovereign Deskbot",
+    "badge": "100% Local & Private",
+    "tagline": "Zero cloud dependencies, zero recurring subscriptions, fully private desk companion.",
     "monthlyEst": "$0 / mo",
     "hardwareEst": "~$450 - $650 AUD",
-    "description": "Runs entirely on your local desk hardware. Whisper and Piper provide fast on-device speech processing with zero internet or cloud dependencies.",
-    "toolIds": [
-      "ollama",
-      "whisper-local",
-      "piper-tts",
-      "home-assistant"
-    ],
+    "toolIds": ["ollama", "faster-whisper", "piper-tts", "letta", "beelink", "usb-speakerphone"],
     "manifest": {
-      "brain": "Ollama (Llama 3.2 3B or Qwen 2.5 7B quantized)",
-      "voice": "Piper TTS (Local neural voice engine)",
-      "ears": "faster-whisper (Int8 local quantization)",
-      "body": "Mini PC (Ryzen 7 / 32GB RAM) + USB Conference Mic"
+      "brain": "Ollama (Llama 3.2 3B / Qwen 2.5 7B)",
+      "voice": "Piper TTS (On-device neural voice)",
+      "ears": "faster-whisper (Int8 quantized)",
+      "body": "Local Mini PC + Desktop Display"
     },
-    "hardwareKit": [
+    "hardware": [
       {
-        "name": "Ryzen 7 Mini PC (32GB RAM / 1TB NVMe)",
-        "role": "Dedicated local compute station",
-        "searchQuery": "Ryzen 7 mini PC 32GB RAM"
+        "part": "Station",
+        "name": "Beelink SER8 Mini PC (32GB RAM)",
+        "role": "Runs local LLM, TTS, and STT models offline",
+        "searchQuery": "Beelink SER8 Ryzen 7 8845HS"
       },
       {
-        "name": "USB Boundary Conference Microphone",
-        "role": "Long-range desk audio capture",
-        "searchQuery": "USB boundary conference microphone 360"
+        "part": "Ears & Voice",
+        "name": "USB Desktop Conference Speakerphone",
+        "role": "360° omnidirectional microphone with hardware echo cancel",
+        "searchQuery": "USB conference microphone 360 omnidirectional speakerphone"
       },
       {
-        "name": "Compact Desktop Powered Speaker",
-        "role": "Local audio playback",
-        "searchQuery": "3.5mm AUX powered mini desktop speaker"
+        "part": "Display",
+        "name": "Waveshare Round Touch LCD",
+        "role": "Expressive desk face and status HUD",
+        "searchQuery": "Waveshare 1.28 inch Round Touch LCD GC9A01"
       }
     ]
   },
   {
     "id": "animatronic",
-    "name": "The Animatronic",
-    "tagline": "Physical motion, emotive head tilts, and mechanical desk presence.",
-    "tier": "Hybrid",
-    "badge": "Robotic Movement",
+    "name": "The Animatronic Companion",
+    "badge": "Physical Movement",
+    "tagline": "Physical head tilts, servo-driven eye tracking, and emotive robotic presence.",
     "monthlyEst": "~$5 - $15 / mo",
     "hardwareEst": "~$45 - $80 AUD",
-    "description": "Combines speech intelligence with physical movement. The deskbot looks around, nods along, and tracks movement with servo-driven joints.",
-    "toolIds": [
-      "elevenlabs",
-      "groq",
-      "esp32-s3",
-      "fastapi"
-    ],
+    "toolIds": ["robot-bridge", "ollama", "piper-tts", "esp32s3", "pca9685", "mg90s", "pan-tilt-kit"],
     "manifest": {
-      "brain": "Groq Cloud + Local Python Orchestration",
-      "voice": "ElevenLabs Low-Latency Voice",
-      "ears": "Whisper Cloud or Web Speech API",
-      "body": "ESP32 Servo Controller + Dual SG90 Servos + 3D Chassis"
+      "brain": "Local Python Servo Controller + Ollama",
+      "voice": "Piper TTS / ElevenLabs",
+      "ears": "INMP441 Microphone",
+      "body": "Dual-Axis Pan/Tilt Gimbal + 3D Chassis"
     },
-    "hardwareKit": [
+    "hardware": [
       {
-        "name": "SG90 9g Micro Servos (Metal Gear)",
-        "role": "Pan & tilt neck/eye articulation",
-        "searchQuery": "MG90S metal gear 9g micro servo"
+        "part": "Motion",
+        "name": "MG90S Metal Gear Micro Servos (4-Pack)",
+        "role": "Drives head tilt, nodding, and eye movement",
+        "searchQuery": "MG90S Metal Gear Micro Servo 4pcs"
       },
       {
-        "name": "PCA9685 16-Channel 12-bit PWM Driver",
-        "role": "Smooth multi-servo motion control",
-        "searchQuery": "PCA9685 I2C 16 channel PWM servo driver"
+        "part": "Gimbal",
+        "name": "Pan-Tilt Micro Gimbal Bracket",
+        "role": "Holds the eye/head assembly on 2 axes",
+        "searchQuery": "mini pan tilt camera mount bracket FPV"
       },
       {
-        "name": "5V 3A DC Buck Converter / Power Supply",
-        "role": "Clean dedicated servo power",
-        "searchQuery": "5V 3A step down buck converter module"
+        "part": "Controller",
+        "name": "PCA9685 16-Channel PWM Servo Driver",
+        "role": "Powers and positions multiple servos smoothly",
+        "searchQuery": "PCA9685 16 Channel 12-bit PWM Servo Driver"
       }
     ]
   },
   {
-    "id": "budget-pioneer",
+    "id": "budget",
     "name": "The Budget Pioneer",
-    "tagline": "The quickest, most affordable path to build a working prototype.",
-    "tier": "Cloud",
     "badge": "Under $30",
+    "tagline": "The quickest, most affordable path to build a working prototype.",
     "monthlyEst": "$0 (Free Tiers)",
-    "hardwareEst": "~$10 - $20 AUD",
-    "description": "Stripped-down architecture designed to get a physical AI companion operational on your desk in an afternoon with the absolute lowest barrier to entry.",
-    "toolIds": [
-      "groq",
-      "esp32-s3",
-      "deepgram"
-    ],
+    "hardwareEst": "~$15 - $25 AUD",
+    "toolIds": ["ollama", "vosk", "piper-tts", "esp32s3", "inmp441", "max98357a", "cavity-speaker", "breadboard-jumper-kit"],
     "manifest": {
-      "brain": "Groq Cloud (Free Tier)",
-      "voice": "Web Speech Synthesis / Free API Tier",
-      "ears": "Deepgram (Free starter credits)",
-      "body": "ESP32 Board + Solderless Breadboard + Mini Speaker"
+      "brain": "Ollama (Llama 3.2 3B Free)",
+      "voice": "Piper Voice Engine (Offline & Free)",
+      "ears": "Vosk / INMP441 Digital Mic",
+      "body": "ESP32-S3 Solderless Breadboard Prototype"
     },
-    "hardwareKit": [
+    "hardware": [
       {
-        "name": "ESP32 Standard Dev Board (38-pin)",
-        "role": "Basic Wi-Fi & I/O controller",
-        "searchQuery": "ESP32 development board CH340 Type-C"
+        "part": "Controller",
+        "name": "ESP32-S3 Microcontroller Board",
+        "role": "Main microcontroller and Wi-Fi link",
+        "searchQuery": "ESP32-S3 Dev Board N16R8 Octal PSRAM"
       },
       {
-        "name": "Solderless 400-Point Breadboard + Jumper Wires",
-        "role": "Quick-connect testing platform",
-        "searchQuery": "400 tie point breadboard jumper wires kit"
+        "part": "Sound",
+        "name": "3W 4-Ohm Cavity Mini Speaker",
+        "role": "Resonance chamber for clear vocal speech",
+        "searchQuery": "3W 4 ohm cavity speaker JST 1.25"
       },
       {
-        "name": "Small 8-Ohm 0.5W Mini Speaker",
-        "role": "Basic spoken voice output",
-        "searchQuery": "8 ohm 0.5W miniature speaker 28mm"
+        "part": "Wiring",
+        "name": "Solderless Breadboard & 65x Jumpers",
+        "role": "Connects modules with zero soldering iron required",
+        "searchQuery": "solderless breadboard 830 tie points jumper wire kit"
       }
     ]
   }
