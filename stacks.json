@@ -1,0 +1,157 @@
+[
+  {
+    "id": "conversationalist",
+    "name": "The Conversationalist",
+    "tagline": "Ultra-low latency voice-to-voice turn-taking with lifelike human inflection.",
+    "tier": "Cloud",
+    "badge": "Featured Blueprint",
+    "monthlyEst": "~$15 - $30 / mo",
+    "hardwareEst": "~$15 - $25 AUD",
+    "description": "Optimized for natural conversation cadence and minimal delay. Connects a compact desk audio node directly to high-speed cloud speech and language pipelines.",
+    "toolIds": [
+      "elevenlabs",
+      "groq",
+      "deepgram",
+      "esp32-s3"
+    ],
+    "manifest": {
+      "brain": "Groq Cloud (Llama 3.3 70B @ 300+ tokens/sec)",
+      "voice": "ElevenLabs Streaming Conversational API",
+      "ears": "Deepgram Nova-2 Realtime WebSockets",
+      "body": "ESP32-S3 + INMP441 Digital Mic + MAX98357A I2S Amp"
+    },
+    "hardwareKit": [
+      {
+        "name": "ESP32-S3 Dual Type-C Board (N16R8)",
+        "role": "Wi-Fi controller & audio streamer",
+        "searchQuery": "ESP32-S3 N16R8 dual type-c development board"
+      },
+      {
+        "name": "INMP441 Omnidirectional Digital Mic",
+        "role": "Low-noise digital I2S voice input",
+        "searchQuery": "INMP441 I2S digital microphone module"
+      },
+      {
+        "name": "MAX98357A 3W Class D Audio Amplifier",
+        "role": "Direct speaker output driver",
+        "searchQuery": "MAX98357A I2S 3W amplifier module"
+      }
+    ]
+  },
+  {
+    "id": "sovereign",
+    "name": "The Sovereign",
+    "tagline": "100% offline, fully private, zero recurring monthly subscriptions.",
+    "tier": "Local",
+    "badge": "Zero Cloud",
+    "monthlyEst": "$0 / mo",
+    "hardwareEst": "~$450 - $650 AUD",
+    "description": "Runs entirely on your local desk hardware. Whisper and Piper provide fast on-device speech processing with zero internet or cloud dependencies.",
+    "toolIds": [
+      "ollama",
+      "whisper-local",
+      "piper-tts",
+      "home-assistant"
+    ],
+    "manifest": {
+      "brain": "Ollama (Llama 3.2 3B or Qwen 2.5 7B quantized)",
+      "voice": "Piper TTS (Local neural voice engine)",
+      "ears": "faster-whisper (Int8 local quantization)",
+      "body": "Mini PC (Ryzen 7 / 32GB RAM) + USB Conference Mic"
+    },
+    "hardwareKit": [
+      {
+        "name": "Ryzen 7 Mini PC (32GB RAM / 1TB NVMe)",
+        "role": "Dedicated local compute station",
+        "searchQuery": "Ryzen 7 mini PC 32GB RAM"
+      },
+      {
+        "name": "USB Boundary Conference Microphone",
+        "role": "Long-range desk audio capture",
+        "searchQuery": "USB boundary conference microphone 360"
+      },
+      {
+        "name": "Compact Desktop Powered Speaker",
+        "role": "Local audio playback",
+        "searchQuery": "3.5mm AUX powered mini desktop speaker"
+      }
+    ]
+  },
+  {
+    "id": "animatronic",
+    "name": "The Animatronic",
+    "tagline": "Physical motion, emotive head tilts, and mechanical desk presence.",
+    "tier": "Hybrid",
+    "badge": "Robotic Movement",
+    "monthlyEst": "~$5 - $15 / mo",
+    "hardwareEst": "~$45 - $80 AUD",
+    "description": "Combines speech intelligence with physical movement. The deskbot looks around, nods along, and tracks movement with servo-driven joints.",
+    "toolIds": [
+      "elevenlabs",
+      "groq",
+      "esp32-s3",
+      "fastapi"
+    ],
+    "manifest": {
+      "brain": "Groq Cloud + Local Python Orchestration",
+      "voice": "ElevenLabs Low-Latency Voice",
+      "ears": "Whisper Cloud or Web Speech API",
+      "body": "ESP32 Servo Controller + Dual SG90 Servos + 3D Chassis"
+    },
+    "hardwareKit": [
+      {
+        "name": "SG90 9g Micro Servos (Metal Gear)",
+        "role": "Pan & tilt neck/eye articulation",
+        "searchQuery": "MG90S metal gear 9g micro servo"
+      },
+      {
+        "name": "PCA9685 16-Channel 12-bit PWM Driver",
+        "role": "Smooth multi-servo motion control",
+        "searchQuery": "PCA9685 I2C 16 channel PWM servo driver"
+      },
+      {
+        "name": "5V 3A DC Buck Converter / Power Supply",
+        "role": "Clean dedicated servo power",
+        "searchQuery": "5V 3A step down buck converter module"
+      }
+    ]
+  },
+  {
+    "id": "budget-pioneer",
+    "name": "The Budget Pioneer",
+    "tagline": "The quickest, most affordable path to build a working prototype.",
+    "tier": "Cloud",
+    "badge": "Under $30",
+    "monthlyEst": "$0 (Free Tiers)",
+    "hardwareEst": "~$10 - $20 AUD",
+    "description": "Stripped-down architecture designed to get a physical AI companion operational on your desk in an afternoon with the absolute lowest barrier to entry.",
+    "toolIds": [
+      "groq",
+      "esp32-s3",
+      "deepgram"
+    ],
+    "manifest": {
+      "brain": "Groq Cloud (Free Tier)",
+      "voice": "Web Speech Synthesis / Free API Tier",
+      "ears": "Deepgram (Free starter credits)",
+      "body": "ESP32 Board + Solderless Breadboard + Mini Speaker"
+    },
+    "hardwareKit": [
+      {
+        "name": "ESP32 Standard Dev Board (38-pin)",
+        "role": "Basic Wi-Fi & I/O controller",
+        "searchQuery": "ESP32 development board CH340 Type-C"
+      },
+      {
+        "name": "Solderless 400-Point Breadboard + Jumper Wires",
+        "role": "Quick-connect testing platform",
+        "searchQuery": "400 tie point breadboard jumper wires kit"
+      },
+      {
+        "name": "Small 8-Ohm 0.5W Mini Speaker",
+        "role": "Basic spoken voice output",
+        "searchQuery": "8 ohm 0.5W miniature speaker 28mm"
+      }
+    ]
+  }
+]
