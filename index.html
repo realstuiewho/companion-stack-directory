@@ -35,7 +35,6 @@
 
         <!-- Header Actions -->
         <div class="flex items-center flex-wrap gap-2 sm:gap-3">
-          <!-- Memory Checker Modal Trigger -->
           <button 
             onclick="openVramModal()" 
             class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition shadow"
@@ -136,7 +135,7 @@
       </div>
     </header>
 
-    <!-- Compact, Streamlined Hero -->
+    <!-- Compact Hero -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-4">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-800/60">
         <div>
@@ -148,7 +147,7 @@
           </p>
         </div>
 
-        <!-- Search Bar Compact & Snappy -->
+        <!-- Search Bar -->
         <div class="w-full md:w-80 relative flex-shrink-0">
           <input 
             type="text" 
@@ -162,7 +161,7 @@
       </div>
     </section>
 
-    <!-- STARTER STACKS BLUEPRINTS SECTION -->
+    <!-- STARTER BLUEPRINTS -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
       <div class="p-5 sm:p-6 rounded-3xl bg-slate-900/90 border border-indigo-500/30 shadow-xl">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
@@ -180,10 +179,9 @@
           </button>
         </div>
 
-        <!-- 4 Blueprint Cards Container -->
         <div id="starter-stacks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-4"></div>
 
-        <!-- Physical Hardware Bill of Materials Box -->
+        <!-- Physical Hardware BOM Box -->
         <div id="active-hardware-bom" class="mt-5 pt-4 border-t border-slate-800">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2">
             <div>
@@ -199,9 +197,9 @@
       </div>
     </section>
 
-    <!-- Compact Category Filter Strip -->
+    <!-- Category Filter Strip -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-6 flex flex-wrap gap-2 justify-center">
-      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow">All (51)</button>
+      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow">All</button>
       <button onclick="filterCat('runtimes', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🧠 Brains</button>
       <button onclick="filterCat('stt', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">👂 Ears</button>
       <button onclick="filterCat('tts', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🗣️ Voices</button>
@@ -302,12 +300,17 @@
       onclick="event.stopPropagation()"
     >
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <div>
-          <span id="detail-category" class="text-xs uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-800/50">
-            Category
-          </span>
-          <h3 id="detail-title" class="text-2xl font-extrabold text-white mt-2">Tool Name</h3>
-          <p id="detail-price" class="text-sm font-mono text-emerald-400 font-bold mt-0.5">Price details</p>
+        <div class="flex items-center gap-3">
+          <div id="detail-icon" class="w-12 h-12 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center text-2xl flex-shrink-0">
+            🤖
+          </div>
+          <div>
+            <span id="detail-category" class="text-xs uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/80 px-2.5 py-0.5 rounded-lg border border-indigo-800/50">
+              Category
+            </span>
+            <h3 id="detail-title" class="text-2xl font-extrabold text-white mt-1">Tool Name</h3>
+            <p id="detail-price" class="text-sm font-mono text-emerald-400 font-bold">Price details</p>
+          </div>
         </div>
         <button 
           onclick="closeToolDetailModal()" 
@@ -325,7 +328,9 @@
         </div>
 
         <div class="p-4 bg-emerald-950/20 rounded-2xl border border-emerald-900/40 space-y-1">
-          <h4 class="text-xs uppercase tracking-wider text-emerald-400 font-bold">Why It's Good</h4>
+          <h4 class="text-xs uppercase tracking-wider text-emerald-400 font-bold flex items-center gap-1.5">
+            <span>🔥 Why It's Killer</span>
+          </h4>
           <p id="detail-pro" class="text-emerald-100 text-xs sm:text-sm"></p>
         </div>
 
@@ -427,7 +432,7 @@
           </div>
 
           <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Why is it great for desk companions?</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Why is it killer for desk companions?</label>
             <textarea 
               id="suggest-desc" 
               rows="2" 
@@ -520,6 +525,14 @@
     let userBuild = new Set();
     let viewingBuildOnly = false;
 
+    const CATEGORY_ICONS = {
+      runtimes: '🧠',
+      stt: '🎙️',
+      tts: '🗣️',
+      orchestration: '📚',
+      hardware: '🤖'
+    };
+
     function buildAliExpressLink(query) {
       if (AFFILIATE_CONFIG.aliexpress_tag) {
         return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}&aff_platform=portals-tool&sk=${AFFILIATE_CONFIG.aliexpress_tag}`;
@@ -553,7 +566,7 @@
 
       const title = encodeURIComponent(`[Tool Suggestion]: ${name}`);
       const body = encodeURIComponent(
-        `### 🤖 Proposed Component or Tool\n\n**Name:** ${name}\n**Category:** ${cat}\n**Store/Link:** ${url || 'Not provided'}\n\n### 💡 Why It Fits DeskbotStack:\n${desc || 'Recommended for companion robot builders.'}`
+        `### 🤖 Proposed Component or Tool\n\n**Name:** ${name}\n**Category:** ${cat}\n**Store/Link:** ${url || 'Not provided'}\n\n### 🔥 Why It's Killer for DeskbotStack:\n${desc || 'Recommended for companion robot builders.'}`
       );
       window.open(`https://github.com/realstuiewho/companion-stack-directory/issues/new?title=${title}&body=${body}`, '_blank');
       closeSuggestToolModal();
@@ -564,6 +577,7 @@
       const tool = tools.find(t => t.id === id);
       if (!tool) return;
 
+      document.getElementById('detail-icon').textContent = CATEGORY_ICONS[tool.cat] || '🤖';
       document.getElementById('detail-title').textContent = tool.name;
       document.getElementById('detail-category').textContent = tool.cat.toUpperCase();
       document.getElementById('detail-price').textContent = tool.price;
@@ -604,7 +618,7 @@
       document.getElementById('tool-detail-modal').classList.add('hidden');
     }
 
-    // STARTER BLUEPRINTS (LOADS INTO TRAY & WORKBENCH DIRECTLY)
+    // STARTER BLUEPRINTS
     function renderStarterStacks() {
       const container = document.getElementById('starter-stacks-grid');
       if (!container || starterStacks.length === 0) return;
@@ -649,7 +663,7 @@
       const selected = starterStacks.find(s => s.id === stackId);
       if (!selected) return;
 
-      // AUTOMATICALLY POPULATE BUILD TRAY & WORKBENCH WITH BLUEPRINT TOOLS!
+      // Automatically populate build tray with blueprint tools
       userBuild.clear();
       if (selected.toolIds) {
         selected.toolIds.forEach(id => userBuild.add(id));
@@ -721,7 +735,7 @@
       `).join('');
     }
 
-    // MAIN RECTANGULAR TILES
+    // MAIN RECTANGULAR TILES WITH CATEGORY ICONS
     function render(items) {
       if (items.length === 0) {
         grid.innerHTML = `
@@ -738,6 +752,7 @@
         const resolvedUrl = resolveSmartLink(t);
         const activeStack = starterStacks.find(s => s.id === activeStackId);
         const inActiveStack = activeStack && activeStack.toolIds && (activeStack.toolIds.includes(t.id) || (t.kits && t.kits.includes(activeStackId)));
+        const catIcon = CATEGORY_ICONS[t.cat] || '🤖';
 
         return `
           <div class="tool-tile bg-slate-900 border ${
@@ -749,12 +764,17 @@
             ${inActiveStack ? `<span class="absolute -top-2.5 left-4 bg-indigo-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">⭐ BLUEPRINT</span>` : (inBuild ? `<span class="absolute -top-2.5 left-4 bg-emerald-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">✓ IN BUILD</span>` : '')}
 
             <div>
-              <div class="flex justify-between items-baseline gap-2 mb-1">
-                <h3 class="font-extrabold text-base sm:text-lg text-white leading-tight">${t.name}</h3>
-                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-950 text-emerald-400 border border-slate-800 flex-shrink-0">${t.price}</span>
+              <div class="flex items-start gap-2.5 mb-1.5">
+                <span class="text-xl p-1.5 rounded-xl bg-slate-950 border border-slate-800/80 leading-none flex-shrink-0">${catIcon}</span>
+                <div class="flex-1 min-w-0">
+                  <div class="flex justify-between items-baseline gap-2">
+                    <h3 class="font-extrabold text-base sm:text-lg text-white leading-tight truncate">${t.name}</h3>
+                    <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-950 text-emerald-400 border border-slate-800 flex-shrink-0">${t.price}</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-indigo-300 font-medium line-clamp-1">${t.role}</p>
+                </div>
               </div>
-              <p class="text-xs sm:text-sm text-indigo-300 font-medium line-clamp-1 mb-2">${t.role}</p>
-              <p class="text-xs sm:text-sm text-slate-300 line-clamp-2 leading-relaxed">${t.pro}</p>
+              <p class="text-xs sm:text-sm text-slate-300 line-clamp-2 leading-relaxed mt-2">${t.pro}</p>
             </div>
             
             <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center gap-2">
