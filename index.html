@@ -164,7 +164,7 @@
       </div>
     </section>
 
-    <!-- DYNAMIC SIGNAL CHAIN VISUALIZER WITH SWAP BUTTONS -->
+    <!-- DYNAMIC SIGNAL CHAIN VISUALIZER (5 Clean Slots) -->
     <section id="signal-chain-section" class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 hidden">
       <div class="p-5 sm:p-6 rounded-3xl bg-slate-900 border-2 border-indigo-500/60 shadow-2xl space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
@@ -173,7 +173,7 @@
               Interactive Hardware Nervous System
             </span>
             <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">Live Signal & Perception Pipeline</h2>
-            <p class="text-xs sm:text-sm text-slate-300">Click any component to swap with verified compatible drop-in upgrades.</p>
+            <p class="text-xs sm:text-sm text-slate-300">Each stage holds 1 active component. Click Swap to replace it cleanly.</p>
           </div>
           <button 
             onclick="viewActiveStackOnly()" 
@@ -183,7 +183,6 @@
           </button>
         </div>
 
-        <!-- 5-Stage Connected Pipeline -->
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2 relative">
           <!-- Stage 1: Ears -->
           <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
@@ -255,7 +254,7 @@
           <div>
             <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/70 px-2.5 py-0.5 rounded border border-indigo-800/50">Ready-To-Build Recipes</span>
             <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">Starter Blueprints</h2>
-            <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Click any blueprint to see the full architecture story and auto-load its components.</p>
+            <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Click any blueprint to see its architecture story and auto-load its components.</p>
           </div>
           <button 
             id="reset-view-btn" 
@@ -268,13 +267,11 @@
 
         <div id="starter-stacks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-4"></div>
 
-        <!-- NEW: THE INTERACTIVE STORY OF A 2-SECOND INTERACTION (MENTAL MODEL EXPLAINER) -->
-        <div id="active-story-explainer" class="mt-6 pt-5 border-t border-slate-800">
-          <!-- Populated dynamically by JavaScript -->
-        </div>
+        <!-- THE INTERACTIVE STORY OF A 2-SECOND INTERACTION -->
+        <div id="active-story-explainer" class="mt-6 pt-5 border-t border-slate-800 hidden"></div>
 
         <!-- Physical Hardware BOM Box -->
-        <div id="active-hardware-bom" class="mt-6 pt-5 border-t border-slate-800">
+        <div id="active-hardware-bom" class="mt-5 pt-4 border-t border-slate-800">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2">
             <div>
               <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Physical Bill of Materials</span>
@@ -305,7 +302,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="grid"></main>
   </div>
 
-  <!-- SWAP COMPONENT POP-UP MODAL (WITH UPGRADE INSIGHTS) -->
+  <!-- SWAP COMPONENT POP-UP MODAL -->
   <div 
     id="swap-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -321,7 +318,7 @@
             Nervous System Customizer
           </span>
           <h3 id="swap-modal-title" class="text-2xl font-extrabold text-white mt-1.5">🔄 Swap Component</h3>
-          <p id="swap-modal-subtitle" class="text-xs sm:text-sm text-slate-300 mt-0.5">Compare parts, see upgrade benefits, and select drop-in replacements.</p>
+          <p id="swap-modal-subtitle" class="text-xs sm:text-sm text-slate-300 mt-0.5">Select one drop-in replacement to take this stage in your build:</p>
         </div>
         <button 
           onclick="closeSwapModal()" 
@@ -880,7 +877,6 @@
       chassis: '🦴'
     };
 
-    // UPGRADE REASONING MATRIX
     const UPGRADE_REASONS = {
       'respeaker-4mic': '⚡ Upgrades to 360° voice direction sensing with an illuminated RGB ring so the head physically turns to look at you.',
       'ms4030-mic': '⚡ Upgrades to a clean 65dB signal-to-noise ratio that eliminates circuit hiss and background buzz.',
@@ -898,7 +894,6 @@
       'standoff-kit': '⚡ Upgrades workbench safety by elevating circuit boards off your desk to stop metallic shorts.'
     };
 
-    // INTERACTIVE ARCHITECTURE STORIES (The Story of a 2-Second Interaction)
     const STACK_STORIES = {
       sovereign: {
         title: "🌟 How The Sovereign Actually Thinks (The 2-Second Relay)",
@@ -950,6 +945,28 @@
       }
     };
 
+    function buildAliExpressLink(query) {
+      if (AFFILIATE_CONFIG.aliexpress_tag) {
+        return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}&aff_platform=portals-tool&sk=${AFFILIATE_CONFIG.aliexpress_tag}`;
+      }
+      return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}`;
+    }
+
+    function resolveSmartLink(item) {
+      if (item.affiliateUrl) return item.affiliateUrl;
+      if (item.aliSearchQuery) return buildAliExpressLink(item.aliSearchQuery);
+      return item.url;
+    }
+
+    function openVramModal() { document.getElementById('vram-modal').classList.remove('hidden'); runCalc(); }
+    function closeVramModal() { document.getElementById('vram-modal').classList.add('hidden'); }
+    function openSuggestToolModal() { document.getElementById('suggest-tool-modal').classList.remove('hidden'); }
+    function closeSuggestToolModal() { document.getElementById('suggest-tool-modal').classList.add('hidden'); }
+    function openWhatsNextModal() { document.getElementById('whats-next-modal').classList.remove('hidden'); }
+    function closeWhatsNextModal() { document.getElementById('whats-next-modal').classList.add('hidden'); }
+    function openBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.remove('hidden'); }
+    function closeBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.add('hidden'); }
+
     function renderStoryExplainer(stackId) {
       const container = document.getElementById('active-story-explainer');
       const story = STACK_STORIES[stackId];
@@ -973,7 +990,6 @@
             </p>
           </div>
 
-          <!-- Step-by-Step Relay Timeline -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
             ${story.steps.map(s => `
               <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col justify-between space-y-2">
@@ -988,7 +1004,6 @@
             `).join('')}
           </div>
 
-          <!-- Breakthrough Callout -->
           <div class="p-4 rounded-2xl bg-indigo-950/30 border border-indigo-500/40 text-xs sm:text-sm text-indigo-200 leading-relaxed">
             ${story.breakthrough}
           </div>
@@ -996,7 +1011,6 @@
       `;
     }
 
-    // STRICT STAGE DISCOVERY
     function isHardwareMic(t) {
       return t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic' || t.id === 'usb-speakerphone';
     }
@@ -1017,7 +1031,6 @@
       return null;
     }
 
-    // SWAP MODAL
     function openSwapModal(stageKey) {
       const modal = document.getElementById('swap-modal');
       const title = document.getElementById('swap-modal-title');
@@ -1132,7 +1145,6 @@
       closeSuggestToolModal();
     }
 
-    // DETAIL POP-UP TILE
     function openToolDetailModal(id) {
       const tool = tools.find(t => t.id === id);
       if (!tool) return;
@@ -1178,7 +1190,6 @@
       document.getElementById('tool-detail-modal').classList.add('hidden');
     }
 
-    // DYNAMIC SIGNAL CHAIN RENDERER
     function updateSignalChainVisualizer() {
       const section = document.getElementById('signal-chain-section');
       if (!viewingBuildOnly || userBuild.size === 0) {
@@ -1222,7 +1233,6 @@
       document.getElementById('chain-body-content').innerHTML = renderSlot('body', 'No Hardware Selected');
     }
 
-    // STARTER BLUEPRINTS
     function renderStarterStacks() {
       const container = document.getElementById('starter-stacks-grid');
       if (!container || starterStacks.length === 0) return;
@@ -1303,7 +1313,6 @@
       const featured = starterStacks.find(s => s.id === 'conversationalist');
       if (featured) {
         renderHardwareBOM(featured);
-        renderStoryExplainer('conversationalist');
       }
       updateSignalChainVisualizer();
       applyFilters();
@@ -1348,9 +1357,8 @@
       `).join('');
     }
 
-    // MAIN RECTANGULAR TILES
     function render(items) {
-      if (items.length === 0) {
+      if (!items || items.length === 0) {
         grid.innerHTML = `
           <div class="col-span-full py-16 text-center text-slate-400">
             <p class="text-base font-medium">No tools match your criteria.</p>
@@ -1470,12 +1478,12 @@
       if (searchBox) searchBox.value = '';
       document.getElementById('reset-view-btn').classList.add('hidden');
       document.getElementById('signal-chain-section').classList.add('hidden');
+      document.getElementById('active-story-explainer').classList.add('hidden');
       renderStarterStacks();
 
       const featured = starterStacks.find(s => s.id === 'conversationalist');
       if (featured) {
         renderHardwareBOM(featured);
-        renderStoryExplainer('conversationalist');
       }
 
       document.querySelectorAll('.cat-btn').forEach((b, i) => {
@@ -1484,7 +1492,6 @@
       applyFilters();
     }
 
-    // MEMORY CALCULATOR LOGIC
     function runCalc() {
       const params = parseFloat(document.getElementById('calc-params').value);
       const quant = parseFloat(document.getElementById('calc-quant').value);
@@ -1518,7 +1525,6 @@
       }
     }
 
-    // DOCKER COMPOSE EXPORT
     const DOCKER_SERVICE_TEMPLATES = {
       ollama: { serviceName: 'ollama', image: 'ollama/ollama:latest', ports: ['11434:11434'], volumes: ['ollama_data:/root/.ollama'], gpu: true },
       vllm: { serviceName: 'vllm', image: 'vllm/vllm-openai:latest', ports: ['8000:8000'], volumes: ['hf_cache:/root/.cache/huggingface'], gpu: true },
@@ -1579,7 +1585,6 @@
       openWhatsNextModal();
     }
 
-    // WORKBENCH CHECKLIST TAB
     function openCustomStackChecklistTab() {
       const selectedTools = tools.filter(t => userBuild.has(t.id));
       if (selectedTools.length === 0) {
@@ -1627,7 +1632,6 @@
       if (w) { w.document.write(docHtml); w.document.close(); }
     }
 
-    // Build tray toggling
     function toggleHeaderTray(event) {
       if (event) event.stopPropagation();
       const tray = document.getElementById('header-stack-tray');
@@ -1720,7 +1724,6 @@
       applyFilters();
     }
 
-    // Keyboard escape closes modals
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeVramModal();
@@ -1732,14 +1735,14 @@
       }
     });
 
-    // DATA LOADING
+    // ROBUST DATA LOADING (Guaranteed Card Drawing)
     Promise.all([
       fetch('./tools.json', { cache: 'no-store' }).then(res => res.json()),
       fetch('./stacks.json', { cache: 'no-store' }).then(res => res.json()).catch(() => [])
     ])
     .then(([toolsData, stacksData]) => {
-      tools = toolsData;
-      starterStacks = stacksData;
+      tools = toolsData || [];
+      starterStacks = stacksData || [];
 
       try {
         const savedBuild = localStorage.getItem('deskbot_user_build');
@@ -1748,11 +1751,9 @@
 
       renderStarterStacks();
 
-      // Show the default featured story and BOM
       const defaultStack = starterStacks.find(s => s.id === 'conversationalist') || starterStacks[0];
       if (defaultStack) {
         renderHardwareBOM(defaultStack);
-        renderStoryExplainer(defaultStack.id);
       }
 
       updateBuildBadges();
