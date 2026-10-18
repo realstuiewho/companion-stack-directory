@@ -759,5 +759,205 @@
       "wiring": "Self-contained onboard 8-core CPU + optional NVIDIA Orin high-compute module",
       "tip": "The baseline benchmark for serious researchers wanting to deploy speech models and vision into a walking biped."
     }
+  },
+  {
+    "id": "cavity-speaker",
+    "name": "Cavity Mini Speaker (3W 4-Ohm)",
+    "cat": "hardware",
+    "role": "Clear Vocal Chamber For Small Robot Heads",
+    "price": "~$2-$5 USD",
+    "runs": "Connects to MAX98357A Amplifier",
+    "pro": "Built-in acoustic resonance chamber makes voices sound full and clear without tinny buzz",
+    "con": "Mono channel (single speaker)",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "3W 4 ohm cavity speaker JST 1.25",
+    "kits": ["budget"],
+    "priceVal": 3,
+    "specs": {
+      "interface": "2-Pin JST Wire Terminal or Direct Solder",
+      "power": "Passes through audio amplifier (3 Watts max)",
+      "wiring": "Red wire to Amp (+), Black wire to Amp (-)",
+      "tip": "Mount the speaker pointing toward an open vent in your robot face for the best vocal clarity."
+    }
+  },
+  {
+    "id": "pan-tilt-kit",
+    "name": "Pan-Tilt Micro Gimbal Bracket",
+    "cat": "hardware",
+    "role": "2-Axis Head & Eye Movement Assembly",
+    "price": "~$4-$8 USD",
+    "runs": "Holds 2x MG90S Servos",
+    "pro": "Inexpensive nylon bracket that gives your bot full up/down nodding and left/right turning",
+    "con": "Servos are sold separately in some packs",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "mini pan tilt camera mount bracket FPV",
+    "kits": ["budget", "edge"],
+    "priceVal": 5,
+    "specs": {
+      "interface": "Mechanical Servo Spline Mount",
+      "power": "Passive Bracket (Servos draw power from 5V rail)",
+      "wiring": "Mount horizontal servo to base, vertical servo to camera/screen bracket",
+      "tip": "Center both servos to 90 degrees in your software before screwing the horns onto the bracket."
+    }
+  },
+  {
+    "id": "breadboard-jumper-kit",
+    "name": "Solderless Breadboard & 65x Jumpers",
+    "cat": "hardware",
+    "role": "Workbench Prototyping Base (No Soldering Needed)",
+    "price": "~$3-$6 USD",
+    "runs": "Universal Electronics Prototyping",
+    "pro": "Lets you wire sensors, microphones, and screens together instantly with zero soldering iron required",
+    "con": "Not suitable for violent moving parts",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "solderless breadboard 830 tie points jumper wire kit",
+    "kits": ["budget"],
+    "priceVal": 4,
+    "specs": {
+      "interface": "2.54mm Standard Pitch Header Holes",
+      "power": "Dual Power Distribution Rails (+ and - along both sides)",
+      "wiring": "Push male jumper pins directly into the numbered tie points",
+      "tip": "Keep all your ground wires tied to the blue rail so all boards share a common ground reference."
+    }
+  },
+  {
+    "id": "usb-speakerphone",
+    "name": "USB Desktop Conference Speakerphone",
+    "cat": "hardware",
+    "role": "360° Room Ear & Voice Hub (For Mini PCs)",
+    "price": "~$25-$45 USD",
+    "runs": "USB Plug & Play (Linux, Mac, Windows)",
+    "pro": "Built-in hardware echo cancellation so your bot never accidentally transcribes its own spoken voice",
+    "con": "Larger puck shape sits on desk rather than inside a small robot head",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "USB conference microphone 360 omnidirectional speakerphone",
+    "kits": ["pro"],
+    "priceVal": 35,
+    "specs": {
+      "interface": "USB 2.0 / USB-C Direct Plug",
+      "power": "5V USB Bus Powered (No wall plug needed)",
+      "wiring": "Single USB cable to your mini PC or Raspberry Pi",
+      "tip": "The fastest way to give a local mini-PC high-quality ears and voice without any messy wiring."
+    }
+  },
+  {
+    "id": "usbc-cables",
+    "name": "90° Right-Angle USB-C Data Cables",
+    "cat": "hardware",
+    "role": "Clean Deskbot Base Cable Management",
+    "price": "~$3-$6 USD",
+    "runs": "Power & High-Speed Serial Data",
+    "pro": "Right-angle plug keeps thick cables hidden cleanly behind your companion's base",
+    "con": "Ensure you buy data cables, not charge-only cables",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "right angle USB-C data cable braided 90 degree",
+    "kits": ["budget", "pro"],
+    "priceVal": 4,
+    "specs": {
+      "interface": "USB-A to USB-C or USB-C to USB-C (Right-Angle)",
+      "power": "Supports 5V up to 3A power delivery",
+      "wiring": "Full 4-wire data connection for flashing ESP32 microcontrollers",
+      "tip": "Always verify the cable supports data transfer so you can flash code without unplugging."
+    }
+  },
+  {
+    "id": "battery-shield",
+    "name": "18650 Battery Shield Module (5V/3A)",
+    "cat": "hardware",
+    "role": "Cordless Deskbot Battery Base",
+    "price": "~$4-$8 USD",
+    "runs": "Mobile / Untethered Robot Base",
+    "pro": "Lets your deskbot sit anywhere on your desk without power cords plugged into the wall",
+    "con": "Adds weight and thickness to the robot base",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "18650 battery shield V3 5V 3A Micro USB Type C",
+    "kits": ["edge"],
+    "priceVal": 6,
+    "specs": {
+      "interface": "USB-A Output, USB-C Charging Port, Header Pins",
+      "power": "Accepts 1x or 2x 3.7V 18650 Lithium cells; outputs steady 5V 3A",
+      "wiring": "5V pin to ESP32 / Pi power input, GND to common ground",
+      "tip": "Features built-in overcharge and short-circuit protection for safe desk charging."
+    }
+  },
+  {
+    "id": "oled-096",
+    "name": "0.96-inch I2C OLED Display (128x64)",
+    "cat": "hardware",
+    "role": "Miniature HUD & System Status Screen",
+    "price": "~$2-$4 USD",
+    "runs": "Connects to ESP32 or Raspberry Pi",
+    "pro": "Ultra-low power miniature screen to display Wi-Fi IP, battery level, or small expressive face icons",
+    "con": "Monochrome (white or blue pixels only)",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "0.96 inch OLED I2C 128x64 display module SSD1306",
+    "kits": ["budget"],
+    "priceVal": 3,
+    "specs": {
+      "interface": "Simple 2-Wire Data (I2C: SDA & SCL)",
+      "power": "3.3V or 5V Power rail",
+      "wiring": "VCC -> 3.3V | GND -> Ground | SCL -> Pin 22 | SDA -> Pin 21",
+      "tip": "Great for placing on the chest of your robot as a retro diagnostic badge."
+    }
+  },
+  {
+    "id": "rcwl-radar",
+    "name": "RCWL-0516 Microwave Radar Sensor",
+    "cat": "hardware",
+    "role": "Hidden Presence Sensor (Sees Through Plastic)",
+    "price": "~$1-$3 USD",
+    "runs": "Connects to ESP32 or Raspberry Pi",
+    "pro": "Detects human motion through 3D-printed plastic or acrylic cases with zero external lens holes",
+    "con": "Can detect motion through thin drywall if set too sensitive",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "RCWL-0516 microwave radar sensor module",
+    "kits": ["budget", "edge"],
+    "priceVal": 2,
+    "specs": {
+      "interface": "Single Digital Output Pin (HIGH when human detected)",
+      "power": "4V to 28V (Runs happily on standard 5V rail)",
+      "wiring": "VIN -> 5V | GND -> Ground | OUT -> Pin 18",
+      "tip": "Mount it entirely inside your robot's belly; it detects you walking into the room without any visible sensor cutouts."
+    }
+  },
+  {
+    "id": "touch-sensor",
+    "name": "TTP223 Capacitive Touch Button",
+    "cat": "hardware",
+    "role": "Head Pat & Tap Sensor",
+    "price": "~$1-$2 USD (5-Pack)",
+    "runs": "Connects to ESP32 or Raspberry Pi",
+    "pro": "Sits flush under your robot's head shell to trigger friendly reactions when you gently tap its head",
+    "con": "Requires fine tuning if using thick plastic walls",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "TTP223 capacitive touch sensor module red",
+    "kits": ["budget"],
+    "priceVal": 2,
+    "specs": {
+      "interface": "Single Digital Pin (Sends HIGH signal upon touch)",
+      "power": "2.5V to 5.5V Power rail",
+      "wiring": "VCC -> 3.3V | GND -> Ground | I/O -> Pin 19",
+      "tip": "Glue it directly to the inside roof of the robot's skull so the bot reacts to head pats."
+    }
+  },
+  {
+    "id": "rtc-ds3231",
+    "name": "DS3231 Precision Clock Module",
+    "cat": "hardware",
+    "role": "Offline Timekeeper (Remembers Time Without Wi-Fi)",
+    "price": "~$2-$4 USD",
+    "runs": "Connects to ESP32 or Raspberry Pi",
+    "pro": "Keeps perfect track of real-world time and alarms even when the robot is turned off or offline",
+    "con": "Requires a CR2032 or LIR2032 coin cell battery",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "DS3231 precision RTC module I2C with battery",
+    "kits": ["edge"],
+    "priceVal": 3,
+    "specs": {
+      "interface": "Simple 2-Wire Data (I2C: SDA & SCL)",
+      "power": "3.3V or 5V Power rail + Coin Battery Backup",
+      "wiring": "VCC -> 3.3V | GND -> Ground | SCL -> Pin 22 | SDA -> Pin 21",
+      "tip": "Use this so your desk companion can greet you with 'Good morning' or remind you of tea time without needing an NTP internet sync."
+    }
   }
 ]
