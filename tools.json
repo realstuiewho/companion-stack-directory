@@ -206,6 +206,66 @@
     }
   },
   {
+    "id": "respeaker-4mic",
+    "name": "ReSpeaker 4-Mic Array (Circular)",
+    "cat": "stt",
+    "role": "360° Direction-Finding Ears with RGB Glow",
+    "price": "~$18-$25 USD",
+    "runs": "Raspberry Pi, PC, Linux",
+    "pro": "Hears which direction you are speaking from so your companion's head can physically turn toward you",
+    "con": "Round board needs a circular mounting cutout",
+    "url": "https://www.seeedstudio.com",
+    "aliSearchQuery": "ReSpeaker 4 Mic Array Raspberry Pi",
+    "kits": ["pro", "edge"],
+    "priceVal": 22,
+    "specs": {
+      "interface": "Raspberry Pi GPIO Header / I2S & I2C",
+      "power": "Takes power automatically from the computer rail",
+      "wiring": "Pushes directly onto the top pin header of Raspberry Pi",
+      "tip": "Includes 12 programmable RGB LEDs that illuminate in the direction of your voice."
+    }
+  },
+  {
+    "id": "ms4030-mic",
+    "name": "MS4030 Low-Noise Digital Mic",
+    "cat": "stt",
+    "role": "Studio-Clean MEMS Ear for Microcontrollers",
+    "price": "~$3-$6 USD",
+    "runs": "Connects to ESP32 / ESP32-S3",
+    "pro": "65dB signal-to-noise ratio eliminates background circuit hum for super-crisp voice recognition",
+    "con": "Requires 3.3V power (do not feed 5V)",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "MS4030 I2S MEMS microphone module",
+    "kits": ["budget", "pro"],
+    "priceVal": 4,
+    "specs": {
+      "interface": "Digital Audio Wires (I2S)",
+      "power": "3.3V Rail strictly",
+      "wiring": "BCLK -> Pin 14 | LRCLK -> Pin 15 | DATA -> Pin 32 | GND -> Ground",
+      "tip": "A direct upgrade over the INMP441 with noticeably cleaner vocal pick-up."
+    }
+  },
+  {
+    "id": "openmv-cam",
+    "name": "OpenMV Cam H7 Plus (Machine Vision)",
+    "cat": "hardware",
+    "role": "High-Speed Object & Face Tracking Eye",
+    "price": "~$65-$85 USD",
+    "runs": "Standalone MicroPython Camera",
+    "pro": "Processes face, color, and object tracking on-board at 60 FPS without slowing down your computer",
+    "con": "Higher cost than passive camera ribbons",
+    "url": "https://openmv.io",
+    "aliSearchQuery": "OpenMV H7 Plus camera module MicroPython",
+    "kits": ["pro"],
+    "priceVal": 75,
+    "specs": {
+      "interface": "USB-C, UART Serial to ESP32 or PC",
+      "power": "5V USB rail",
+      "wiring": "Send tracking coordinates over 2 simple UART serial wires: TX -> RX, RX -> TX",
+      "tip": "Programs entirely in simple MicroPython; lets your bot track red balls or human faces out of the box."
+    }
+  },
+  {
     "id": "letta",
     "name": "Letta (Permanent Memory)",
     "cat": "orchestration",
@@ -651,6 +711,7 @@
     "con": "Very small pin connections",
     "url": "https://www.seeedstudio.com/XIAO-ESP32S3-Sense-p-5639.html",
     "aliSearchQuery": "Seeed XIAO ESP32S3 Sense Camera Mic",
+    "kits": ["budget"],
     "priceVal": 16,
     "specs": {
       "interface": "USB-C, Tiny side pins",
