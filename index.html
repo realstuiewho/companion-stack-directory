@@ -1,388 +1,280 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="text-[17px] sm:text-[18px]">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DeskbotStack - The Friendly Local AI & Deskbot Directory</title>
   <meta name="description" content="A simple, human-friendly guide to building desk companions: pick a brain, give it ears and a voice, and wire up motors without headaches." />
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* High-legibility overrides for dyslexia & reading ease */
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      letter-spacing: 0.015em;
+      line-height: 1.6;
+    }
+    .tool-tile {
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .tool-tile:hover {
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
 
   <div>
-    <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
-      <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between relative">
-        <div class="flex items-center space-x-3 cursor-pointer" onclick="resetToAll()">
-          <span class="text-2xl">🤖</span>
-          <span class="text-xl font-bold tracking-tight text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
+    <!-- Header with Safe Spacing (No Clipping) -->
+    <header class="border-b border-slate-800 bg-slate-900/95 backdrop-blur sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0" onclick="resetToAll()">
+          <span class="text-3xl">🤖</span>
+          <span class="text-xl sm:text-2xl font-black tracking-normal text-white">Deskbot<span class="text-indigo-400">Stack</span></span>
         </div>
 
-        <div class="flex items-center space-x-2 sm:space-x-3">
-          <!-- Suggest a Tool Button (Header) -->
+        <!-- Header Actions -->
+        <div class="flex items-center flex-wrap gap-2 sm:gap-3">
           <button 
             onclick="openSuggestToolModal()" 
-            class="hidden lg:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-950/70 border border-emerald-800/60 hover:bg-emerald-900 text-emerald-300 hover:text-white transition shadow"
-            title="Suggest a new tool or hardware to add to the directory"
+            class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl bg-emerald-950/80 border border-emerald-600/60 hover:bg-emerald-900 text-emerald-300 hover:text-white transition shadow"
+            title="Suggest a new tool or hardware"
           >
-            <span>💡 Suggest a Tool</span>
+            <span>💡 Suggest Tool</span>
           </button>
 
-          <!-- Permanent File & Setup Explainer Guide in Header -->
           <button 
             onclick="openWhatsNextModal()" 
-            class="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition shadow"
-            title="Learn how software blueprints and setup files work"
+            class="hidden md:inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition shadow"
           >
-            <span>📦 Setup & Files Guide</span>
+            <span>📦 Setup Files</span>
           </button>
 
-          <!-- Beginner Roadmap Guide in Header -->
           <button 
             onclick="openBeginnerGuideModal()" 
-            class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-950/70 border border-indigo-800/60 hover:bg-indigo-900 text-indigo-300 hover:text-white transition shadow"
+            class="hidden sm:inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-xl bg-indigo-950/70 border border-indigo-700/60 hover:bg-indigo-900 text-indigo-200 hover:text-white transition shadow"
           >
-            <span>📖 Beginner Roadmap</span>
+            <span>📖 Beginner Guide</span>
           </button>
-
-          <a href="#vram-calc" class="hidden sm:inline-block text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
-            🧮 Memory Checker
-          </a>
 
           <!-- Header Stack Tray Button -->
           <div class="relative">
             <button 
               id="header-stack-btn"
               onclick="toggleHeaderTray(event)" 
-              class="px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-950/80 border border-indigo-500/50 text-indigo-300 hover:bg-indigo-900/70 hover:text-white transition flex items-center gap-1.5 shadow"
+              class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-950/90 border border-indigo-500/70 text-indigo-300 hover:bg-indigo-900 hover:text-white transition flex items-center gap-2 shadow"
             >
-              <span>🛠️ My Robot Build</span>
-              <span id="nav-count-badge" class="bg-indigo-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-mono">0</span>
-              <span id="nav-cost-badge" class="text-emerald-400 font-mono text-[11px] hidden sm:inline">&bull; $0</span>
-              <span id="nav-tray-arrow" class="text-[10px] text-slate-400">▼</span>
+              <span>🛠️ Build Tray</span>
+              <span id="nav-count-badge" class="bg-indigo-600 text-white text-xs px-2 py-0.5 rounded-full font-mono font-bold">0</span>
+              <span id="nav-cost-badge" class="text-emerald-400 font-mono text-xs hidden sm:inline">&bull; $0</span>
+              <span id="nav-tray-arrow" class="text-xs text-slate-400">▼</span>
             </button>
 
             <!-- Dropdown Tray Panel -->
             <div 
               id="header-stack-tray" 
-              class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-4 z-50 text-xs animate-in fade-in zoom-in-95 duration-150"
+              class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-4 z-50 text-xs sm:text-sm"
               onclick="event.stopPropagation()"
             >
               <div class="flex justify-between items-center pb-3 border-b border-slate-800">
                 <div>
-                  <h4 class="font-bold text-white text-sm">🛠️ Your Custom Robot Build</h4>
-                  <p id="tray-subtitle" class="text-[11px] text-slate-400 mt-0.5">0 parts selected</p>
+                  <h4 class="font-bold text-white text-base">🛠️ Your Robot Build</h4>
+                  <p id="tray-subtitle" class="text-xs text-slate-400 mt-0.5">0 parts selected</p>
                 </div>
                 <div class="text-right">
-                  <span class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Estimated Hardware</span>
-                  <div id="tray-total-cost" class="text-sm font-mono font-bold text-emerald-400">$0 USD</div>
+                  <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Estimated</span>
+                  <div id="tray-total-cost" class="text-base font-mono font-bold text-emerald-400">$0 USD</div>
                 </div>
               </div>
 
-              <!-- Item List container -->
-              <div id="tray-items-list" class="max-h-60 overflow-y-auto divide-y divide-slate-800/60 my-2 pr-1"></div>
+              <div id="tray-items-list" class="max-h-60 overflow-y-auto divide-y divide-slate-800/80 my-2 pr-1"></div>
 
-              <div class="pt-3 border-t border-slate-800 space-y-2.5">
+              <div class="pt-3 border-t border-slate-800 space-y-2">
                 <div class="flex gap-2">
                   <button 
                     onclick="viewActiveStackOnly()" 
                     id="tray-view-btn"
-                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center"
+                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition text-center"
                   >
                     View My Parts Only
                   </button>
                   <button 
                     onclick="clearCustomStack()" 
-                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-950 hover:bg-rose-950/40 text-slate-400 hover:text-rose-300 font-semibold text-[11px] border border-slate-800 hover:border-rose-900 transition text-center"
+                    class="w-1/2 py-2 px-2.5 rounded-xl bg-slate-950 hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 font-semibold text-xs border border-slate-800 transition text-center"
                   >
                     Clear All
                   </button>
                 </div>
                 
-                <div class="space-y-1">
-                  <div class="flex items-center gap-1.5">
-                    <button 
-                      onclick="exportDockerCompose()" 
-                      id="tray-export-compose-btn"
-                      class="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5"
-                    >
-                      <span>📦 Download 1-Click Computer Setup</span>
-                      <span class="text-[10px]">📥</span>
-                    </button>
-                    <button 
-                      onclick="openWhatsNextModal()" 
-                      title="Read the guide explaining these files"
-                      class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 hover:text-white flex items-center justify-center text-xs font-bold border border-slate-700 transition flex-shrink-0"
-                    >
-                      ❓
-                    </button>
-                  </div>
-                  <div class="flex justify-between items-center text-[10px] text-slate-400 px-1">
-                    <span>Packages all selected brains together.</span>
-                    <button onclick="openWhatsNextModal()" class="text-indigo-400 hover:underline">How to use them &rarr;</button>
-                  </div>
-                </div>
+                <button 
+                  onclick="exportDockerCompose()" 
+                  id="tray-export-compose-btn"
+                  class="w-full py-2.5 px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs sm:text-sm transition shadow flex items-center justify-center gap-2"
+                >
+                  <span>📦 Download 1-Click Computer Setup</span>
+                </button>
 
-                <div class="space-y-1">
-                  <div class="flex items-center gap-1.5">
-                    <button 
-                      onclick="openCustomStackChecklistTab()" 
-                      class="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5"
-                    >
-                      <span>📋 Open Workbench Wiring & Parts Guide</span>
-                      <span class="text-[10px]">↗</span>
-                    </button>
-                    <button 
-                      onclick="openExplainHelpModal('wiring-guide')" 
-                      title="What does this do?"
-                      class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold border border-slate-700 transition flex-shrink-0"
-                    >
-                      ❓
-                    </button>
-                  </div>
-                  <p class="text-[10px] text-slate-400 text-center">Printable checklist with live purchase links and wire pinouts.</p>
-                </div>
+                <button 
+                  onclick="openCustomStackChecklistTab()" 
+                  class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-2"
+                >
+                  <span>📋 Open Workbench Checklist</span>
+                </button>
               </div>
             </div>
           </div>
-
-          <span id="tool-counter" class="hidden md:inline-block text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
-            Loading Tools...
-          </span>
         </div>
       </div>
     </header>
 
-    <!-- Hero -->
-    <section class="max-w-6xl mx-auto px-6 pt-12 pb-6 text-center">
-      <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight max-w-3xl mx-auto leading-tight">
-        Build Your Own <span class="text-indigo-400">Desk Companion & AI Robot</span>
-      </h1>
-      <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-        Pick a smart brain that runs privately on your computer, add hearing and a voice, and connect physical arms, heads, and humanoid platforms.
-      </p>
-
-      <!-- Search Input Bar -->
-      <div class="mt-8 max-w-md mx-auto relative">
-        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-          </svg>
+    <!-- Compact, Streamlined Hero -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-slate-800/60">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Build Your Own <span class="text-indigo-400">Desk Companion</span>
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base mt-1">
+            Pick a smart local brain, add hearing and voice, and connect motors without headaches.
+          </p>
         </div>
-        <input 
-          type="text" 
-          id="search-box" 
-          placeholder="Search arms, humanoids, Unitree, Hiwonder, ESP32, voices..." 
-          oninput="handleSearch()"
-          onkeyup="handleSearch()"
-          class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
-        />
+
+        <!-- Search Bar Compact & Snappy -->
+        <div class="w-full md:w-80 relative flex-shrink-0">
+          <input 
+            type="text" 
+            id="search-box" 
+            placeholder="Search tools, boards, voices..." 
+            oninput="handleSearch()"
+            class="w-full pl-9 pr-3 py-2 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition"
+          />
+          <span class="absolute left-3 top-2.5 text-slate-400 text-sm">🔍</span>
+        </div>
       </div>
     </section>
 
     <!-- STARTER STACKS BLUEPRINTS SECTION -->
-    <section class="max-w-6xl mx-auto px-6 mb-10">
-      <div class="p-6 rounded-3xl bg-slate-900/90 border border-indigo-500/30 shadow-2xl">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
+      <div class="p-5 sm:p-6 rounded-3xl bg-slate-900/90 border border-indigo-500/30 shadow-xl">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
           <div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/70 px-2 py-0.5 rounded border border-indigo-800/40">Ready-To-Build Recipes</span>
-            <h2 class="text-xl font-extrabold text-white mt-1">Starter Stack Blueprints</h2>
-            <p class="text-xs text-slate-400 mt-0.5">Click any blueprint to highlight matching software tools and physical hardware.</p>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/70 px-2.5 py-0.5 rounded border border-indigo-800/50">Ready-To-Build Recipes</span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">Starter Blueprints</h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Click any blueprint to highlight matching tools and hardware below.</p>
           </div>
           <button 
             id="reset-view-btn" 
             onclick="resetActiveStack()" 
-            class="hidden px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center gap-1.5 shadow"
+            class="hidden px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center gap-1.5 shadow"
           >
             <span>↺ Reset View</span>
           </button>
         </div>
 
         <!-- 4 Blueprint Cards Container -->
-        <div id="starter-stacks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-5">
-          <!-- Populated dynamically -->
-        </div>
+        <div id="starter-stacks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-4"></div>
 
         <!-- Physical Hardware Bill of Materials Box -->
-        <div id="active-hardware-bom" class="mt-6 pt-5 border-t border-slate-800/80">
+        <div id="active-hardware-bom" class="mt-5 pt-4 border-t border-slate-800">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2">
             <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Physical Bill of Materials</span>
-              <h3 id="bom-title" class="text-sm font-bold text-white mt-0.5">Recommended Hardware Parts</h3>
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Physical Bill of Materials</span>
+              <h3 id="bom-title" class="text-sm sm:text-base font-bold text-white mt-0.5">Recommended Hardware Parts</h3>
             </div>
-            <div id="bom-cost-badge" class="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-lg border border-emerald-800/40 self-start sm:self-auto">
+            <div id="bom-cost-badge" class="text-xs sm:text-sm font-mono font-bold text-emerald-300 bg-emerald-950/80 px-3 py-1 rounded-xl border border-emerald-700/50">
               Hardware: ~$15 - $25 AUD
             </div>
           </div>
-          <div id="bom-parts-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-            <!-- Hardware cards populated dynamically -->
-          </div>
+          <div id="bom-parts-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2"></div>
         </div>
       </div>
     </section>
 
-    <!-- Signal Pipeline -->
-    <section class="max-w-6xl mx-auto px-6 mb-10">
-      <div class="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-          <div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Step-By-Step Overview</span>
-            <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2 mt-0.5">
-              <span>⚡ How Your Desk Companion Works</span>
-              <span class="text-[10px] font-normal text-slate-400 hidden sm:inline">(Click any step to filter tools)</span>
-            </h2>
-          </div>
-          <div class="flex items-center gap-2">
-            <button 
-              onclick="openPipelineExplainerModal()" 
-              class="text-[11px] font-bold text-indigo-300 hover:text-white px-3 py-1 rounded-lg bg-indigo-950/70 border border-indigo-800/60 hover:bg-indigo-900 transition flex items-center gap-1 shadow"
-            >
-              <span>📖 Plain English Blueprint</span>
-            </button>
-            <button onclick="resetToAll()" class="text-[11px] font-semibold text-slate-400 hover:text-white px-2.5 py-1 rounded bg-slate-800 transition">
-              Show All
-            </button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-5 relative">
-          <div onclick="filterDiagram('stt')" id="diag-stt" class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group">
-            <div>
-              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
-                <span class="text-xs font-mono font-bold">01 / EARS</span>
-                <span class="text-base">🎙️</span>
-              </div>
-              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Microphones & Wake Words</h3>
-              <p class="text-[10px] text-slate-400 mt-1">Listens for "Hey Bot" and captures your voice</p>
-            </div>
-            <div class="mt-3 text-[9px] font-mono text-indigo-400 font-semibold uppercase tracking-wider">Hears Voice &rarr;</div>
-          </div>
-
-          <div onclick="filterDiagram('stt')" class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group">
-            <div>
-              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
-                <span class="text-xs font-mono font-bold">02 / LISTENING</span>
-                <span class="text-base">👂</span>
-              </div>
-              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Voice-To-Text</h3>
-              <p class="text-[10px] text-slate-400 mt-1">Translates spoken sounds into written words</p>
-            </div>
-            <div class="mt-3 text-[9px] font-mono text-indigo-400 font-semibold uppercase tracking-wider">Written Text &rarr;</div>
-          </div>
-
-          <div onclick="filterDiagram('runtimes')" id="diag-runtimes" class="diag-node cursor-pointer p-4 rounded-xl bg-gradient-to-b from-slate-950 to-indigo-950/30 border border-indigo-500/40 hover:border-indigo-400 transition flex flex-col justify-between group shadow-lg">
-            <div>
-              <div class="flex items-center justify-between text-indigo-400 mb-2">
-                <span class="text-xs font-mono font-bold">03 / BRAIN</span>
-                <span class="text-base">🧠</span>
-              </div>
-              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">AI Thinking & Memory</h3>
-              <p class="text-[10px] text-slate-400 mt-1">Private AI models that remember who you are</p>
-            </div>
-            <div class="mt-3 text-[9px] font-mono text-emerald-400 font-semibold uppercase tracking-wider">&larr; Decides Action & Voice &rarr;</div>
-          </div>
-
-          <div onclick="filterDiagram('tts')" id="diag-tts" class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group">
-            <div>
-              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
-                <span class="text-xs font-mono font-bold">04 / VOICE</span>
-                <span class="text-base">🗣️</span>
-              </div>
-              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Speaking & Sound</h3>
-              <p class="text-[10px] text-slate-400 mt-1">Speaks the answer out loud through speakers</p>
-            </div>
-            <div class="mt-3 text-[9px] font-mono text-indigo-400 font-semibold uppercase tracking-wider">Audio Plays &rarr;</div>
-          </div>
-
-          <div onclick="filterDiagram('hardware')" id="diag-hardware" class="diag-node cursor-pointer p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-900/80 transition flex flex-col justify-between group">
-            <div>
-              <div class="flex items-center justify-between text-slate-500 group-hover:text-indigo-400 transition mb-2">
-                <span class="text-xs font-mono font-bold">05 / BODY</span>
-                <span class="text-base">🤖</span>
-              </div>
-              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Arms, Servos & Bipeds</h3>
-              <p class="text-[10px] text-slate-400 mt-1">Nods heads, moves robotic arms, walks on legs</p>
-            </div>
-            <div class="mt-3 text-[9px] font-mono text-emerald-400 font-semibold uppercase tracking-wider">Moves In Real Life ✓</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Memory Checker -->
-    <section id="vram-calc" class="max-w-6xl mx-auto px-6 mb-10">
-      <div class="p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-900/90 border border-indigo-500/30 shadow-xl">
-        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-800 gap-2">
-          <div>
-            <h2 class="text-lg font-bold text-white flex items-center gap-2">
-              <span>🧮 Will This Brain Fit On My Computer?</span>
-              <span class="text-[10px] uppercase tracking-wider bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-mono">Memory Checker</span>
-            </h2>
-            <p class="text-xs text-slate-400 mt-0.5">Find out if a model will run fast on your normal PC/Mac or if it needs rented cloud power.</p>
-          </div>
-          <button onclick="toggleCalc()" id="calc-toggle-btn" class="text-xs font-semibold text-slate-400 hover:text-white self-start md:self-auto py-1 px-2.5 rounded bg-slate-800">
-            Hide Calculator ▲
-          </button>
-        </div>
-
-        <div id="calc-body" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-5">
-          <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Model Size (Brain Power)</label>
-            <select id="calc-params" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
-              <option value="3">3B (Small & Fast - Great for budget bots)</option>
-              <option value="8" selected>8B (Standard & Smart - Recommended)</option>
-              <option value="14">14B (Very Smart - Needs powerful PC/Mac)</option>
-              <option value="32">32B (Genius Level - Needs large memory)</option>
-              <option value="70">70B (Giant - Needs multiple heavy graphics cards)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Compression Quality</label>
-            <select id="calc-quant" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
-              <option value="4.5" selected>Standard Compression (Best speed & memory saving)</option>
-              <option value="5.5">Medium Compression (Slightly better answers)</option>
-              <option value="8.5">Light Compression (Near original quality)</option>
-              <option value="16">Uncompressed (Huge file, requires enterprise hardware)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Conversation Memory Length</label>
-            <select id="calc-ctx" onchange="runCalc()" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-2.5 focus:border-indigo-500 focus:outline-none">
-              <option value="0.5">Short (Remembers last few sentences)</option>
-              <option value="1.2" selected>Medium (Great for typical companion conversations)</option>
-              <option value="3.5">Long (Remembers deep discussions and notes)</option>
-              <option value="8.0">Massive (Can read entire books at once)</option>
-            </select>
-          </div>
-
-          <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3.5 flex flex-col justify-between">
-            <div>
-              <div class="flex justify-between items-baseline">
-                <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Memory Needed</span>
-                <span id="calc-vram-result" class="text-xl font-extrabold text-indigo-400">~6.2 GB</span>
-              </div>
-              <p id="calc-verdict" class="text-[11px] text-emerald-400 mt-1 font-medium">⚡ Fits easily on a standard 16GB Mini PC or Mac</p>
-            </div>
-            <div id="calc-recommendation" class="pt-2 border-t border-slate-800/80 mt-2 text-[10px] text-slate-300"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Category Filters -->
-    <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
-      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (51)</button>
-      <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🧠 Brains & Cloud Power</button>
-      <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">👂 Ears & Listening</button>
-      <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🗣️ Voices & Speaking</button>
-      <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">📚 Memory & Personality</button>
-      <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🤖 Arms, Motors & Bodies</button>
+    <!-- Compact Category Filter Strip -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-6 flex flex-wrap gap-2 justify-center">
+      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow">All (51)</button>
+      <button onclick="filterCat('runtimes', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🧠 Brains</button>
+      <button onclick="filterCat('stt', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">👂 Ears</button>
+      <button onclick="filterCat('tts', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🗣️ Voices</button>
+      <button onclick="filterCat('orchestration', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">📚 Memory</button>
+      <button onclick="filterCat('hardware', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🤖 Hardware</button>
     </div>
 
-    <!-- Cards Grid -->
-    <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
+    <!-- STREAMLINED COMPACT CARDS GRID -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="grid"></main>
+  </div>
+
+  <!-- DEDICATED TOOL DETAIL MODAL (HIGH READABILITY POP-UP TILE) -->
+  <div 
+    id="tool-detail-modal" 
+    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
+    onclick="closeToolDetailModal()"
+  >
+    <div 
+      class="bg-slate-900 border border-slate-700 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
+      onclick="event.stopPropagation()"
+    >
+      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
+        <div>
+          <span id="detail-category" class="text-xs uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-800/50">
+            Category
+          </span>
+          <h3 id="detail-title" class="text-2xl font-extrabold text-white mt-2">Tool Name</h3>
+          <p id="detail-price" class="text-sm font-mono text-emerald-400 font-bold mt-0.5">Price details</p>
+        </div>
+        <button 
+          onclick="closeToolDetailModal()" 
+          class="text-slate-400 hover:text-white text-lg font-bold w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition flex-shrink-0"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="mt-5 space-y-4 text-sm sm:text-base leading-relaxed">
+        <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800">
+          <h4 class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">What It Does</h4>
+          <p id="detail-role" class="text-white font-medium"></p>
+          <p id="detail-runs" class="text-slate-400 text-xs sm:text-sm mt-1"></p>
+        </div>
+
+        <div class="p-4 bg-emerald-950/20 rounded-2xl border border-emerald-900/40 space-y-1">
+          <h4 class="text-xs uppercase tracking-wider text-emerald-400 font-bold">Why It's Good</h4>
+          <p id="detail-pro" class="text-emerald-100 text-xs sm:text-sm"></p>
+        </div>
+
+        <div class="p-4 bg-rose-950/20 rounded-2xl border border-rose-900/40 space-y-1">
+          <h4 class="text-xs uppercase tracking-wider text-rose-400 font-bold">Keep In Mind</h4>
+          <p id="detail-con" class="text-rose-100 text-xs sm:text-sm"></p>
+        </div>
+
+        <div id="detail-specs-box" class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2 hidden">
+          <h4 class="text-xs uppercase tracking-wider text-indigo-400 font-bold">Workbench Specs & Wiring</h4>
+          <p id="detail-interface" class="text-xs sm:text-sm text-slate-200"></p>
+          <p id="detail-wiring" class="text-xs sm:text-sm font-mono text-indigo-300"></p>
+          <p id="detail-tip" class="text-xs sm:text-sm text-amber-300/90 pt-1 border-t border-slate-800"></p>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-800 flex flex-wrap gap-2 justify-between items-center">
+        <button 
+          id="detail-build-btn" 
+          onclick="" 
+          class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold border transition"
+        >
+          + Add to Build
+        </button>
+        <a 
+          id="detail-action-link" 
+          href="#" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow flex items-center gap-1.5"
+        >
+          <span>Open Tool Page</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- COMMUNITY SUGGEST A TOOL MODAL -->
@@ -397,11 +289,11 @@
     >
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
-          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded border border-emerald-800/50">
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded-lg border border-emerald-800/50">
             Community Catalog
           </span>
           <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1.5">💡 Suggest a Tool or Part</h3>
-          <p class="text-xs text-slate-400 mt-0.5">Found a great open-source model, motor, or voice engine? Add it to DeskbotStack.</p>
+          <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Suggest an open-source brain, motor, or voice engine for DeskbotStack.</p>
         </div>
         <button 
           onclick="closeSuggestToolModal()" 
@@ -411,27 +303,23 @@
         </button>
       </div>
 
-      <div class="mt-5 space-y-4 text-xs sm:text-sm text-slate-300">
-        <p class="text-slate-400 text-xs">
-          Submissions are automatically routed to our open GitHub repository as a structured suggestion. Once verified, it gets added directly to <code class="text-indigo-300 font-mono">tools.json</code>!
-        </p>
-
+      <div class="mt-5 space-y-4 text-xs sm:text-sm text-slate-200">
         <div class="space-y-3">
           <div>
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Tool or Component Name</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Component Name</label>
             <input 
               type="text" 
               id="suggest-name" 
               placeholder="e.g. Kokoro TTS, ESP32-C6, Whisper.cpp" 
-              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-xs"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-sm"
             />
           </div>
 
           <div>
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Category</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Category</label>
             <select 
               id="suggest-cat" 
-              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500 text-xs"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-200 focus:outline-none focus:border-emerald-500 text-sm"
             >
               <option value="🧠 Brains & Cloud Power">🧠 Brain / LLM Runtime</option>
               <option value="👂 Ears & Listening">👂 Ears / Speech-To-Text</option>
@@ -442,433 +330,91 @@
           </div>
 
           <div>
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Website or GitHub / AliExpress Link</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Website or Store Link</label>
             <input 
               type="url" 
               id="suggest-url" 
-              placeholder="https://github.com/..." 
-              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-xs"
+              placeholder="https://..." 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-sm"
             />
           </div>
 
           <div>
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Why is it great for desk companions?</label>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Why is it great for desk companions?</label>
             <textarea 
               id="suggest-desc" 
               rows="2" 
-              placeholder="Runs fast on low memory, super quiet motors, high cadence voice..." 
-              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 text-xs resize-none"
+              placeholder="Fast response, low power, quiet motors..." 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 text-sm resize-none"
             ></textarea>
           </div>
         </div>
       </div>
 
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-        <button 
-          onclick="closeSuggestToolModal()" 
-          class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition"
-        >
-          Cancel
-        </button>
-        <button 
-          onclick="submitToolToGitHub()" 
-          class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition shadow flex items-center gap-1.5"
-        >
-          <span>Submit on GitHub</span>
-          <span>↗</span>
+        <button onclick="closeSuggestToolModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs sm:text-sm font-semibold rounded-xl transition">Cancel</button>
+        <button onclick="submitToolToGitHub()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow flex items-center gap-1.5">
+          <span>Submit on GitHub ↗</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- WHAT'S NEXT & LEARNING POP-UP -->
-  <div 
-    id="whats-next-modal" 
-    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
-    onclick="closeWhatsNextModal()"
-  >
-    <div 
-      class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
-      onclick="event.stopPropagation()"
-    >
+  <!-- WHAT'S NEXT MODAL -->
+  <div id="whats-next-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeWhatsNextModal()">
+    <div class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
-          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded border border-emerald-800/50">
-            Workbench Software Guide
-          </span>
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded-lg border border-emerald-800/50">Workbench Software</span>
           <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1.5">📦 What Did You Just Download?</h3>
-          <p class="text-sm text-slate-400 mt-0.5">Everything you need to know about the files on your desktop.</p>
         </div>
-        <button 
-          onclick="closeWhatsNextModal()" 
-          class="text-slate-400 hover:text-white text-base font-bold w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition flex-shrink-0"
-        >
-          ✕
-        </button>
+        <button onclick="closeWhatsNextModal()" class="text-slate-400 hover:text-white text-base font-bold w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center">✕</button>
       </div>
-
-      <div class="mt-5 p-4 sm:p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
-        <h4 class="text-sm font-bold text-white flex items-center gap-2">
-          <span>🚀 The 3-Step Workbench Routine</span>
-        </h4>
-        
-        <div class="space-y-2.5 text-xs sm:text-sm text-slate-300">
-          <div class="flex items-start gap-2.5">
-            <span class="font-bold text-indigo-400 font-mono text-base leading-none">1.</span>
-            <p><strong>Put them in a folder:</strong> Create a new folder on your computer (e.g. <code class="text-indigo-300 font-mono font-semibold">MyDeskbot</code>) and move both downloaded files into it.</p>
-          </div>
-          <div class="flex items-start gap-2.5">
-            <span class="font-bold text-indigo-400 font-mono text-base leading-none">2.</span>
-            <p><strong>Rename the settings file:</strong> Rename <code class="text-indigo-300 font-mono font-semibold">env.example</code> to <code class="text-emerald-400 font-mono font-bold">.env</code> (put a dot at the start). Open it in Notepad only if you need to paste private API keys.</p>
-          </div>
-          <div class="flex items-start gap-2.5">
-            <span class="font-bold text-indigo-400 font-mono text-base leading-none">3.</span>
-            <div class="space-y-1.5">
-              <p><strong>Start your robot:</strong> Make sure <strong class="text-white">Docker Desktop</strong> is open, open a terminal in your folder, and run:</p>
-              <div class="flex items-center gap-2">
-                <code class="px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg font-mono text-emerald-400 text-xs sm:text-sm font-semibold select-all">docker compose up -d</code>
-              </div>
-            </div>
-          </div>
+      <div class="mt-5 space-y-3 text-sm text-slate-200">
+        <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2">
+          <p><strong>1. Put them in a folder:</strong> Create a folder (e.g. <code class="text-indigo-300">MyDeskbot</code>) and move both files into it.</p>
+          <p><strong>2. Rename settings file:</strong> Rename <code class="text-indigo-300">env.example</code> to <code class="text-emerald-400">.env</code>.</p>
+          <p><strong>3. Run Docker:</strong> Open your terminal in that folder and run: <code class="text-emerald-400">docker compose up -d</code></p>
         </div>
       </div>
-
-      <div class="mt-5 space-y-3">
-        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
-          🔍 Click To Learn What These Programs Actually Are:
-        </h4>
-
-        <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
-          <summary class="font-bold text-sm text-indigo-300 cursor-pointer flex justify-between items-center select-none">
-            <span>🐳 What is "Docker Desktop" and why do I need it?</span>
-            <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <p>Think of <strong>Docker</strong> like digital shipping containers.</p>
-            <p class="text-slate-400">Normally, installing artificial intelligence models requires installing dozens of confusing background tools, code libraries, and Python versions that can mess up your regular PC files.</p>
-            <p class="text-slate-400">Docker keeps everything neatly sealed inside its own clean sandbox. It downloads the exact tools you picked, connects them together automatically, and can be deleted cleanly in one click without leaving junk on your hard drive.</p>
-          </div>
-        </details>
-
-        <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
-          <summary class="font-bold text-sm text-emerald-300 cursor-pointer flex justify-between items-center select-none">
-            <span>📄 What is "docker-compose.yml"? (The Blueprint)</span>
-            <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <p>This is a plain-text <strong>instruction recipe</strong> for your computer.</p>
-            <p class="text-slate-400">When Docker reads this file, it sees: <em>"Fetch the brain tool, open port 8283 for memory, give it a private storage folder, and hook up the voice engine."</em></p>
-            <p class="text-slate-400">Instead of typing 20 different setup commands into a terminal, this single recipe card tells your computer everything it needs to know in one breath.</p>
-          </div>
-        </details>
-
-        <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
-          <summary class="font-bold text-sm text-amber-300 cursor-pointer flex justify-between items-center select-none">
-            <span>🔑 What is "env.example"? (The Secret Key Safe)</span>
-            <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <p>"ENV" stands for <strong>Environment</strong>. It’s where you safely store private account keys or passwords.</p>
-            <p class="text-slate-400">If you ever use cloud services like ElevenLabs (for realistic voices) or RunPod (for rented cloud graphics cards), you paste your secret keys into this file.</p>
-            <p class="text-slate-400">The blueprint reads your keys from here quietly so you never have to paste private passwords into your main software code!</p>
-          </div>
-        </details>
-      </div>
-
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-        <span class="text-xs text-slate-500 italic">💡 You can re-open this anytime by clicking ❓ in the top tray.</span>
-        <button 
-          onclick="closeWhatsNextModal()" 
-          class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow"
-        >
-          I've Got It, Thanks!
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BEGINNER'S GUIDE MODAL -->
-  <div 
-    id="beginner-guide-modal" 
-    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
-    onclick="closeBeginnerGuideModal()"
-  >
-    <div 
-      class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto" 
-      onclick="event.stopPropagation()"
-    >
-      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <div>
-          <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/40">
-            Starter Roadmap
-          </span>
-          <h3 class="text-xl font-extrabold text-white mt-1">🤖 How to Build Your First Desk Companion</h3>
-          <p class="text-xs text-slate-400 mt-0.5">A complete beginner’s guide to bringing an AI brain into the physical world.</p>
-        </div>
-        <button 
-          onclick="closeBeginnerGuideModal()" 
-          class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition"
-        >
-          ✕
-        </button>
-      </div>
-
-      <div class="mt-5 space-y-4 text-xs text-slate-300 leading-relaxed">
-        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="text-base">🧠</span>
-            <h4 class="font-bold text-white text-xs">Step 1: Give It a Brain (The Software)</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">
-            Download a free program like <strong>Ollama</strong> or <strong>LM Studio</strong> to run a private AI model directly on your Mac, Windows PC, or Linux machine. Choose a compact <strong>3B model</strong> (like Llama 3.2 3B)—it uses under 4 GB of memory and responds in real-time.
-          </p>
-        </div>
-
-        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="text-base">📦</span>
-            <h4 class="font-bold text-white text-xs">Step 2: Gather Your Hardware Parts (Senses & Motors)</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">
-            You only need a few inexpensive hobby parts (around $40–$50 total):
-          </p>
-          <ul class="list-disc list-inside space-y-1 text-slate-400 text-[11px] pl-1">
-            <li><strong class="text-slate-300">ESP32-S3 Board (~$7):</strong> The microcontroller that links sensors to your PC via a USB cable.</li>
-            <li><strong class="text-slate-300">INMP441 Microphone (~$3):</strong> Digital ear that listens for your voice without static.</li>
-            <li><strong class="text-slate-300">MAX98357A Amp & Speaker (~$4):</strong> Small speaker module that speaks answers out loud.</li>
-            <li><strong class="text-slate-300">Round 1.28" LCD (~$15):</strong> Circular color screen for animated blinking eyes.</li>
-            <li><strong class="text-slate-300">MG90S Servos (~$4 ea):</strong> Metal gear micro motors that tilt and nod the robot’s head.</li>
-          </ul>
-        </div>
-
-        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="text-base">🔌</span>
-            <h4 class="font-bold text-white text-xs">Step 3: Wire Everything on the Workbench</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">
-            No soldering iron required. Use female-to-female jumper wires to connect the boards to the ESP32 pins following the wiring specs on the site cards. Plug the ESP32 into your computer using a standard USB-C cable.
-          </p>
-        </div>
-
-        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800/80 space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="text-base">⚡</span>
-            <h4 class="font-bold text-white text-xs">Step 4: The Interaction Loop</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">
-            When you say "Hey companion", the offline ear transcribes your voice to text. The computer's AI brain drafts an answer. If the answer contains motion tags like <code class="text-indigo-300">[NOD]</code>, a small signal travels down the USB wire to move the neck servos while the voice streams through the speaker.
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-        <button 
-          onclick="selectStarterStack('budget'); closeBeginnerGuideModal();" 
-          class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition"
-        >
-          ⚡ View Budget Pioneer Recipe
-        </button>
-        <button 
-          onclick="closeBeginnerGuideModal()" 
-          class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow"
-        >
-          Close Guide
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- HOW IT WORKS MODAL -->
-  <div id="pipeline-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closePipelineExplainerModal()">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
-      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <div>
-          <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/40">Plain English Guide</span>
-          <h3 class="text-xl font-extrabold text-white mt-1">How Your Desk Companion Works</h3>
-          <p class="text-xs text-slate-400 mt-0.5">The complete 5-step loop from hearing your voice to moving its head.</p>
-        </div>
-        <button onclick="closePipelineExplainerModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
-      </div>
-
-      <div class="mt-5 space-y-4 text-xs text-slate-300 leading-relaxed">
-        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-base">🎙️</span>
-            <h4 class="font-bold text-white text-xs">Step 1: Hearing & Perception (The Ears)</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">A tiny microphone mounted in the bot's head quietly listens for a wake phrase (like "Hey companion"). It barely uses any battery or computer power until it hears you call it.</p>
-        </div>
-
-        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-base">👂</span>
-            <h4 class="font-bold text-white text-xs">Step 2: Turning Voice Into Words</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">Once it hears you speak, an offline hearing program instantly turns your voice into written words, taking less than half a second.</p>
-        </div>
-
-        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-base">🧠</span>
-            <h4 class="font-bold text-white text-xs">Step 3: Thinking & Remembering (The Brain)</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">The text is sent to your AI brain program (like Ollama) running locally on your computer. An added memory layer reminds the bot what you like, what you talked about yesterday, and what personality it should have.</p>
-        </div>
-
-        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-base">🗣️</span>
-            <h4 class="font-bold text-white text-xs">Step 4: Speaking Out Loud (The Voice)</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">The brain's written reply turns into human-sounding speech and streams straight out of the deskbot's speaker without any awkward pauses.</p>
-        </div>
-
-        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-base">🤖</span>
-            <h4 class="font-bold text-white text-xs">Step 5: Physical Movement & Expressions</h4>
-          </div>
-          <p class="text-slate-400 text-[11px]">While speaking, the robot nods or tilts its head using tiny quiet motors, blinks animated eyes on its circular screen, and changes colored LED lights to match its mood.</p>
-        </div>
-      </div>
-
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
-        <button onclick="closePipelineExplainerModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow">
-          Got It &rarr;
-        </button>
+        <button onclick="closeWhatsNextModal()" class="px-5 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-sm">Understood</button>
       </div>
     </div>
   </div>
 
-  <!-- POP-UP EXPLAINER MODAL -->
-  <div id="explain-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeExplainHelpModal()">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
+  <!-- BEGINNER ROADMAP MODAL -->
+  <div id="beginner-guide-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeBeginnerGuideModal()">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <div>
-          <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/40">Quick Explainer</span>
-          <h3 id="explain-title" class="text-xl font-extrabold text-white mt-1">What does this do?</h3>
-        </div>
-        <button onclick="closeExplainHelpModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
+        <h3 class="text-xl font-extrabold text-white">🤖 Beginner Deskbot Roadmap</h3>
+        <button onclick="closeBeginnerGuideModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center">✕</button>
       </div>
-
-      <div id="explain-content" class="mt-4 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3"></div>
-
+      <div class="mt-4 space-y-3 text-sm text-slate-300">
+        <p><strong>Step 1 (The Brain):</strong> Run Ollama or LM Studio on your home PC or Mac.</p>
+        <p><strong>Step 2 (The Ears & Voice):</strong> Connect an INMP441 microphone and MAX98357A speaker amp to an ESP32 microcontroller.</p>
+        <p><strong>Step 3 (Motion):</strong> Hook up 2 micro servos using an inexpensive pan-tilt bracket to make your robot nod and turn.</p>
+      </div>
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
-        <button onclick="closeExplainHelpModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow">
-          Understood!
-        </button>
+        <button onclick="closeBeginnerGuideModal()" class="px-5 py-2 bg-indigo-600 text-white font-bold rounded-xl text-sm">Close Guide</button>
       </div>
     </div>
   </div>
 
-  <!-- Wiring & Pinout Specs Modal -->
-  <div id="spec-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeSpecModal()">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
-      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <div>
-          <span id="modal-category" class="text-[10px] uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded border border-indigo-800/40">Wiring & Part Specs</span>
-          <h3 id="modal-title" class="text-xl font-extrabold text-white mt-1">Part Name</h3>
-          <p id="modal-role" class="text-xs text-slate-400 mt-0.5">Role in Deskbot Stack</p>
-        </div>
-        <button onclick="closeSpecModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
-      </div>
-
-      <div class="mt-4 space-y-3.5 text-xs">
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
-            <span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">How It Connects</span>
-            <p id="modal-interface" class="font-mono text-slate-200 mt-1 text-xs">Standard Wires</p>
-          </div>
-          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
-            <span class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Power Supply Needed</span>
-            <p id="modal-power" class="text-slate-200 mt-1 text-xs">5V USB Rail</p>
-          </div>
-        </div>
-
-        <div class="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800">
-          <span class="text-[10px] uppercase tracking-wider text-indigo-400 font-bold">Pin-to-Pin Wire Connections</span>
-          <p id="modal-wiring" class="font-mono text-slate-200 text-xs mt-1 leading-relaxed"></p>
-        </div>
-
-        <div class="p-3.5 bg-amber-950/20 rounded-xl border border-amber-900/40 text-amber-300 text-xs leading-relaxed">
-          💡 <strong class="font-semibold text-amber-200">Workbench Tip:</strong> <span id="modal-tip"></span>
-        </div>
-      </div>
-
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-        <span id="modal-price" class="text-xs font-mono text-emerald-400 font-bold">~$5-$10 USD</span>
-        <div class="flex gap-2">
-          <button onclick="closeSpecModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">Close</button>
-          <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow">
-            Find This Part &rarr;
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CLI Quick-Start Modal -->
-  <div id="snippet-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeSnippetModal()">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
-      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
-        <div>
-          <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/40">Step-by-Step Terminal Guide</span>
-          <h3 id="snip-title" class="text-xl font-extrabold text-white mt-1">Tool Quick-Start</h3>
-          <p id="snip-role" class="text-xs text-slate-400 mt-0.5">Quick setup commands for your computer</p>
-        </div>
-        <button onclick="closeSnippetModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
-      </div>
-
-      <div class="mt-4 flex flex-wrap items-center justify-between gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
-        <span class="text-[11px] font-semibold text-slate-400 ml-1">Your Operating System:</span>
-        <div class="flex gap-1.5" id="os-button-group">
-          <button onclick="switchOS('linux')" id="os-btn-linux" class="px-3 py-1 rounded-lg text-xs font-bold transition">🐧 Linux / Raspberry Pi</button>
-          <button onclick="switchOS('macos')" id="os-btn-macos" class="px-3 py-1 rounded-lg text-xs font-bold transition">🍏 Apple Mac</button>
-          <button onclick="switchOS('windows')" id="os-btn-windows" class="px-3 py-1 rounded-lg text-xs font-bold transition">🪟 Windows PC</button>
-        </div>
-      </div>
-
-      <div id="snip-steps-container" class="mt-4 space-y-4"></div>
-
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-        <span id="snip-copied-msg" class="text-xs text-emerald-400 font-semibold opacity-0 transition-opacity duration-300">✓ Copied code block to clipboard!</span>
-        <button onclick="closeSnippetModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow">
-          Done
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Compliance & Community Footer -->
-  <footer class="border-t border-slate-900 bg-slate-950 py-10 px-6 text-center text-xs text-slate-500 space-y-4 mt-12">
-    <div class="max-w-4xl mx-auto space-y-3">
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950 py-8 px-6 text-center text-xs sm:text-sm text-slate-400 space-y-3 mt-12">
+    <div class="max-w-4xl mx-auto space-y-2">
       <div class="flex items-center justify-center gap-3">
-        <button 
-          onclick="openSuggestToolModal()" 
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-emerald-300 hover:bg-emerald-900 hover:text-white transition font-medium"
-        >
-          <span>💡 Suggest a Tool or Part</span>
-        </button>
-        <a 
-          href="https://github.com/realstuiewho/companion-stack-directory" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white transition font-medium"
-        >
-          <span>⭐ Star on GitHub</span>
-        </a>
+        <button onclick="openSuggestToolModal()" class="text-emerald-400 hover:underline font-semibold">💡 Suggest a Tool</button>
+        <span>&bull;</span>
+        <a href="https://github.com/realstuiewho/companion-stack-directory" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline font-semibold">⭐ GitHub Repository</a>
       </div>
-
-      <p class="font-medium text-slate-400">DeskbotStack.dev &mdash; The Open Hardware & Local AI Companion Index</p>
-      <p class="text-[11px] leading-relaxed text-slate-500">
-        Disclosure: DeskbotStack is reader-supported. Some external product links on this site are affiliate links. If you make a purchase or subscribe to compute/voice services through these links, we may earn an affiliate commission at no additional cost to you.
-      </p>
+      <p class="font-medium text-slate-300">DeskbotStack.dev &mdash; The Open Hardware & Local AI Companion Index</p>
+      <p class="text-xs text-slate-500">Reader-supported directory with verified affiliate links.</p>
     </div>
   </footer>
 
   <script>
-    // --- CONFIGURED WITH YOUR OFFICIAL AFFILIATE CODES ---
     const AFFILIATE_CONFIG = {
       aliexpress_tag: "deskbotstack",
       seeed_tag: "",
@@ -877,16 +423,13 @@
 
     let tools = [];
     let starterStacks = [];
-    let activeStackId = 'conversationalist'; // Default to featured
+    let activeStackId = 'conversationalist';
 
     const grid = document.getElementById('grid');
-    const counter = document.getElementById('tool-counter');
     const searchBox = document.getElementById('search-box');
     let currentCat = 'all';
     let userBuild = new Set();
     let viewingBuildOnly = false;
-    let activeSnippetTool = null;
-    let currentOS = localStorage.getItem('deskbot_os') || 'linux';
 
     function buildAliExpressLink(query) {
       if (AFFILIATE_CONFIG.aliexpress_tag) {
@@ -897,20 +440,17 @@
 
     function resolveSmartLink(item) {
       if (item.affiliateUrl) return item.affiliateUrl;
-      if (item.aliSearchQuery) {
-        return buildAliExpressLink(item.aliSearchQuery);
-      }
+      if (item.aliSearchQuery) return buildAliExpressLink(item.aliSearchQuery);
       return item.url;
     }
 
-    // --- COMMUNITY SUGGEST TOOL MODAL & GITHUB ISSUE ROUTER ---
-    function openSuggestToolModal() {
-      document.getElementById('suggest-tool-modal').classList.remove('hidden');
-    }
-
-    function closeSuggestToolModal() {
-      document.getElementById('suggest-tool-modal').classList.add('hidden');
-    }
+    // Modal openers
+    function openSuggestToolModal() { document.getElementById('suggest-tool-modal').classList.remove('hidden'); }
+    function closeSuggestToolModal() { document.getElementById('suggest-tool-modal').classList.add('hidden'); }
+    function openWhatsNextModal() { document.getElementById('whats-next-modal').classList.remove('hidden'); }
+    function closeWhatsNextModal() { document.getElementById('whats-next-modal').classList.add('hidden'); }
+    function openBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.remove('hidden'); }
+    function closeBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.add('hidden'); }
 
     function submitToolToGitHub() {
       const name = document.getElementById('suggest-name').value.trim();
@@ -918,28 +458,62 @@
       const url = document.getElementById('suggest-url').value.trim();
       const desc = document.getElementById('suggest-desc').value.trim();
 
-      if (!name) {
-        alert("Please enter the name of the tool or hardware component!");
-        return;
-      }
+      if (!name) { alert("Please enter the component name!"); return; }
 
       const title = encodeURIComponent(`[Tool Suggestion]: ${name}`);
       const body = encodeURIComponent(
-        `### 🤖 Proposed Component or Tool\n\n` +
-        `**Name:** ${name}\n` +
-        `**Category:** ${cat}\n` +
-        `**Official Link / Store:** ${url || 'Not provided'}\n\n` +
-        `### 💡 Why It Fits DeskbotStack:\n` +
-        `${desc || 'Recommended for companion robot builders.'}\n\n` +
-        `---\n*Submitted via Community Suggestion Modal on DeskbotStack.dev*`
+        `### 🤖 Proposed Component or Tool\n\n**Name:** ${name}\n**Category:** ${cat}\n**Store/Link:** ${url || 'Not provided'}\n\n### 💡 Why It Fits DeskbotStack:\n${desc || 'Recommended for companion robot builders.'}`
       );
-
-      const githubIssueUrl = `https://github.com/realstuiewho/companion-stack-directory/issues/new?title=${title}&body=${body}`;
-      window.open(githubIssueUrl, '_blank');
+      window.open(`https://github.com/realstuiewho/companion-stack-directory/issues/new?title=${title}&body=${body}`, '_blank');
       closeSuggestToolModal();
     }
 
-    // --- STARTER STACKS LOGIC ---
+    // DETAIL POP-UP TILE (High Readability)
+    function openToolDetailModal(id) {
+      const tool = tools.find(t => t.id === id);
+      if (!tool) return;
+
+      document.getElementById('detail-title').textContent = tool.name;
+      document.getElementById('detail-category').textContent = tool.cat.toUpperCase();
+      document.getElementById('detail-price').textContent = tool.price;
+      document.getElementById('detail-role').textContent = tool.role;
+      document.getElementById('detail-runs').textContent = `Where it runs: ${tool.runs}`;
+      document.getElementById('detail-pro').textContent = tool.pro;
+      document.getElementById('detail-con').textContent = tool.con;
+
+      const specsBox = document.getElementById('detail-specs-box');
+      if (tool.specs) {
+        specsBox.classList.remove('hidden');
+        document.getElementById('detail-interface').textContent = `Interface: ${tool.specs.interface}`;
+        document.getElementById('detail-wiring').textContent = `Wiring: ${tool.specs.wiring}`;
+        document.getElementById('detail-tip').textContent = `💡 Workbench Tip: ${tool.specs.tip}`;
+      } else {
+        specsBox.classList.add('hidden');
+      }
+
+      const linkBtn = document.getElementById('detail-action-link');
+      linkBtn.href = resolveSmartLink(tool);
+      linkBtn.textContent = tool.ctaText || (tool.specs ? 'Find Part on AliExpress →' : 'Visit Official Page →');
+
+      const buildBtn = document.getElementById('detail-build-btn');
+      const inBuild = userBuild.has(tool.id);
+      buildBtn.className = inBuild 
+        ? "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-rose-950/50 text-rose-300 border border-rose-800"
+        : "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700";
+      buildBtn.textContent = inBuild ? "✓ Remove from Build" : "+ Add to Build";
+      buildBtn.onclick = () => {
+        toggleBuildItem(tool.id);
+        openToolDetailModal(tool.id);
+      };
+
+      document.getElementById('tool-detail-modal').classList.remove('hidden');
+    }
+
+    function closeToolDetailModal() {
+      document.getElementById('tool-detail-modal').classList.add('hidden');
+    }
+
+    // BLUEPRINT RENDERING
     function renderStarterStacks() {
       const container = document.getElementById('starter-stacks-grid');
       if (!container || starterStacks.length === 0) return;
@@ -953,26 +527,26 @@
             onclick="selectStarterStack('${stack.id}')"
             class="p-4 rounded-2xl cursor-pointer transition flex flex-col justify-between border ${
               isActive 
-                ? 'bg-indigo-950/60 border-indigo-500 ring-2 ring-indigo-500/50 shadow-xl' 
-                : (isFeatured ? 'bg-slate-950/80 border-indigo-500/40 hover:border-indigo-400' : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60')
+                ? 'bg-indigo-950/70 border-indigo-500 ring-2 ring-indigo-500/50 shadow-xl' 
+                : (isFeatured ? 'bg-slate-950/80 border-indigo-500/50 hover:border-indigo-400' : 'bg-slate-950/60 border-slate-800 hover:border-slate-700')
             }"
           >
             <div>
               <div class="flex items-center justify-between gap-1 mb-2">
-                <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                  isActive ? 'bg-indigo-500 text-white' : (isFeatured ? 'bg-indigo-950 text-indigo-300 border border-indigo-800/60' : 'bg-slate-800 text-slate-400')
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                  isActive ? 'bg-indigo-500 text-white' : (isFeatured ? 'bg-indigo-950 text-indigo-300 border border-indigo-800' : 'bg-slate-800 text-slate-300')
                 }">
                   ${stack.badge}
                 </span>
-                <span class="text-[10px] font-mono text-emerald-400 font-semibold">${stack.monthlyEst}</span>
+                <span class="text-xs font-mono text-emerald-400 font-bold">${stack.monthlyEst}</span>
               </div>
-              <h3 class="text-sm font-bold text-white leading-snug">${stack.name}</h3>
-              <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">${stack.tagline}</p>
+              <h3 class="text-base font-bold text-white leading-snug">${stack.name}</h3>
+              <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">${stack.tagline}</p>
             </div>
 
-            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
-              <span class="text-slate-500">Hardware: <strong class="text-slate-300 font-mono">${stack.hardwareEst}</strong></span>
-              <span class="font-bold ${isActive ? 'text-indigo-400' : 'text-slate-400'}">${isActive ? 'Active Blueprint' : 'Select \u2192'}</span>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+              <span class="text-slate-400">Hardware: <strong class="text-slate-200 font-mono">${stack.hardwareEst}</strong></span>
+              <span class="font-bold ${isActive ? 'text-indigo-400' : 'text-slate-300'}">${isActive ? 'Active Blueprint' : 'Select \u2192'}</span>
             </div>
           </div>
         `;
@@ -1015,21 +589,21 @@
       costBadge.textContent = `Hardware: ${stack.hardwareEst}`;
 
       partsGrid.innerHTML = stack.hardware.map(item => `
-        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
+        <div class="p-3.5 bg-slate-950 rounded-2xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
           <div>
-            <div class="flex items-center justify-between text-[10px] text-indigo-400 font-bold mb-1">
+            <div class="flex items-center justify-between text-xs text-indigo-400 font-bold mb-1">
               <span class="uppercase tracking-wider font-mono">${item.part}</span>
-              <span class="text-slate-500">Verified Spec</span>
+              <span class="text-slate-500">Verified</span>
             </div>
-            <h4 class="text-xs font-bold text-white">${item.name}</h4>
-            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">${item.role}</p>
+            <h4 class="text-sm font-bold text-white">${item.name}</h4>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">${item.role}</p>
           </div>
           <div class="mt-3 pt-2.5 border-t border-slate-800/80">
             <a 
               href="${buildAliExpressLink(item.searchQuery)}" 
               target="_blank" 
               rel="noopener noreferrer"
-              class="w-full inline-block text-center py-1.5 px-3 bg-indigo-600/90 hover:bg-indigo-600 text-white rounded-lg text-xs font-semibold transition"
+              class="w-full inline-block text-center py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow"
             >
               Find on AliExpress &rarr;
             </a>
@@ -1038,372 +612,128 @@
       `).join('');
     }
 
-    function openBeginnerGuideModal() {
-      document.getElementById('beginner-guide-modal').classList.remove('hidden');
-    }
-
-    function closeBeginnerGuideModal() {
-      document.getElementById('beginner-guide-modal').classList.add('hidden');
-    }
-
-    function openWhatsNextModal() {
-      document.getElementById('whats-next-modal').classList.remove('hidden');
-    }
-
-    function closeWhatsNextModal() {
-      document.getElementById('whats-next-modal').classList.add('hidden');
-    }
-
-    function openExplainHelpModal(type) {
-      const modal = document.getElementById('explain-modal');
-      const title = document.getElementById('explain-title');
-      const content = document.getElementById('explain-content');
-
-      if (type === 'setup-file') {
-        title.textContent = "What is the 1-Click Computer Setup?";
-        content.innerHTML = `
-          <p>Instead of forcing you to hunt down, download, and configure 4 or 5 different programs separately, this button packages everything into <strong>one easy software recipe file (called a Docker Compose file)</strong>.</p>
-          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
-            <p>💡 <strong>How it helps you:</strong></p>
-            <ul class="list-disc list-inside space-y-1 text-slate-400 text-xs">
-              <li>You don't have to install tools one by one.</li>
-              <li>It automatically creates an isolated sandbox on your computer.</li>
-              <li>It links the brain, memory, and voice together so they communicate without manual setup.</li>
-            </ul>
-          </div>
-          <p class="text-slate-400">If you don't know what Docker is, don't worry! You don't need to run it right now. It's simply ready for whenever you want to boot your companion software automatically.</p>
-        `;
-      } else if (type === 'wiring-guide') {
-        title.textContent = "What is the Workbench Wiring & Parts Guide?";
-        content.innerHTML = `
-          <p>This opens a clean, full-screen checklist page that shows every physical part and program you picked for your companion.</p>
-          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
-            <p>💡 <strong>What you get:</strong></p>
-            <ul class="list-disc list-inside space-y-1 text-slate-400 text-xs">
-              <li>Exact wire-to-pin connections (e.g. which wire goes from the microphone to the board).</li>
-              <li>Live purchase links to buy the physical boards, screens, and motors online.</li>
-              <li>A one-click button to print the sheet or save it as a clean PDF for your workbench.</li>
-            </ul>
-          </div>
-        `;
-      }
-
-      modal.classList.remove('hidden');
-    }
-
-    function closeExplainHelpModal() {
-      document.getElementById('explain-modal').classList.add('hidden');
-    }
-
-    const DOCKER_SERVICE_TEMPLATES = {
-      ollama: {
-        serviceName: 'ollama',
-        image: 'ollama/ollama:latest',
-        container_name: 'deskbot-ollama',
-        restart: 'unless-stopped',
-        ports: ['11434:11434'],
-        volumes: ['ollama_data:/root/.ollama'],
-        gpu: true,
-        environment: { OLLAMA_ORIGINS: '*' }
-      },
-      vllm: {
-        serviceName: 'vllm',
-        image: 'vllm/vllm-openai:latest',
-        container_name: 'deskbot-vllm',
-        restart: 'unless-stopped',
-        ports: ['8000:8000'],
-        volumes: ['hf_cache:/root/.cache/huggingface'],
-        gpu: true,
-        ipc: 'host',
-        environment: { HUGGING_FACE_HUB_TOKEN: '${HUGGING_FACE_HUB_TOKEN:-}' }
-      },
-      localai: {
-        serviceName: 'localai',
-        image: 'localai/localai:latest-aio-cpu',
-        container_name: 'deskbot-localai',
-        restart: 'unless-stopped',
-        ports: ['8080:8080'],
-        volumes: ['localai_models:/build/models'],
-        environment: { DEBUG: 'true' }
-      },
-      aphrodite: {
-        serviceName: 'aphrodite',
-        image: 'alpindale/aphrodite-engine:latest',
-        container_name: 'deskbot-aphrodite',
-        restart: 'unless-stopped',
-        ports: ['2242:2242'],
-        gpu: true
-      },
-      'whisper-live': {
-        serviceName: 'whisper-live',
-        image: 'ghcr.io/collabora/whisperlive-gpu:latest',
-        container_name: 'deskbot-whisperlive',
-        restart: 'unless-stopped',
-        ports: ['9090:9090'],
-        gpu: true
-      },
-      letta: {
-        serviceName: 'letta-server',
-        image: 'letta/letta:latest',
-        container_name: 'deskbot-letta-memory',
-        restart: 'unless-stopped',
-        ports: ['8283:8283'],
-        volumes: ['letta_data:/root/.letta'],
-        environment: { OLLAMA_BASE_URL: 'http://ollama:11434' }
-      },
-      elizaos: {
-        serviceName: 'elizaos-agent',
-        image: 'elizaos/eliza:latest',
-        container_name: 'deskbot-elizaos',
-        restart: 'unless-stopped',
-        ports: ['3000:3000'],
-        environment: { OLLAMA_SERVER_URL: 'http://ollama:11434' }
-      }
-    };
-
-    function exportDockerCompose() {
-      const selected = tools.filter(t => userBuild.has(t.id));
-      if (selected.length === 0) {
-        alert("Your robot build is currently empty! Add components or pick a starter recipe first.");
-        return;
-      }
-
-      const activeComposeServices = {};
-      const declaredVolumes = new Set();
-      const unmappedTools = [];
-
-      selected.forEach(tool => {
-        const template = DOCKER_SERVICE_TEMPLATES[tool.id];
-        if (template) {
-          const svc = {
-            image: template.image,
-            container_name: template.container_name || `deskbot-${tool.id}`,
-            restart: template.restart || 'unless-stopped',
-            networks: ['deskbot-network']
-          };
-
-          if (template.ports) svc.ports = [...template.ports];
-          if (template.ipc) svc.ipc = template.ipc;
-          if (template.environment) svc.environment = { ...template.environment };
-
-          if (template.volumes) {
-            svc.volumes = [...template.volumes];
-            template.volumes.forEach(volStr => {
-              const rootVol = volStr.split(':')[0];
-              if (!rootVol.startsWith('.') && !rootVol.startsWith('/') && !rootVol.startsWith('~')) {
-                declaredVolumes.add(rootVol);
-              }
-            });
-          }
-
-          if (template.gpu) {
-            svc.deploy = {
-              resources: {
-                reservations: {
-                  devices: [{ driver: 'nvidia', count: 'all', capabilities: ['gpu'] }]
-                }
-              }
-            };
-          }
-
-          activeComposeServices[template.serviceName || tool.id] = svc;
-        } else {
-          unmappedTools.push(tool.name);
-        }
-      });
-
-      if (Object.keys(activeComposeServices).length === 0) {
-        alert("The components currently in your build are physical hardware parts or client scripts that don't need a container setup.\n\nTo export a software package file, add at least one software brain like Ollama, Letta Memory, or ElizaOS!");
-        return;
-      }
-
-      function serializeYaml(obj, indent = 0) {
-        const pad = '  '.repeat(indent);
-        let out = '';
-        for (const [key, val] of Object.entries(obj)) {
-          if (val === null || val === undefined) {
-            out += `${pad}${key}:\n`;
-          } else if (Array.isArray(val)) {
-            out += `${pad}${key}:\n`;
-            val.forEach(item => {
-              if (typeof item === 'object') {
-                out += `${pad}  -\n${serializeYaml(item, indent + 2)}`;
-              } else {
-                out += `${pad}  - "${item}"\n`;
-              }
-            });
-          } else if (typeof val === 'object') {
-            out += `${pad}${key}:\n${serializeYaml(val, indent + 1)}`;
-          } else if (typeof val === 'boolean' || typeof val === 'number') {
-            out += `${pad}${key}: ${val}\n`;
-          } else {
-            out += `${pad}${key}: "${val}"\n`;
-          }
-        }
-        return out;
-      }
-
-      const composeObj = {
-        services: activeComposeServices,
-        networks: {
-          'deskbot-network': { driver: 'bridge' }
-        }
-      };
-
-      if (declaredVolumes.size > 0) {
-        composeObj.volumes = {};
-        declaredVolumes.forEach(vol => { composeObj.volumes[vol] = null; });
-      }
-
-      const yamlContent = [
-        '# ==========================================================================',
-        '# DeskbotStack - Turnkey Companion Software Package',
-        '# Generated from realstuiewho/companion-stack-directory',
-        '# ==========================================================================\n',
-        serializeYaml(composeObj)
-      ].join('\n');
-
-      const envContent = [
-        '# DeskbotStack Configuration Keys',
-        '# Generated from realstuiewho/companion-stack-directory\n',
-        '# Optional Cloud Fallback & Voice API Keys (Fill in if using cloud services)',
-        'RUNPOD_API_KEY=your_runpod_api_key_here',
-        'ELEVENLABS_API_KEY=your_elevenlabs_api_key_here',
-        'HUGGING_FACE_HUB_TOKEN=\n',
-        '# Local network address',
-        'DESKBOT_HOSTNAME=localhost\n'
-      ].join('\n');
-
-      function triggerDownload(fileName, content, mimeType) {
-        const blob = new Blob([content], { type: mimeType });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      }
-
-      triggerDownload('docker-compose.yml', yamlContent, 'text/yaml');
-      setTimeout(() => {
-        triggerDownload('.env.example', envContent, 'text/plain');
-      }, 350);
-
-      setTimeout(() => {
-        openWhatsNextModal();
-      }, 600);
-    }
-
-    function saveBuildToStorage() {
-      try {
-        localStorage.setItem('deskbot_user_build', JSON.stringify([...userBuild]));
-      } catch (e) {}
-    }
-
-    function openPipelineExplainerModal() {
-      document.getElementById('pipeline-modal').classList.remove('hidden');
-    }
-
-    function closePipelineExplainerModal() {
-      document.getElementById('pipeline-modal').classList.add('hidden');
-    }
-
-    function openSnippetModal(id) {
-      const tool = tools.find(t => t.id === id);
-      if (!tool || !tool.snippets) return;
-
-      activeSnippetTool = tool;
-      document.getElementById('snip-title').textContent = tool.name;
-      document.getElementById('snip-role').textContent = tool.role;
-      
-      switchOS(currentOS);
-      document.getElementById('snippet-modal').classList.remove('hidden');
-    }
-
-    function closeSnippetModal() {
-      document.getElementById('snippet-modal').classList.add('hidden');
-      activeSnippetTool = null;
-    }
-
-    function switchOS(os) {
-      currentOS = os;
-      localStorage.setItem('deskbot_os', os);
-
-      ['linux', 'macos', 'windows'].forEach(k => {
-        const btn = document.getElementById(`os-btn-${k}`);
-        if (btn) {
-          if (k === os) {
-            btn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white transition shadow";
-          } else {
-            btn.className = "px-3 py-1 rounded-lg text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition";
-          }
-        }
-      });
-
-      renderSnippetSteps();
-    }
-
-    function renderSnippetSteps() {
-      if (!activeSnippetTool || !activeSnippetTool.snippets) return;
-
-      const container = document.getElementById('snip-steps-container');
-      const steps = activeSnippetTool.snippets[currentOS] || activeSnippetTool.snippets['linux'] || [];
-
-      if (steps.length === 0) {
-        container.innerHTML = `
-          <div class="py-6 text-center text-slate-500 text-xs">
-            No specific commands registered for this operating system.
+    // COMPACT RECTANGULAR TILES IN MAIN GRID
+    function render(items) {
+      if (items.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center text-slate-400">
+            <p class="text-base font-medium">No tools match your criteria.</p>
+            <button onclick="resetToAll()" class="mt-3 px-4 py-2 bg-slate-800 text-xs font-semibold rounded-xl text-slate-200">Show All</button>
           </div>
         `;
         return;
       }
 
-      container.innerHTML = steps.map((s, idx) => `
-        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80 space-y-2">
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-xs text-white">${s.title}</h4>
-            <button 
-              onclick="copyBlockCode('code-block-${idx}')" 
-              class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-semibold rounded border border-slate-700 transition"
-            >
-              Copy
-            </button>
+      grid.innerHTML = items.map(t => {
+        const inBuild = userBuild.has(t.id);
+        const resolvedUrl = resolveSmartLink(t);
+        const activeStack = starterStacks.find(s => s.id === activeStackId);
+        const inActiveStack = activeStack && activeStack.toolIds && (activeStack.toolIds.includes(t.id) || (t.kits && t.kits.includes(activeStackId)));
+
+        return `
+          <div class="tool-tile bg-slate-900 border ${
+            inActiveStack 
+              ? 'border-indigo-500 ring-2 ring-indigo-500/50 shadow-lg' 
+              : (inBuild ? 'border-emerald-500/80 ring-2 ring-emerald-500/30' : 'border-slate-800')
+          } rounded-2xl p-4 sm:p-5 flex flex-col justify-between relative">
+            
+            ${inActiveStack ? `<span class="absolute -top-2.5 left-4 bg-indigo-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">⭐ BLUEPRINT</span>` : (inBuild ? `<span class="absolute -top-2.5 left-4 bg-emerald-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">✓ IN BUILD</span>` : '')}
+
+            <div>
+              <div class="flex justify-between items-baseline gap-2 mb-1">
+                <h3 class="font-extrabold text-base sm:text-lg text-white leading-tight">${t.name}</h3>
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-950 text-emerald-400 border border-slate-800 flex-shrink-0">${t.price}</span>
+              </div>
+              <p class="text-xs sm:text-sm text-indigo-300 font-medium line-clamp-1 mb-2">${t.role}</p>
+              <p class="text-xs sm:text-sm text-slate-300 line-clamp-2 leading-relaxed">${t.pro}</p>
+            </div>
+            
+            <!-- Compact Action Strip -->
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center gap-2">
+              <button 
+                onclick="openToolDetailModal('${t.id}')"
+                class="w-1/2 py-2 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white rounded-xl text-xs sm:text-sm font-bold transition border border-slate-700"
+              >
+                📖 Details
+              </button>
+
+              <a 
+                href="${resolvedUrl}" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="w-1/2 text-center py-2 px-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow truncate"
+              >
+                ${t.specs ? 'Find Part →' : 'Try Tool →'}
+              </a>
+            </div>
           </div>
-          <p class="text-[11px] text-slate-400">${s.desc}</p>
-          <pre id="code-block-${idx}" class="p-3 rounded-lg bg-slate-900 border border-slate-800 font-mono text-[11px] text-indigo-300 overflow-x-auto leading-relaxed select-all">${s.code}</pre>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    function copyBlockCode(elementId) {
-      const codeEl = document.getElementById(elementId);
-      if (!codeEl) return;
+    function applyFilters() {
+      const query = (searchBox ? searchBox.value : '').toLowerCase().trim();
+      let filtered = [...tools];
 
-      navigator.clipboard.writeText(codeEl.textContent).then(() => {
-        const msg = document.getElementById('snip-copied-msg');
-        msg.classList.remove('opacity-0');
-        setTimeout(() => msg.classList.add('opacity-0'), 2500);
-      });
+      if (viewingBuildOnly) {
+        filtered = filtered.filter(t => userBuild.has(t.id));
+      } else if (currentCat !== 'all') {
+        filtered = filtered.filter(t => t.cat === currentCat);
+      }
+
+      if (query !== '') {
+        filtered = filtered.filter(t => 
+          (t.name && t.name.toLowerCase().includes(query)) ||
+          (t.role && t.role.toLowerCase().includes(query)) ||
+          (t.pro && t.pro.toLowerCase().includes(query)) ||
+          (t.cat && t.cat.toLowerCase().includes(query))
+        );
+      }
+
+      if (activeStackId) {
+        const stack = starterStacks.find(s => s.id === activeStackId);
+        if (stack && stack.toolIds) {
+          filtered.sort((a, b) => {
+            const aMatch = stack.toolIds.includes(a.id) || (a.kits && a.kits.includes(activeStackId));
+            const bMatch = stack.toolIds.includes(b.id) || (b.kits && b.kits.includes(activeStackId));
+            return (bMatch ? 1 : 0) - (aMatch ? 1 : 0);
+          });
+        }
+      }
+
+      render(filtered);
     }
 
-    function filterDiagram(cat) {
-      document.querySelectorAll('.diag-node').forEach(n => {
-        n.classList.remove('ring-2', 'ring-indigo-400', 'border-indigo-400');
-      });
-      const activeNode = document.getElementById(`diag-${cat}`);
-      if (activeNode) activeNode.classList.add('ring-2', 'ring-indigo-400');
+    function handleSearch() { applyFilters(); }
 
+    function filterCat(cat, btn) {
       currentCat = cat;
       viewingBuildOnly = false;
       document.querySelectorAll('.cat-btn').forEach(b => {
-        b.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
+        b.className = 'cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800';
       });
+      btn.className = 'cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow';
       applyFilters();
-      document.getElementById('grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    function resetToAll() {
+      currentCat = 'all';
+      viewingBuildOnly = false;
+      activeStackId = null;
+      if (searchBox) searchBox.value = '';
+      document.getElementById('reset-view-btn').classList.add('hidden');
+      renderStarterStacks();
+
+      const featured = starterStacks.find(s => s.id === 'conversationalist');
+      if (featured) renderHardwareBOM(featured);
+
+      document.querySelectorAll('.cat-btn').forEach((b, i) => {
+        b.className = i === 0 ? 'cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow' : 'cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800';
+      });
+      applyFilters();
+    }
+
+    // Build tray toggling
     function toggleHeaderTray(event) {
       if (event) event.stopPropagation();
       const tray = document.getElementById('header-stack-tray');
@@ -1427,67 +757,15 @@
       }
     });
 
-    function updateTrayItemsList() {
-      const container = document.getElementById('tray-items-list');
-      const selected = tools.filter(t => userBuild.has(t.id));
-
-      if (selected.length === 0) {
-        container.innerHTML = `
-          <div class="py-6 text-center text-slate-500">
-            <p>Your custom build is empty.</p>
-            <p class="text-[10px] mt-1 text-slate-600">Click '+ Add to My Robot' on any card to add parts.</p>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = selected.map(t => `
-        <div class="py-2 flex items-center justify-between gap-2">
-          <div class="truncate">
-            <span class="font-bold text-white text-xs">${t.name}</span>
-            <span class="text-[10px] text-slate-400 block">${t.role}</span>
-          </div>
-          <div class="flex items-center gap-2 flex-shrink-0">
-            <span class="font-mono text-emerald-400 text-xs">${t.price}</span>
-            <button onclick="toggleBuildItem('${t.id}', event)" class="text-slate-500 hover:text-rose-400 p-1 text-xs">✕</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function toggleBuildItem(id, event) {
-      if (event) event.stopPropagation();
+    function toggleBuildItem(id) {
       if (userBuild.has(id)) {
         userBuild.delete(id);
       } else {
         userBuild.add(id);
       }
-      saveBuildToStorage();
+      localStorage.setItem('deskbot_user_build', JSON.stringify([...userBuild]));
       updateBuildBadges();
       updateTrayItemsList();
-      applyFilters();
-    }
-
-    function clearCustomStack() {
-      userBuild.clear();
-      saveBuildToStorage();
-      viewingBuildOnly = false;
-      document.getElementById('tray-view-btn').textContent = "View My Parts Only";
-      updateBuildBadges();
-      updateTrayItemsList();
-      applyFilters();
-    }
-
-    function viewActiveStackOnly() {
-      viewingBuildOnly = !viewingBuildOnly;
-      const btn = document.getElementById('tray-view-btn');
-      if (viewingBuildOnly) {
-        btn.textContent = "Show All Tools";
-        btn.className = "w-1/2 py-2 px-2.5 rounded-xl bg-indigo-600 text-white font-semibold text-[11px] border border-indigo-500 transition text-center";
-      } else {
-        btn.textContent = "View My Parts Only";
-        btn.className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center";
-      }
       applyFilters();
     }
 
@@ -1497,389 +775,57 @@
         const item = tools.find(t => t.id === id);
         if (item && item.priceVal) cost += item.priceVal;
       });
-
       document.getElementById('nav-count-badge').textContent = userBuild.size;
       document.getElementById('nav-cost-badge').textContent = `• ~$${cost}`;
       document.getElementById('tray-subtitle').textContent = `${userBuild.size} components in build`;
       document.getElementById('tray-total-cost').textContent = `~$${cost} USD`;
     }
 
-    function openSpecModal(id) {
-      const tool = tools.find(t => t.id === id);
-      if (!tool || !tool.specs) return;
+    function updateTrayItemsList() {
+      const container = document.getElementById('tray-items-list');
+      const selected = tools.filter(t => userBuild.has(t.id));
 
-      document.getElementById('modal-title').textContent = tool.name;
-      document.getElementById('modal-role').textContent = tool.role;
-      document.getElementById('modal-interface').textContent = tool.specs.interface;
-      document.getElementById('modal-power').textContent = tool.specs.power;
-      document.getElementById('modal-wiring').textContent = tool.specs.wiring;
-      document.getElementById('modal-tip').textContent = tool.specs.tip;
-      document.getElementById('modal-price').textContent = tool.price;
-      document.getElementById('modal-link').href = resolveSmartLink(tool);
+      if (selected.length === 0) {
+        container.innerHTML = `<div class="py-6 text-center text-slate-400 text-xs">Your build is empty. Click "+ Add to Build" inside any tool details.</div>`;
+        return;
+      }
 
-      document.getElementById('spec-modal').classList.remove('hidden');
+      container.innerHTML = selected.map(t => `
+        <div class="py-2 flex items-center justify-between gap-2">
+          <div class="truncate">
+            <span class="font-bold text-white text-xs sm:text-sm">${t.name}</span>
+            <span class="text-xs text-slate-400 block truncate">${t.role}</span>
+          </div>
+          <button onclick="toggleBuildItem('${t.id}')" class="text-slate-400 hover:text-rose-400 p-1 text-sm font-bold">✕</button>
+        </div>
+      `).join('');
     }
 
-    function closeSpecModal() {
-      document.getElementById('spec-modal').classList.add('hidden');
+    function clearCustomStack() {
+      userBuild.clear();
+      localStorage.setItem('deskbot_user_build', JSON.stringify([]));
+      viewingBuildOnly = false;
+      updateBuildBadges();
+      updateTrayItemsList();
+      applyFilters();
     }
 
+    function viewActiveStackOnly() {
+      viewingBuildOnly = !viewingBuildOnly;
+      applyFilters();
+    }
+
+    // Keyboard escape closes modals
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        closeSpecModal();
-        closePipelineExplainerModal();
-        closeSnippetModal();
-        closeExplainHelpModal();
-        closeBeginnerGuideModal();
-        closeWhatsNextModal();
+        closeToolDetailModal();
         closeSuggestToolModal();
+        closeWhatsNextModal();
+        closeBeginnerGuideModal();
       }
     });
 
-    function runCalc() {
-      const params = parseFloat(document.getElementById('calc-params').value);
-      const quant = parseFloat(document.getElementById('calc-quant').value);
-      const ctx = parseFloat(document.getElementById('calc-ctx').value);
-
-      const weightGB = (params * quant) / 8;
-      const totalVRAM = (weightGB + ctx + 1.2).toFixed(1);
-
-      const resultEl = document.getElementById('calc-vram-result');
-      const verdictEl = document.getElementById('calc-verdict');
-      const recEl = document.getElementById('calc-recommendation');
-
-      resultEl.textContent = `~${totalVRAM} GB`;
-
-      if (totalVRAM <= 7.0) {
-        verdictEl.className = "text-[11px] text-emerald-400 mt-1 font-medium";
-        verdictEl.textContent = "⚡ Fits easily on a standard 16GB Mini PC or Raspberry Pi 5";
-        recEl.innerHTML = `Great choice: Fast, completely quiet, and runs smoothly on normal home desktop computers.`;
-      } else if (totalVRAM <= 18.0) {
-        verdictEl.className = "text-[11px] text-indigo-400 mt-1 font-medium";
-        verdictEl.textContent = "🧠 Recommended: 24GB Memory (e.g. Mac Mini M4 or Gaming PC)";
-        recEl.innerHTML = `Fits smoothly on a <strong>Mac Mini M4 (24GB)</strong> or dedicated graphics card.`;
-      } else if (totalVRAM <= 30.0) {
-        verdictEl.className = "text-[11px] text-amber-400 mt-1 font-medium";
-        verdictEl.textContent = "⚠️ High Memory: Needs Mac Studio or Rented Cloud";
-        recEl.innerHTML = `Might slow down normal laptops. Consider renting time on <a href="https://runpod.io?ref=fsxzpcbt" target="_blank" class="text-indigo-400 underline font-semibold">RunPod Cloud GPUs</a> instead.`;
-      } else {
-        verdictEl.className = "text-[11px] text-rose-400 mt-1 font-medium";
-        verdictEl.textContent = "🚨 Too heavy for normal home PCs";
-        recEl.innerHTML = `This giant model requires workstation hardware. Best way: <a href="https://runpod.io?ref=fsxzpcbt" target="_blank" class="text-indigo-400 underline font-bold">Run it on cloud servers from $0.44/hr &rarr;</a>`;
-      }
-    }
-
-    function toggleCalc() {
-      const body = document.getElementById('calc-body');
-      const btn = document.getElementById('calc-toggle-btn');
-      if (body.classList.contains('hidden')) {
-        body.classList.remove('hidden');
-        btn.textContent = 'Hide Calculator ▲';
-      } else {
-        body.classList.add('hidden');
-        btn.textContent = 'Show Calculator ▼';
-      }
-    }
-
-    function openCustomStackChecklistTab() {
-      const selectedTools = tools.filter(t => userBuild.has(t.id));
-      if (selectedTools.length === 0) {
-        alert("Your robot build is empty! Please select at least one component or choose a starter recipe.");
-        return;
-      }
-
-      let totalCost = 0;
-      selectedTools.forEach(t => { if (t.priceVal) totalCost += t.priceVal; });
-
-      const rows = selectedTools.map(t => {
-        const destUrl = resolveSmartLink(t);
-        return `
-          <tr class="border-b border-slate-800 hover:bg-slate-900/40 transition">
-            <td class="py-3 px-4 text-center">
-              <input type="checkbox" checked class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-0 cursor-pointer" />
-            </td>
-            <td class="py-3 px-4">
-              <a href="${destUrl}" target="_blank" rel="noopener noreferrer" class="font-bold text-indigo-400 hover:text-indigo-300 hover:underline inline-flex items-center gap-1">
-                <span>${t.name}</span>
-                <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-              </a>
-              <div class="text-[11px] text-slate-400 mt-0.5">${t.role}</div>
-            </td>
-            <td class="py-3 px-4 text-xs font-semibold text-slate-300">${t.cat}</td>
-            <td class="py-3 px-4 text-xs font-mono text-emerald-400">${t.price}</td>
-            <td class="py-3 px-4 text-[11px] text-slate-400">
-              ${t.specs ? `<span class="font-mono text-indigo-300">${t.specs.interface}</span><br><span class="text-slate-500">${t.specs.wiring}</span>` : `${t.runs}`}
-            </td>
-            <td class="py-3 px-4 text-center">
-              <a href="${destUrl}" target="_blank" rel="noopener noreferrer" class="inline-block px-3 py-1 text-xs font-bold rounded-lg ${t.badge ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'} transition">
-                Find Part &rarr;
-              </a>
-            </td>
-          </tr>
-        `;
-      }).join('');
-
-      const pinouts = selectedTools.filter(t => t.specs).map(t => {
-        const destUrl = resolveSmartLink(t);
-        return `
-          <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5 text-xs text-slate-300">
-            <div class="flex justify-between items-center">
-              <h4 class="font-bold text-white text-sm">
-                <a href="${destUrl}" target="_blank" class="text-indigo-400 hover:underline inline-flex items-center gap-1">
-                  <span>${t.name}</span>
-                  <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                </a>
-              </h4>
-              <span class="font-mono text-[10px] text-slate-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">${t.specs.interface}</span>
-            </div>
-            <p><strong class="text-slate-400">Power Connection:</strong> ${t.specs.power}</p>
-            <p><strong class="text-indigo-400">Wiring Connections:</strong> <span class="font-mono text-slate-200">${t.specs.wiring}</span></p>
-            <p class="text-[11px] text-amber-400/90 bg-amber-950/20 p-2 rounded border border-amber-900/30">💡 <strong>Workbench Tip:</strong> ${t.specs.tip}</p>
-          </div>
-        `;
-      }).join('');
-
-      const docHtml = `
-        <!doctype html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <title>My Custom Desk Companion — Parts Checklist & Wiring Guide</title>
-          <script src="https://cdn.tailwindcss.com"><\/script>
-          <style>
-            @media print {
-              .no-print { display: none !important; }
-              body { background: white !important; color: black !important; padding: 0 !important; }
-              a { color: #1d4ed8 !important; text-decoration: underline !important; }
-            }
-          </style>
-        </head>
-        <body class="bg-slate-950 text-slate-100 min-h-screen font-sans p-6 md:p-12">
-          <div class="max-w-5xl mx-auto space-y-8">
-            <div class="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-slate-800 gap-4">
-              <div>
-                <span class="text-xs uppercase tracking-wider font-bold text-indigo-400">Workbench Build Sheet</span>
-                <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-0.5">My Custom Deskbot Stack</h1>
-                <p class="text-xs text-slate-400 mt-1">${selectedTools.length} Components Selected &bull; Estimated Hardware Cost: <strong class="text-emerald-400 font-mono text-sm">~$${totalCost} USD</strong></p>
-              </div>
-              <div class="flex gap-2 no-print">
-                <button onclick="window.print()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow">
-                  🖨️ Print / Save PDF
-                </button>
-                <button onclick="window.close()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold rounded-xl text-white transition shadow">
-                  ✕ Close Tab
-                </button>
-              </div>
-            </div>
-
-            <div class="p-4 rounded-xl bg-indigo-950/20 border border-indigo-900/40 text-xs text-indigo-300">
-              💡 <strong>Clickable Links:</strong> Click any product name below to visit its store or setup page. Tick off the checkboxes as you assemble your parts on your workbench!
-            </div>
-
-            <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/50">
-              <table class="w-full text-left text-sm border-collapse">
-                <thead>
-                  <tr class="border-b border-slate-800 bg-slate-900 text-[11px] uppercase tracking-wider text-slate-400 font-semibold">
-                    <th class="py-3 px-4 text-center w-12">Done</th>
-                    <th class="py-3 px-4">Component</th>
-                    <th class="py-3 px-4">Role</th>
-                    <th class="py-3 px-4">Price</th>
-                    <th class="py-3 px-4">Connections</th>
-                    <th class="py-3 px-4 text-center">Find Part</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${rows}
-                </tbody>
-              </table>
-            </div>
-
-            ${pinouts ? `
-              <div class="pt-6 space-y-4">
-                <h2 class="text-xl font-bold text-white border-l-4 border-indigo-500 pl-3">Wire-by-Wire Assembly Guide</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  ${pinouts}
-                </div>
-              </div>
-            ` : ''}
-
-            <footer class="pt-8 border-t border-slate-900 text-center text-xs text-slate-500 space-y-1">
-              <p>Generated by <strong>DeskbotStack.dev</strong> &bull; Reader-supported directory.</p>
-            </footer>
-          </div>
-        </body>
-        </html>
-      `;
-
-      const newWindow = window.open('', '_blank');
-      if (newWindow) {
-        newWindow.document.write(docHtml);
-        newWindow.document.close();
-      } else {
-        alert("Please allow pop-ups for this site to open the checklist in a new tab.");
-      }
-    }
-
-    function render(items) {
-      counter.textContent = `Showing ${items.length} ${items.length === 1 ? 'Tool' : 'Tools'}`;
-      if (items.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full py-16 text-center text-slate-500">
-            <p class="text-base font-medium">No tools or hardware match your criteria.</p>
-            <button onclick="resetToAll()" class="mt-3 px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg text-slate-300">Show Everything</button>
-          </div>
-        `;
-        return;
-      }
-
-      grid.innerHTML = items.map(t => {
-        const inBuild = userBuild.has(t.id);
-        const resolvedUrl = resolveSmartLink(t);
-        const activeStack = starterStacks.find(s => s.id === activeStackId);
-        const inActiveStack = activeStack && activeStack.toolIds && (activeStack.toolIds.includes(t.id) || (t.kits && t.kits.includes(activeStackId)));
-
-        return `
-          <div class="bg-slate-900 border ${
-            inActiveStack 
-              ? 'border-indigo-500 ring-2 ring-indigo-500/50 shadow-lg' 
-              : (inBuild ? 'border-indigo-500/80 ring-2 ring-indigo-500/30' : (t.badge ? 'border-indigo-500/40 ring-1 ring-indigo-500/20' : 'border-slate-800'))
-          } rounded-2xl p-5 flex flex-col justify-between hover:border-slate-700 transition relative">
-            
-            ${inActiveStack ? `<span class="absolute -top-2.5 left-4 bg-indigo-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">⭐ IN ACTIVE BLUEPRINT</span>` : (inBuild ? `<span class="absolute -top-2.5 left-4 bg-emerald-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">✓ IN YOUR ROBOT BUILD</span>` : '')}
-            ${t.badge ? `<span class="absolute -top-2.5 right-4 bg-indigo-600 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full shadow">${t.badge}</span>` : ''}
-            
-            <div>
-              <div class="flex justify-between items-start mb-2 ${(inBuild || inActiveStack) ? 'mt-1' : ''}">
-                <h3 class="font-bold text-lg text-white">${t.name}</h3>
-                <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">${t.price}</span>
-              </div>
-              <p class="text-xs font-medium text-indigo-400 mb-3">${t.role}</p>
-              <div class="space-y-1.5 text-xs text-slate-300">
-                <p><strong class="text-slate-400">Where It Runs:</strong> ${t.runs}</p>
-                <p><strong class="text-emerald-400">Why It's Good:</strong> ${t.pro}</p>
-                <p><strong class="text-rose-400">Keep In Mind:</strong> ${t.con}</p>
-              </div>
-            </div>
-            
-            <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-2">
-              <div class="flex items-center gap-2">
-                ${t.specs ? `
-                  <button 
-                    onclick="openSpecModal('${t.id}')"
-                    class="w-1/2 py-2 px-2.5 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 border border-slate-700/80"
-                  >
-                    <span>📐 Wiring Specs</span>
-                  </button>
-                ` : (t.snippets ? `
-                  <button 
-                    onclick="openSnippetModal('${t.id}')"
-                    class="w-1/2 py-2 px-2.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 border border-slate-700/80"
-                  >
-                    <span>💻 Quick Setup</span>
-                  </button>
-                ` : '')}
-                
-                <a 
-                  href="${resolvedUrl}" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="${(t.specs || t.snippets) ? 'w-1/2' : 'w-full'} block text-center py-2 px-2.5 ${t.badge ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'} text-white rounded-lg text-xs font-semibold transition"
-                >
-                  ${t.ctaText || (t.specs ? 'Find Part \u2192' : 'Get Details \u2192')}
-                </a>
-              </div>
-
-              <button 
-                onclick="toggleBuildItem('${t.id}', event)"
-                class="w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition border ${inBuild ? 'bg-emerald-950/30 border-emerald-600/50 text-emerald-300 hover:bg-rose-950/30 hover:border-rose-700 hover:text-rose-300' : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-white'}"
-              >
-                ${inBuild ? '✓ Remove from Build' : '+ Add to My Robot'}
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function applyFilters() {
-      const query = (searchBox ? searchBox.value : '').toLowerCase().trim();
-      let filtered = [...tools];
-
-      if (viewingBuildOnly) {
-        filtered = filtered.filter(t => userBuild.has(t.id));
-      } else if (currentCat !== 'all') {
-        filtered = filtered.filter(t => t.cat === currentCat);
-      }
-
-      if (query !== '') {
-        filtered = filtered.filter(t => 
-          (t.name && t.name.toLowerCase().includes(query)) ||
-          (t.role && t.role.toLowerCase().includes(query)) ||
-          (t.pro && t.pro.toLowerCase().includes(query)) ||
-          (t.con && t.con.toLowerCase().includes(query)) ||
-          (t.runs && t.runs.toLowerCase().includes(query)) ||
-          (t.cat && t.cat.toLowerCase().includes(query)) ||
-          (t.specs && (
-            t.specs.interface.toLowerCase().includes(query) ||
-            t.specs.wiring.toLowerCase().includes(query) ||
-            t.specs.tip.toLowerCase().includes(query)
-          ))
-        );
-      }
-
-      if (activeStackId) {
-        const stack = starterStacks.find(s => s.id === activeStackId);
-        if (stack && stack.toolIds) {
-          filtered.sort((a, b) => {
-            const aMatch = stack.toolIds.includes(a.id) || (a.kits && a.kits.includes(activeStackId));
-            const bMatch = stack.toolIds.includes(b.id) || (b.kits && b.kits.includes(activeStackId));
-            return (bMatch ? 1 : 0) - (aMatch ? 1 : 0);
-          });
-        }
-      }
-
-      render(filtered);
-    }
-
-    function handleSearch() {
-      applyFilters();
-    }
-
-    function filterCat(cat, btn) {
-      currentCat = cat;
-      viewingBuildOnly = false;
-      document.querySelectorAll('.diag-node').forEach(n => n.classList.remove('ring-2', 'ring-indigo-400'));
-      document.getElementById('tray-view-btn').textContent = "View My Parts Only";
-      document.getElementById('tray-view-btn').className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center";
-      
-      document.querySelectorAll('.cat-btn').forEach(b => {
-        b.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
-      });
-      btn.className = 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white';
-      applyFilters();
-    }
-
-    function resetToAll() {
-      currentCat = 'all';
-      viewingBuildOnly = false;
-      activeStackId = null;
-      if (searchBox) searchBox.value = '';
-      document.getElementById('reset-view-btn').classList.add('hidden');
-      renderStarterStacks();
-
-      const featured = starterStacks.find(s => s.id === 'conversationalist');
-      if (featured) renderHardwareBOM(featured);
-
-      document.querySelectorAll('.diag-node').forEach(n => n.classList.remove('ring-2', 'ring-indigo-400'));
-      document.getElementById('tray-view-btn').textContent = "View My Parts Only";
-      document.getElementById('tray-view-btn').className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center";
-      document.querySelectorAll('.cat-btn').forEach((b, i) => {
-        b.className = i === 0 ? 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white' : 'cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
-      });
-      applyFilters();
-    }
-
-    // --- FETCH DATA FROM TOOLS.JSON & STACKS.JSON ---
+    // DATA LOADING
     Promise.all([
       fetch('./tools.json', { cache: 'no-store' }).then(res => res.json()),
       fetch('./stacks.json', { cache: 'no-store' }).then(res => res.json()).catch(() => [])
@@ -1890,33 +836,18 @@
 
       try {
         const savedBuild = localStorage.getItem('deskbot_user_build');
-        if (savedBuild) {
-          JSON.parse(savedBuild).forEach(id => userBuild.add(id));
-        } else {
-          tools.forEach(t => {
-            if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
-          });
-        }
-      } catch (e) {
-        tools.forEach(t => {
-          if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
-        });
-      }
+        if (savedBuild) JSON.parse(savedBuild).forEach(id => userBuild.add(id));
+      } catch (e) {}
 
       renderStarterStacks();
-
       const defaultStack = starterStacks.find(s => s.id === activeStackId) || starterStacks[0];
-      if (defaultStack) {
-        renderHardwareBOM(defaultStack);
-      }
+      if (defaultStack) renderHardwareBOM(defaultStack);
 
-      runCalc();
       updateBuildBadges();
       applyFilters();
     })
     .catch(err => {
-      console.error('Failed to load catalog data:', err);
-      counter.textContent = 'Error loading tools';
+      console.error('Failed to load data:', err);
     });
   </script>
 </body>
