@@ -140,7 +140,7 @@
           </div>
 
           <span id="tool-counter" class="hidden md:inline-block text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
-            Loading Tools...
+            41 Tools
           </span>
         </div>
       </div>
@@ -152,7 +152,7 @@
         Build Your Own <span class="text-indigo-400">Desk Companion & AI Robot</span>
       </h1>
       <p class="mt-4 text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
-        Pick a smart brain that runs privately on your computer, add hearing and a voice, and connect physical motors with simple wiring guides.
+        Pick a smart brain that runs privately on your computer, add hearing and a voice, and connect physical arms, heads, and humanoid platforms.
       </p>
 
       <!-- Search Input Bar -->
@@ -165,7 +165,7 @@
         <input 
           type="text" 
           id="search-box" 
-          placeholder="Search tools, wires, microphones, motors, screens, voices..." 
+          placeholder="Search arms, humanoids, Unitree, Hiwonder, ESP32, voices..." 
           oninput="handleSearch()"
           onkeyup="handleSearch()"
           class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
@@ -269,8 +269,8 @@
                 <span class="text-xs font-mono font-bold">05 / BODY</span>
                 <span class="text-base">🤖</span>
               </div>
-              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Eyes & Motors</h3>
-              <p class="text-[10px] text-slate-400 mt-1">Nods head, animates screen eyes, lights up LEDs</p>
+              <h3 class="font-bold text-white text-xs group-hover:text-indigo-300 transition">Arms, Servos & Bipeds</h3>
+              <p class="text-[10px] text-slate-400 mt-1">Nods heads, moves robotic arms, walks on legs</p>
             </div>
             <div class="mt-3 text-[9px] font-mono text-emerald-400 font-semibold uppercase tracking-wider">Moves In Real Life ✓</div>
           </div>
@@ -342,12 +342,12 @@
 
     <!-- Category Filters -->
     <div class="max-w-6xl mx-auto px-6 mb-8 flex flex-wrap gap-2 justify-center">
-      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (38)</button>
+      <button onclick="filterCat('all', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white">All (41)</button>
       <button onclick="filterCat('runtimes', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🧠 Brains & Cloud Power</button>
       <button onclick="filterCat('stt', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">👂 Ears & Listening</button>
       <button onclick="filterCat('tts', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🗣️ Voices & Speaking</button>
       <button onclick="filterCat('orchestration', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">📚 Memory & Personality</button>
-      <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🤖 Motors, Eyes & Bodies</button>
+      <button onclick="filterCat('hardware', this)" class="cat-btn px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">🤖 Arms, Motors & Bodies</button>
     </div>
 
     <!-- Cards Grid -->
