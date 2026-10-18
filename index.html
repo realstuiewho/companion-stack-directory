@@ -341,67 +341,132 @@
     <main class="max-w-6xl mx-auto px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="grid"></main>
   </div>
 
-  <!-- WHAT'S NEXT POP-UP (SHOWS RIGHT AFTER DOWNLOADING SETUP FILES) -->
+  <!-- WHAT'S NEXT & LEARNING POP-UP (LARGER TEXT + EXPANDABLE EXPLAINERS) -->
   <div 
     id="whats-next-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
     onclick="closeWhatsNextModal()"
   >
     <div 
-      class="bg-slate-900 border border-indigo-500/50 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" 
+      class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
       onclick="event.stopPropagation()"
     >
+      <!-- Modal Header -->
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
-          <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
+          <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded border border-emerald-800/50">
             Files Downloaded Successfully!
           </span>
-          <h3 class="text-lg font-extrabold text-white mt-1">📦 You’ve Got the Files — What’s Next?</h3>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1.5">📦 What Did You Just Download?</h3>
+          <p class="text-sm text-slate-400 mt-0.5">Everything you need to know about the files on your desktop.</p>
         </div>
         <button 
           onclick="closeWhatsNextModal()" 
-          class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition"
+          class="text-slate-400 hover:text-white text-base font-bold w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition flex-shrink-0"
         >
           ✕
         </button>
       </div>
 
-      <div class="mt-4 space-y-3 text-xs text-slate-300 leading-relaxed">
-        <p class="text-slate-400">
-          Two files just arrived in your Downloads folder: <strong class="text-white font-mono">docker-compose.yml</strong> (your software blueprint) and <strong class="text-white font-mono">.env.example</strong> (your settings file).
-        </p>
-
-        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
-          <div class="flex items-start gap-2">
-            <span class="font-bold text-indigo-400 font-mono text-sm">1.</span>
-            <p><strong>Move them together:</strong> Make a new folder on your computer (e.g. <code class="text-indigo-300 font-mono">MyDeskbot</code>) and move both files into it.</p>
+      <!-- Quick 3-Step Setup Box -->
+      <div class="mt-5 p-4 sm:p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
+        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>🚀 The 3-Step Workbench Routine</span>
+        </h4>
+        
+        <div class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+          <div class="flex items-start gap-2.5">
+            <span class="font-bold text-indigo-400 font-mono text-base leading-none">1.</span>
+            <p><strong>Put them in a folder:</strong> Create a new folder on your computer (e.g. <code class="text-indigo-300 font-mono font-semibold">MyDeskbot</code>) and move both downloaded files into it.</p>
           </div>
-          <div class="flex items-start gap-2">
-            <span class="font-bold text-indigo-400 font-mono text-sm">2.</span>
-            <p><strong>Rename the settings file:</strong> Rename <code class="text-indigo-300 font-mono">.env.example</code> to just <code class="text-emerald-300 font-mono">.env</code> (open it to paste RunPod or ElevenLabs keys if using cloud services).</p>
+          <div class="flex items-start gap-2.5">
+            <span class="font-bold text-indigo-400 font-mono text-base leading-none">2.</span>
+            <p><strong>Rename the settings file:</strong> Rename <code class="text-indigo-300 font-mono font-semibold">env.example</code> to <code class="text-emerald-400 font-mono font-bold">.env</code> (put a dot at the start). Open it in Notepad only if you need to paste private API keys.</p>
           </div>
-          <div class="flex items-start gap-2">
-            <span class="font-bold text-indigo-400 font-mono text-sm">3.</span>
-            <div>
-              <p><strong>Start your software:</strong> Make sure <a href="https://www.docker.com/products/docker-desktop/" target="_blank" class="text-indigo-400 underline font-semibold">Docker Desktop</a> is running, open a terminal in that folder, and run:</p>
-              <div class="mt-1 flex items-center gap-1.5">
-                <code class="px-2.5 py-1 bg-slate-900 border border-slate-800 rounded font-mono text-emerald-400 text-[11px] select-all">docker compose up -d</code>
+          <div class="flex items-start gap-2.5">
+            <span class="font-bold text-indigo-400 font-mono text-base leading-none">3.</span>
+            <div class="space-y-1.5">
+              <p><strong>Start your robot:</strong> Make sure <strong class="text-white">Docker Desktop</strong> is open, open a terminal in your folder, and run:</p>
+              <div class="flex items-center gap-2">
+                <code class="px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg font-mono text-emerald-400 text-xs sm:text-sm font-semibold select-all">docker compose up -d</code>
               </div>
             </div>
           </div>
         </div>
-
-        <p class="text-[11px] text-slate-500 italic">
-          💡 Not ready to run them right now? Don't stress. You can tuck them away until you assemble your bot!
-        </p>
       </div>
 
-      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+      <!-- Interactive Learn-The-Files Section (Expandable accordions) -->
+      <div class="mt-5 space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
+          🔍 Click To Learn What These Programs Actually Are:
+        </h4>
+
+        <!-- Accordion 1: Docker Desktop -->
+        <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
+          <summary class="font-bold text-sm text-indigo-300 cursor-pointer flex justify-between items-center select-none">
+            <span>🐳 What is "Docker Desktop" and why do I need it?</span>
+            <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>
+              Think of <strong>Docker</strong> like digital shipping containers. 
+            </p>
+            <p class="text-slate-400">
+              Normally, installing artificial intelligence models requires installing dozens of confusing background tools, code libraries, and Python versions that can mess up your regular PC files.
+            </p>
+            <p class="text-slate-400">
+              Docker keeps everything neatly sealed inside its own clean sandbox. It downloads the exact tools you picked, connects them together automatically, and can be deleted cleanly in one click without leaving junk on your hard drive.
+            </p>
+          </div>
+        </details>
+
+        <!-- Accordion 2: docker-compose.yml -->
+        <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
+          <summary class="font-bold text-sm text-emerald-300 cursor-pointer flex justify-between items-center select-none">
+            <span>📄 What is "docker-compose.yml"? (The Blueprint)</span>
+            <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>
+              This is a plain-text <strong>instruction recipe</strong> for your computer. 
+            </p>
+            <p class="text-slate-400">
+              When Docker reads this file, it sees: <em>"Fetch the brain tool, open port 8283 for memory, give it a private storage folder, and hook up the voice engine."</em>
+            </p>
+            <p class="text-slate-400">
+              Instead of typing 20 different setup commands into a terminal, this single recipe card tells your computer everything it needs to know in one breath.
+            </p>
+          </div>
+        </details>
+
+        <!-- Accordion 3: env.example -->
+        <details class="group p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl transition hover:border-slate-700">
+          <summary class="font-bold text-sm text-amber-300 cursor-pointer flex justify-between items-center select-none">
+            <span>🔑 What is "env.example"? (The Secret Key Safe)</span>
+            <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>
+              "ENV" stands for <strong>Environment</strong>. It’s where you safely store private account keys or passwords.
+            </p>
+            <p class="text-slate-400">
+              If you ever use cloud services like ElevenLabs (for realistic voices) or RunPod (for rented cloud graphics cards), you paste your secret keys into this file. 
+            </p>
+            <p class="text-slate-400">
+              The blueprint reads your keys from here quietly so you never have to paste private passwords into your main software code!
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+        <span class="text-xs text-slate-500 italic">💡 You can re-open this anytime by clicking ❓ in the top tray.</span>
         <button 
           onclick="closeWhatsNextModal()" 
-          class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow"
+          class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition shadow"
         >
-          Got It, Thanks!
+          I've Got It, Thanks!
         </button>
       </div>
     </div>
@@ -561,7 +626,7 @@
     </div>
   </div>
 
-  <!-- POP-UP EXPLAINER MODAL -->
+  <!-- POP-UP EXPLAINER MODAL (FOR QUESTION MARK BUTTONS) -->
   <div id="explain-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeExplainHelpModal()">
     <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
@@ -572,7 +637,7 @@
         <button onclick="closeExplainHelpModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
       </div>
 
-      <div id="explain-content" class="mt-4 text-xs text-slate-300 leading-relaxed space-y-3"></div>
+      <div id="explain-content" class="mt-4 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-3"></div>
 
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
         <button onclick="closeExplainHelpModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow">
@@ -725,7 +790,7 @@
           <p>Instead of forcing you to hunt down, download, and configure 4 or 5 different programs separately, this button packages everything into <strong>one easy software recipe file (called a Docker Compose file)</strong>.</p>
           <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
             <p>💡 <strong>How it helps you:</strong></p>
-            <ul class="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+            <ul class="list-disc list-inside space-y-1 text-slate-400 text-xs">
               <li>You don't have to install tools one by one.</li>
               <li>It automatically creates an isolated sandbox on your computer.</li>
               <li>It links the brain, memory, and voice together so they communicate without manual setup.</li>
@@ -739,7 +804,7 @@
           <p>This opens a clean, full-screen checklist page that shows every physical part and program you picked for your companion.</p>
           <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2">
             <p>💡 <strong>What you get:</strong></p>
-            <ul class="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+            <ul class="list-disc list-inside space-y-1 text-slate-400 text-xs">
               <li>Exact wire-to-pin connections (e.g. which wire goes from the microphone to the board).</li>
               <li>Live purchase links to buy the physical boards, screens, and motors online.</li>
               <li>A one-click button to print the sheet or save it as a clean PDF for your workbench.</li>
@@ -951,7 +1016,7 @@
         triggerDownload('.env.example', envContent, 'text/plain');
       }, 350);
 
-      // Open the "What's Next?" pop-up 500ms after download starts
+      // Open the new informative "What's Next?" pop-up modal
       setTimeout(() => {
         openWhatsNextModal();
       }, 600);
