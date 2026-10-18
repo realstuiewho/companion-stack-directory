@@ -164,7 +164,7 @@
       </div>
     </section>
 
-    <!-- DYNAMIC SIGNAL CHAIN VISUALIZER WITH SWAP BUTTONS -->
+    <!-- DYNAMIC SIGNAL CHAIN VISUALIZER (5 Clean Slots) -->
     <section id="signal-chain-section" class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 hidden">
       <div class="p-5 sm:p-6 rounded-3xl bg-slate-900 border-2 border-indigo-500/60 shadow-2xl space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
@@ -173,7 +173,7 @@
               Interactive Hardware Nervous System
             </span>
             <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">Live Signal & Perception Pipeline</h2>
-            <p class="text-xs sm:text-sm text-slate-300">Click any component to swap with verified compatible drop-in upgrades.</p>
+            <p class="text-xs sm:text-sm text-slate-300">Each stage holds 1 active component. Click Swap to replace it cleanly.</p>
           </div>
           <button 
             onclick="viewActiveStackOnly()" 
@@ -185,23 +185,23 @@
 
         <!-- 5-Stage Connected Pipeline -->
         <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2 relative">
-          <!-- Stage 1: Ears -->
-          <div id="chain-stage-ears" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <!-- Stage 1: Ears (Microphone Boards) -->
+          <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
-                <span>01 / EARS</span>
+                <span>01 / EARS (HARDWARE)</span>
                 <span>🎙️</span>
               </div>
               <div id="chain-ears-content" class="text-xs sm:text-sm mt-1"></div>
             </div>
-            <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Sound Wave &rarr;</div>
+            <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Audio Signal &rarr;</div>
           </div>
 
-          <!-- Stage 2: Hearing -->
-          <div id="chain-stage-stt" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <!-- Stage 2: Hearing (Speech-to-Text Software) -->
+          <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
-                <span>02 / HEARING</span>
+                <span>02 / HEARING (STT)</span>
                 <span>👂</span>
               </div>
               <div id="chain-stt-content" class="text-xs sm:text-sm mt-1"></div>
@@ -209,35 +209,35 @@
             <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Text Prompt &rarr;</div>
           </div>
 
-          <!-- Stage 3: Brain -->
-          <div id="chain-stage-brain" class="p-3.5 rounded-2xl bg-gradient-to-b from-slate-950 to-indigo-950/40 border border-indigo-500/50 flex flex-col justify-between shadow-lg">
+          <!-- Stage 3: Brain (LLM Model) -->
+          <div class="p-3.5 rounded-2xl bg-gradient-to-b from-slate-950 to-indigo-950/40 border border-indigo-500/50 flex flex-col justify-between shadow-lg">
             <div>
               <div class="flex justify-between items-center text-xs font-bold text-indigo-300 mb-1">
-                <span>03 / BRAIN</span>
+                <span>03 / BRAIN (LLM)</span>
                 <span>🧠</span>
               </div>
               <div id="chain-brain-content" class="text-xs sm:text-sm mt-1"></div>
             </div>
-            <div class="mt-3 text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">&larr; Action & Voice &rarr;</div>
+            <div class="mt-3 text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">&larr; Reply & Action &rarr;</div>
           </div>
 
-          <!-- Stage 4: Voice -->
-          <div id="chain-stage-voice" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <!-- Stage 4: Voice (Text-to-Speech) -->
+          <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
-                <span>04 / VOICE</span>
+                <span>04 / VOICE (TTS)</span>
                 <span>🗣️</span>
               </div>
               <div id="chain-voice-content" class="text-xs sm:text-sm mt-1"></div>
             </div>
-            <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Audio Output &rarr;</div>
+            <div class="mt-3 text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Spoken Audio &rarr;</div>
           </div>
 
-          <!-- Stage 5: Body & Hardware -->
-          <div id="chain-stage-body" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <!-- Stage 5: Body (Microcontroller & Motion) -->
+          <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center text-xs font-bold text-slate-400 mb-1">
-                <span>05 / BODY</span>
+                <span>05 / BODY (HARDWARE)</span>
                 <span>🤖</span>
               </div>
               <div id="chain-body-content" class="text-xs sm:text-sm mt-1"></div>
@@ -300,7 +300,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="grid"></main>
   </div>
 
-  <!-- SWAP COMPONENT POP-UP MODAL (WITH UPGRADE INSIGHTS) -->
+  <!-- SWAP COMPONENT POP-UP MODAL -->
   <div 
     id="swap-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -316,7 +316,7 @@
             Nervous System Customizer
           </span>
           <h3 id="swap-modal-title" class="text-2xl font-extrabold text-white mt-1.5">🔄 Swap Component</h3>
-          <p id="swap-modal-subtitle" class="text-xs sm:text-sm text-slate-300 mt-0.5">Compare parts, see upgrade benefits, and select drop-in replacements.</p>
+          <p id="swap-modal-subtitle" class="text-xs sm:text-sm text-slate-300 mt-0.5">Select one drop-in replacement to take this stage in your build:</p>
         </div>
         <button 
           onclick="closeSwapModal()" 
@@ -326,9 +326,7 @@
         </button>
       </div>
 
-      <div id="swap-options-list" class="mt-5 space-y-3.5">
-        <!-- Injected dynamically by JavaScript with upgrade insights -->
-      </div>
+      <div id="swap-options-list" class="mt-5 space-y-3.5"></div>
     </div>
   </div>
 
@@ -430,7 +428,6 @@
               Category
             </span>
             <h3 id="detail-title" class="text-2xl font-extrabold text-white mt-1">Tool Name</h3>
-            <!-- Prominent Price Tag -->
             <p id="detail-price" class="text-base sm:text-lg font-mono font-extrabold text-emerald-300 bg-emerald-950/80 px-3 py-0.5 rounded-lg border border-emerald-600/60 inline-block mt-1 shadow">Price details</p>
           </div>
         </div>
@@ -576,7 +573,7 @@
     </div>
   </div>
 
-  <!-- EXPANDABLE "WHAT DID YOU JUST DOWNLOAD?" MODAL -->
+  <!-- WHAT'S NEXT MODAL -->
   <div 
     id="whats-next-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -682,7 +679,7 @@
     </div>
   </div>
 
-  <!-- EXPANDED MULTI-CHAPTER BEGINNER MASTERCLASS GUIDE -->
+  <!-- EXPANDED BEGINNER MASTERCLASS GUIDE -->
   <div 
     id="beginner-guide-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -709,7 +706,6 @@
       </div>
 
       <div class="mt-6 space-y-3.5 text-sm sm:text-base">
-        <!-- Chapter 1 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700" open>
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -730,7 +726,6 @@
           </div>
         </details>
 
-        <!-- Chapter 2 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -747,7 +742,6 @@
           </div>
         </details>
 
-        <!-- Chapter 3 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -762,7 +756,6 @@
           </div>
         </details>
 
-        <!-- Chapter 4 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -781,7 +774,6 @@
           </div>
         </details>
 
-        <!-- Chapter 5 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -799,7 +791,6 @@
           </div>
         </details>
 
-        <!-- Chapter 6 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -884,11 +875,13 @@
       chassis: '🦴'
     };
 
-    // UPGRADE REASONING MATRIX (For Dynamic Swap Insights)
+    // UPGRADE REASONING MATRIX
     const UPGRADE_REASONS = {
       'respeaker-4mic': '⚡ Upgrades to 360° voice direction sensing with an illuminated RGB ring so the head physically turns to look at you.',
       'ms4030-mic': '⚡ Upgrades to a clean 65dB signal-to-noise ratio that eliminates circuit hiss and background buzz.',
       'usb-speakerphone': '⚡ Upgrades to hardware acoustic echo cancellation so the AI never hears and transcribes its own voice.',
+      'faster-whisper': '⚡ Upgrades to 4x faster speech transcription running completely offline on your computer.',
+      'vosk': '⚡ Upgrades to instant zero-lag offline wake-word detection (listens for "Hey Bot").',
       'openmv-cam': '⚡ Upgrades to dedicated 60 FPS on-board face & object tracking without using your computer\'s CPU.',
       'hiwonder-armpi': '⚡ Upgrades to a complete Python vision arm with camera and metal bus servos.',
       'waveshare-roarm': '⚡ Upgrades to high-torque serial bus motion directly controlled via JSON commands.',
@@ -923,38 +916,65 @@
     function openBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.remove('hidden'); }
     function closeBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.add('hidden'); }
 
-    // SWAP MODAL WITH UPGRADE INSIGHTS
-    function openSwapModal(stageKey, currentToolId) {
+    // STRICT STAGE DISCOVERY (Guarantees clean 1-per-stage assignment)
+    function isHardwareMic(t) {
+      return t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic' || t.id === 'usb-speakerphone';
+    }
+
+    function getActiveToolForStage(stageKey) {
+      const selected = tools.filter(t => userBuild.has(t.id));
+      if (stageKey === 'ears') {
+        return selected.find(t => isHardwareMic(t)) || null;
+      } else if (stageKey === 'stt') {
+        return selected.find(t => t.cat === 'stt' && !isHardwareMic(t)) || null;
+      } else if (stageKey === 'brain') {
+        return selected.find(t => t.cat === 'runtimes' || t.cat === 'orchestration') || null;
+      } else if (stageKey === 'voice') {
+        return selected.find(t => t.cat === 'tts') || null;
+      } else if (stageKey === 'body') {
+        return selected.find(t => t.cat === 'hardware' && !isHardwareMic(t)) || selected.find(t => t.cat === 'power' || t.cat === 'chassis') || null;
+      }
+      return null;
+    }
+
+    // SWAP MODAL (Strictly filters alternatives for this stage only)
+    function openSwapModal(stageKey) {
       const modal = document.getElementById('swap-modal');
       const title = document.getElementById('swap-modal-title');
       const subtitle = document.getElementById('swap-modal-subtitle');
       const list = document.getElementById('swap-options-list');
 
+      const currentActiveTool = getActiveToolForStage(stageKey);
+      const currentToolId = currentActiveTool ? currentActiveTool.id : '';
+
       title.textContent = `🔄 Swap ${stageKey.toUpperCase()}`;
-      subtitle.textContent = `Compare components below to see upgrade benefits for your robot:`;
+      subtitle.textContent = `Pick exactly one drop-in component for your robot's ${stageKey.toUpperCase()} stage:`;
 
       let compatible = [];
       if (stageKey === 'ears') {
-        compatible = tools.filter(t => t.cat === 'stt' || t.id === 'usb-speakerphone' || t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic');
+        // STRICTLY HARDWARE MICS
+        compatible = tools.filter(t => isHardwareMic(t));
       } else if (stageKey === 'stt') {
-        compatible = tools.filter(t => t.cat === 'stt');
+        // STRICTLY SOFTWARE SPEECH-TO-TEXT MODELS
+        compatible = tools.filter(t => t.cat === 'stt' && !isHardwareMic(t));
       } else if (stageKey === 'brain') {
         compatible = tools.filter(t => t.cat === 'runtimes' || t.cat === 'orchestration');
       } else if (stageKey === 'voice') {
         compatible = tools.filter(t => t.cat === 'tts');
       } else if (stageKey === 'body') {
-        compatible = tools.filter(t => t.cat === 'hardware' || t.cat === 'power' || t.cat === 'chassis');
+        compatible = tools.filter(t => (t.cat === 'hardware' && !isHardwareMic(t)) || t.cat === 'power' || t.cat === 'chassis');
       }
 
       list.innerHTML = compatible.map(tool => {
-        const isCurrent = userBuild.has(tool.id);
+        // Only ONE item matches the active slot!
+        const isCurrentActive = (tool.id === currentToolId);
         const icon = CATEGORY_ICONS[tool.cat] || '🤖';
         const upgradeReason = UPGRADE_REASONS[tool.id];
 
         return `
           <div class="p-4 rounded-2xl border ${
-            isCurrent 
-              ? 'bg-indigo-950/60 border-indigo-500 ring-2 ring-indigo-500/50 shadow-lg' 
+            isCurrentActive 
+              ? 'bg-indigo-950/70 border-indigo-500 ring-2 ring-indigo-500/60 shadow-lg' 
               : 'bg-slate-950 border-slate-800 hover:border-slate-700'
           } flex flex-col justify-between gap-3 transition">
             <div class="flex items-start justify-between gap-3">
@@ -963,29 +983,27 @@
                 <div class="min-w-0">
                   <div class="flex items-center gap-2 flex-wrap">
                     <h4 class="font-extrabold text-white text-base truncate">${tool.name}</h4>
-                    <!-- High-contrast price badge -->
                     <span class="text-xs sm:text-sm font-mono font-extrabold text-emerald-300 bg-emerald-950/90 px-2.5 py-0.5 rounded-lg border border-emerald-600/60 shadow">
                       ${tool.price}
                     </span>
-                    ${isCurrent ? '<span class="text-[10px] uppercase font-bold text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">Current Part</span>' : ''}
+                    ${isCurrentActive ? '<span class="text-[10px] uppercase font-bold text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">Current In Slot</span>' : ''}
                   </div>
                   <p class="text-xs sm:text-sm text-slate-300 mt-1">${tool.role}</p>
                 </div>
               </div>
 
               <button 
-                onclick="executeSwap('${currentToolId || ''}', '${tool.id}')"
+                onclick="executeSwap('${stageKey}', '${tool.id}')"
                 class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex-shrink-0 transition ${
-                  isCurrent 
+                  isCurrentActive 
                     ? 'bg-emerald-600 text-white cursor-default' 
                     : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow'
                 }"
               >
-                ${isCurrent ? '✓ Active' : 'Swap In'}
+                ${isCurrentActive ? '✓ Active' : 'Swap In'}
               </button>
             </div>
 
-            <!-- Upgrade Insight Strip -->
             ${upgradeReason ? `
               <div class="p-2.5 rounded-xl bg-emerald-950/20 border border-emerald-800/40 text-xs text-emerald-300 font-medium leading-relaxed">
                 ${upgradeReason}
@@ -1006,11 +1024,14 @@
       document.getElementById('swap-modal').classList.add('hidden');
     }
 
-    function executeSwap(oldId, newId) {
-      if (oldId && oldId !== '' && userBuild.has(oldId)) {
-        userBuild.delete(oldId);
+    // STRICT REPLACEMENT: Deletes old stage occupant to eliminate duplicate build tray entries
+    function executeSwap(stageKey, newId) {
+      const oldActiveTool = getActiveToolForStage(stageKey);
+      if (oldActiveTool && userBuild.has(oldActiveTool.id)) {
+        userBuild.delete(oldActiveTool.id);
       }
       userBuild.add(newId);
+
       localStorage.setItem('deskbot_user_build', JSON.stringify([...userBuild]));
       updateBuildBadges();
       updateTrayItemsList();
@@ -1081,7 +1102,7 @@
       document.getElementById('tool-detail-modal').classList.add('hidden');
     }
 
-    // DYNAMIC SIGNAL CHAIN RENDERER (With Swap Options)
+    // DYNAMIC SIGNAL CHAIN RENDERER (Clean 1-per-stage view)
     function updateSignalChainVisualizer() {
       const section = document.getElementById('signal-chain-section');
       if (!viewingBuildOnly || userBuild.size === 0) {
@@ -1090,48 +1111,39 @@
       }
 
       section.classList.remove('hidden');
-      const selected = tools.filter(t => userBuild.has(t.id));
 
-      function getSlotHtml(stageKey, fallbackMsg) {
-        const matches = selected.filter(t => {
-          if (stageKey === 'ears') return t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic' || t.id === 'usb-speakerphone';
-          if (stageKey === 'stt') return t.cat === 'stt' && t.id !== 'inmp441' && t.id !== 'ms4030-mic' && t.id !== 'respeaker' && t.id !== 'respeaker-4mic' && t.id !== 'usb-speakerphone';
-          if (stageKey === 'brain') return t.cat === 'runtimes' || t.cat === 'orchestration';
-          if (stageKey === 'voice') return t.cat === 'tts';
-          if (stageKey === 'body') return t.cat === 'hardware' || t.cat === 'power' || t.cat === 'chassis';
-          return false;
-        });
-
-        if (matches.length > 0) {
-          return matches.map(m => `
-            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800/80 mt-1 flex flex-col justify-between">
-              <div onclick="openToolDetailModal('${m.id}')" class="cursor-pointer hover:text-indigo-300">
-                <span class="font-bold text-white block truncate text-xs sm:text-sm">${m.name}</span>
-                <span class="text-[11px] font-mono font-bold text-emerald-300 block">${m.price}</span>
+      function renderSlot(stageKey, fallbackMsg) {
+        const item = getActiveToolForStage(stageKey);
+        if (item) {
+          return `
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 mt-1 flex flex-col justify-between">
+              <div onclick="openToolDetailModal('${item.id}')" class="cursor-pointer hover:text-indigo-300">
+                <span class="font-extrabold text-white block truncate text-xs sm:text-sm">${item.name}</span>
+                <span class="text-xs font-mono font-bold text-emerald-300 block mt-0.5">${item.price}</span>
               </div>
               <button 
-                onclick="openSwapModal('${stageKey}', '${m.id}')"
-                class="mt-2 py-1 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 font-bold text-[10px] border border-slate-700 transition flex items-center justify-center gap-1"
+                onclick="openSwapModal('${stageKey}')"
+                class="mt-2.5 py-1 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 font-bold text-[10px] border border-slate-700 transition flex items-center justify-center gap-1"
               >
                 <span>🔄 Swap / Upgrade</span>
               </button>
             </div>
-          `).join('');
+          `;
         }
 
         return `
-          <div onclick="openSwapModal('${stageKey}', '')" class="p-3 rounded-xl border border-dashed border-slate-700 bg-slate-950/60 text-slate-400 hover:border-indigo-400 hover:text-white transition cursor-pointer text-center mt-1">
+          <div onclick="openSwapModal('${stageKey}')" class="p-3.5 rounded-xl border border-dashed border-slate-700 bg-slate-950/60 text-slate-400 hover:border-indigo-400 hover:text-white transition cursor-pointer text-center mt-1">
             <span class="text-xs font-semibold block">${fallbackMsg}</span>
             <span class="text-[10px] text-indigo-400 font-bold mt-1 block">➕ Choose Component</span>
           </div>
         `;
       }
 
-      document.getElementById('chain-ears-content').innerHTML = getSlotHtml('ears', 'No Mic Board Selected');
-      document.getElementById('chain-stt-content').innerHTML = getSlotHtml('stt', 'No Hearing Model Selected');
-      document.getElementById('chain-brain-content').innerHTML = getSlotHtml('brain', 'No AI Brain Selected');
-      document.getElementById('chain-voice-content').innerHTML = getSlotHtml('voice', 'No Voice Engine Selected');
-      document.getElementById('chain-body-content').innerHTML = getSlotHtml('body', 'No Hardware Selected');
+      document.getElementById('chain-ears-content').innerHTML = renderSlot('ears', 'No Mic Board Selected');
+      document.getElementById('chain-stt-content').innerHTML = renderSlot('stt', 'No Hearing Model Selected');
+      document.getElementById('chain-brain-content').innerHTML = renderSlot('brain', 'No AI Brain Selected');
+      document.getElementById('chain-voice-content').innerHTML = renderSlot('voice', 'No Voice Engine Selected');
+      document.getElementById('chain-body-content').innerHTML = renderSlot('body', 'No Hardware Selected');
     }
 
     // STARTER BLUEPRINTS
@@ -1289,7 +1301,6 @@
                 <div class="flex-1 min-w-0">
                   <div class="flex justify-between items-baseline gap-2">
                     <h3 class="font-extrabold text-base sm:text-lg text-white leading-tight truncate">${t.name}</h3>
-                    <!-- High-contrast price badge -->
                     <span class="text-xs sm:text-sm font-mono font-extrabold px-2.5 py-0.5 rounded-lg bg-emerald-950/90 text-emerald-300 border border-emerald-600/60 flex-shrink-0 shadow">
                       ${t.price}
                     </span>
