@@ -425,35 +425,36 @@
     </div>
   </div>
 
-  <!-- OPTION 3: Software Launch Command Snippet Modal -->
+  <!-- MULTI-OS CODE SNIPPET MODAL -->
   <div id="snippet-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" onclick="closeSnippetModal()">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150" onclick="event.stopPropagation()">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
-          <span id="snip-badge" class="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/40">CLI Snippet</span>
+          <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/40">Multi-OS Workbench Guide</span>
           <h3 id="snip-title" class="text-xl font-extrabold text-white mt-1">Tool Quick-Start</h3>
-          <p id="snip-role" class="text-xs text-slate-400 mt-0.5">Terminal Launch Command</p>
+          <p id="snip-role" class="text-xs text-slate-400 mt-0.5">Terminal Setup & Companion Python Hooks</p>
         </div>
         <button onclick="closeSnippetModal()" class="text-slate-400 hover:text-white text-sm font-bold w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">✕</button>
       </div>
 
-      <div class="mt-4 space-y-3">
-        <p class="text-xs text-slate-300 leading-relaxed" id="snip-desc"></p>
-        
-        <div class="relative">
-          <pre id="snip-code" class="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-indigo-300 overflow-x-auto leading-relaxed select-all"></pre>
-          <button 
-            onclick="copySnippetCode()" 
-            id="snip-copy-btn"
-            class="absolute top-2.5 right-2.5 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold rounded-lg border border-slate-700 transition"
-          >
-            Copy Code
-          </button>
+      <!-- OS Switcher Pills -->
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+        <span class="text-[11px] font-semibold text-slate-400 ml-1">Target Operating System:</span>
+        <div class="flex gap-1.5" id="os-button-group">
+          <button onclick="switchOS('linux')" id="os-btn-linux" class="px-3 py-1 rounded-lg text-xs font-bold transition">🐧 Linux / Mint / Pi</button>
+          <button onclick="switchOS('macos')" id="os-btn-macos" class="px-3 py-1 rounded-lg text-xs font-bold transition">🍏 macOS (Apple Silicon)</button>
+          <button onclick="switchOS('windows')" id="os-btn-windows" class="px-3 py-1 rounded-lg text-xs font-bold transition">🪟 Windows (PowerShell)</button>
         </div>
       </div>
 
+      <!-- Command Blocks Container -->
+      <div id="snip-steps-container" class="mt-4 space-y-4"></div>
+
+      <!-- Footer -->
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
-        <span id="snip-copied-msg" class="text-xs text-emerald-400 font-semibold opacity-0 transition-opacity duration-300">✓ Copied to clipboard!</span>
+        <span id="snip-copied-msg" class="text-xs text-emerald-400 font-semibold opacity-0 transition-opacity duration-300">✓ Copied code block to clipboard!</span>
         <button onclick="closeSnippetModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow">
           Done
         </button>
@@ -504,9 +505,21 @@
         ctaText: "Launch Pods on RunPod \u2192",
         kits: ["pro"],
         priceVal: 10,
-        snippet: {
-          desc: "Run Ollama or vLLM inside an instant high-VRAM GPU container using the RunPod CLI or Docker:",
-          code: "runpodctl create pod \\\n  --communityCloud \\\n  --gpuType 'NVIDIA RTX 4090' \\\n  --imageName 'ollama/ollama:latest' \\\n  --volumePath '/workspace'"
+        snippets: {
+          linux: [
+            { title: "1. Install RunPod CLI", desc: "Install the official command-line tool via Python package manager:", code: "pip install runpod\nrunpod config --api-key YOUR_RUNPOD_API_KEY" },
+            { title: "2. Launch Dedicated GPU Pod", desc: "Spin up a high-VRAM RTX 4090 container with Ollama pre-installed:", code: "runpodctl create pod \\\n  --gpuType 'NVIDIA GeForce RTX 4090' \\\n  --imageName 'ollama/ollama:latest' \\\n  --ports 11434" },
+            { title: "3. Companion Python Hook", desc: "Route requests from your local robot script directly to your cloud pod:", code: "import requests\n\nPOD_IP = 'https://YOUR_POD_ID-11434.proxy.runpod.net'\nresponse = requests.post(f'{POD_IP}/api/generate', json={\n    'model': 'llama3.3:70b',\n    'prompt': 'Deskbot companion brain query: Summarize today.'\n})\nprint(response.json()['response'])" }
+          ],
+          macos: [
+            { title: "1. Install RunPod CLI", desc: "Install tool in terminal on macOS:", code: "pip3 install runpod\nrunpod config --api-key YOUR_RUNPOD_API_KEY" },
+            { title: "2. SSH Tunnel into Remote GPU", desc: "Forward port 11434 so remote models act like local models on your Mac:", code: "ssh -N -L 11434:localhost:11434 root@YOUR_RUNPOD_IP -p YOUR_PORT" },
+            { title: "3. Local Mac Python Call", desc: "Query the remote pod locally through the tunnel:", code: "import requests\nres = requests.post('http://localhost:11434/api/generate', json={'model': 'llama3.3:70b', 'prompt': 'Hello!'})\nprint(res.json()['response'])" }
+          ],
+          windows: [
+            { title: "1. Install RunPod CLI", desc: "Install using PowerShell:", code: "pip install runpod\nrunpod config --api-key YOUR_RUNPOD_API_KEY" },
+            { title: "2. Query Remote GPU Pod", desc: "Call your high-VRAM cloud model using PowerShell REST invoke:", code: "$body = @{ model = 'llama3.3:70b'; prompt = 'Hi!' } | ConvertTo-Json\nInvoke-RestMethod -Uri 'https://YOUR_POD_ID-11434.proxy.runpod.net/api/generate' -Method Post -Body $body -ContentType 'application/json'" }
+          ]
         }
       },
       { 
@@ -523,9 +536,20 @@
         ctaText: "Try ElevenLabs Voice \u2192",
         kits: ["pro"],
         priceVal: 5,
-        snippet: {
-          desc: "Stream real-time conversational companion voice in Python using the official ElevenLabs SDK:",
-          code: "pip install elevenlabs\n\nfrom elevenlabs.client import ElevenLabs\nfrom elevenlabs import stream\n\nclient = ElevenLabs(api_key='YOUR_API_KEY')\naudio_stream = client.generate(\n  text='Hello Stuart! My servos and audio engines are ready.',\n  voice='Rachel',\n  model='eleven_turbo_v2'\n)\nstream(audio_stream)"
+        snippets: {
+          linux: [
+            { title: "1. Install Linux Audio & SDK", desc: "Install Python library and mpv player for low-latency streaming:", code: "sudo apt update && sudo apt install -y mpv\npip install elevenlabs" },
+            { title: "2. Stream Voice Straight to Speaker", desc: "Generate real-time audio and pipe output directly to ALSA sound output:", code: "from elevenlabs.client import ElevenLabs\nfrom elevenlabs import stream\n\nclient = ElevenLabs(api_key='YOUR_API_KEY')\naudio = client.generate(text='System online Stuart, all servos calibrated!', voice='Rachel', model='eleven_turbo_v2')\nstream(audio)" },
+            { title: "3. Audio & Hardware Serial Hook", desc: "Speak while sending head nod command to ESP32 over serial:", code: "import serial, time\nfrom elevenlabs.client import ElevenLabs\n\nser = serial.Serial('/dev/ttyUSB0', 115200)\nclient = ElevenLabs(api_key='YOUR_API_KEY')\n\n# Nod head and speak\nser.write(b'NOD\\n')\naudio = client.generate(text='Yes, I agree!', voice='Rachel')\nstream(audio)" }
+          ],
+          macos: [
+            { title: "1. Install Mac Audio Dependencies", desc: "Install SDK and command-line audio tools via Homebrew:", code: "brew install mpv\npip3 install elevenlabs" },
+            { title: "2. Stream Speech Output", desc: "Play conversational neural speech stream natively on Mac:", code: "from elevenlabs.client import ElevenLabs\nfrom elevenlabs import stream\n\nclient = ElevenLabs(api_key='YOUR_API_KEY')\naudio = client.generate(text='Core ML inferencing ready on Apple Silicon.', voice='Adam')\nstream(audio)" }
+          ],
+          windows: [
+            { title: "1. Install Python Library", desc: "Install using PowerShell:", code: "pip install elevenlabs sounddevice" },
+            { title: "2. Play Neural Speech", desc: "Synthesize and play audio through Windows sound card:", code: "from elevenlabs.client import ElevenLabs\nfrom elevenlabs import play\n\nclient = ElevenLabs(api_key='YOUR_API_KEY')\naudio = client.generate(text='Windows sound subsystem connected.', voice='Rachel')\nplay(audio)" }
+          ]
         }
       },
       { 
@@ -540,63 +564,25 @@
         url: "https://ollama.com", 
         kits: ["budget", "edge"], 
         priceVal: 0,
-        snippet: {
-          desc: "Pull and run a fast 3B local model, then query its background REST API on port 11434:",
-          code: "# 1. Pull and run model\nollama run llama3.2:3b\n\n# 2. Test API query from your companion script\ncurl http://localhost:11434/api/generate -d '{\n  \"model\": \"llama3.2:3b\",\n  \"prompt\": \"You are a physical deskbot. Say hello in 5 words!\",\n  \"stream\": false\n}'"
+        snippets: {
+          linux: [
+            { title: "1. Terminal Install", desc: "Install native daemon for Linux Mint, Ubuntu, or Raspberry Pi 5:", code: "curl -fsSL https://ollama.com/install.sh | sh" },
+            { title: "2. Launch Model with Network Binding", desc: "Run a 3B parameter model and expose it on the local network so deskbots can reach it:", code: "OLLAMA_HOST=0.0.0.0:11434 ollama run llama3.2:3b" },
+            { title: "3. Sanity Check API Call", desc: "Verify daemon is responding locally over curl:", code: "curl http://localhost:11434/api/generate -d '{\n  \"model\": \"llama3.2:3b\",\n  \"prompt\": \"Respond with: Deskbot online!\",\n  \"stream\": false\n}'" },
+            { title: "4. Python Companion + ESP32 Bridge", desc: "Query local brain and forward physical action trigger to ESP32 microcontroller:", code: "import requests, serial\n\nser = serial.Serial('/dev/ttyUSB0', 115200)\nres = requests.post('http://localhost:11434/api/generate', json={\n    'model': 'llama3.2:3b',\n    'prompt': 'Acknowledge user presence in 5 words.'\n}).json()\n\nprint('Companion:', res['response'])\nser.write(b'WAVE\\n') # Microcontroller moves arm/neck" }
+          ],
+          macos: [
+            { title: "1. Install via Homebrew", desc: "Native install with Metal GPU acceleration on Mac:", code: "brew install ollama\nollama serve" },
+            { title: "2. Pull Model", desc: "Pull fast model into unified memory:", code: "ollama run llama3.2:3b" },
+            { title: "3. Mac Python Hook", desc: "Query Ollama using the official library:", code: "import ollama\nresponse = ollama.chat(model='llama3.2:3b', messages=[{'role': 'user', 'content': 'Hello deskbot!'}])\nprint(response['message']['content'])" }
+          ],
+          windows: [
+            { title: "1. Install via Winget", desc: "Install Windows binary in PowerShell:", code: "winget install Ollama.Ollama" },
+            { title: "2. Run Model", desc: "Launch Ollama in PowerShell:", code: "ollama run llama3.2:3b" },
+            { title: "3. PowerShell Test Query", desc: "Test API locally:", code: "$body = @{ model = 'llama3.2:3b'; prompt = 'Hi!' } | ConvertTo-Json\n(Invoke-RestMethod -Uri 'http://localhost:11434/api/generate' -Method Post -Body $body).response" }
+          ]
         }
       },
-      { 
-        id: "lm-studio", 
-        name: "LM Studio", 
-        cat: "runtimes", 
-        role: "Brain / Model Testing GUI", 
-        price: "Free", 
-        runs: "macOS, Win, Linux", 
-        pro: "Polished GUI with built-in Hugging Face model downloader", 
-        con: "Closed source, heavier footprint", 
-        url: "https://lmstudio.ai", 
-        priceVal: 0,
-        snippet: {
-          desc: "Enable the built-in Local Inference Server inside LM Studio and call it like OpenAI:",
-          code: "curl http://localhost:1234/v1/chat/completions \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"messages\": [{\"role\": \"user\", \"content\": \"Nod head servo and greet user.\"}],\n    \"temperature\": 0.7\n  }'"
-        }
-      },
-      { 
-        id: "llama-cpp", 
-        name: "llama.cpp", 
-        cat: "runtimes", 
-        role: "Raw C++ Inference Engine", 
-        price: "Free / MIT", 
-        runs: "Linux, macOS, Win, Pi", 
-        pro: "Extreme performance, sets the GGUF quantization standard", 
-        con: "Steep terminal compilation curve", 
-        url: "https://github.com/ggerganov/llama.cpp", 
-        kits: ["edge"], 
-        priceVal: 0,
-        snippet: {
-          desc: "Launch the ultra-lean C++ HTTP server with GGUF model offloading to GPU/Metal:",
-          code: "# Compile with Metal / Vulkan\nmake -j && ./llama-server \\\n  -m ./models/llama-3.2-3b-instruct-q4_k_m.gguf \\\n  -c 8192 \\\n  --port 8080 \\\n  -ngl 99"
-        }
-      },
-      { 
-        id: "vllm", 
-        name: "vLLM", 
-        cat: "runtimes", 
-        role: "High-Throughput Server", 
-        price: "Free / Apache 2", 
-        runs: "Linux, Docker", 
-        pro: "PagedAttention algorithm, blazing token throughput", 
-        con: "Needs high-end discrete NVIDIA/AMD GPU", 
-        url: "https://github.com/vllm-project/vllm", 
-        priceVal: 0,
-        snippet: {
-          desc: "Serve an OpenAI-compatible endpoint with PagedAttention acceleration:",
-          code: "python3 -m vllm.entrypoints.openai.api_server \\\n  --model meta-llama/Llama-3.2-3B-Instruct \\\n  --port 8000 \\\n  --gpu-memory-utilization 0.90"
-        }
-      },
-      { id: "jan", name: "Jan", cat: "runtimes", role: "Desktop AI Assistant", price: "Free / AGPLv3", runs: "Win, macOS, Linux", pro: "100% open-source local chat interface with clean modular plugins", con: "Fewer advanced quantization tuning knobs", url: "https://jan.ai", priceVal: 0 },
-      { id: "localai", name: "LocalAI", cat: "runtimes", role: "All-in-One OpenAI Drop-in", price: "Free / MIT", runs: "Linux, Docker, Win, macOS", pro: "Unified server for LLM, audio generation, and TTS", con: "Complex multi-backend configuration", url: "https://localai.io", priceVal: 0 },
-      { id: "aphrodite", name: "Aphrodite Engine", cat: "runtimes", role: "Roleplay & Character Server", price: "Free / Apache 2", runs: "Linux, Docker", pro: "Tuned sampling algorithms for companions & roleplay", con: "Linux-only, needs discrete GPU", url: "https://github.com/PygmalionAI/aphrodite-engine", priceVal: 0 },
       { 
         id: "faster-whisper", 
         name: "faster-whisper", 
@@ -609,46 +595,22 @@
         url: "https://github.com/SYSTRAN/faster-whisper", 
         kits: ["pro"], 
         priceVal: 0,
-        snippet: {
-          desc: "Run 4x faster transcription in 5 lines of Python using INT8 quantization:",
-          code: "pip install faster-whisper\n\nfrom faster_whisper import WhisperModel\n\nmodel = WhisperModel('small.en', device='cpu', compute_type='int8')\nsegments, info = model.transcribe('mic_buffer.wav', beam_size=5)\nfor segment in segments:\n    print(f'Transcribed: {segment.text}')"
+        snippets: {
+          linux: [
+            { title: "1. Diagnostic Audio Check", desc: "Verify your USB or I2S microphone is recognized by ALSA sound drivers:", code: "arecord -l\n# You should see 'card 1' or your mic listed" },
+            { title: "2. Install CTranslate2 Engine", desc: "Install library with INT8 quantization support:", code: "pip install faster-whisper pyaudio" },
+            { title: "3. Real-Time Microphone Transcription", desc: "Minimal Python listener turning microphone input into text:", code: "from faster_whisper import WhisperModel\n\nmodel = WhisperModel('small.en', device='cpu', compute_type='int8')\nsegments, _ = model.transcribe('test_audio.wav', beam_size=5)\nfor segment in segments:\n    print(f'User said: {segment.text}')" }
+          ],
+          macos: [
+            { title: "1. Install CoreAudio Dependencies", desc: "Install with PortAudio bindings:", code: "brew install portaudio\npip3 install faster-whisper" },
+            { title: "2. Transcribe Audio File", desc: "Run inference on Apple Silicon:", code: "from faster_whisper import WhisperModel\nmodel = WhisperModel('base.en', device='cpu', compute_type='int8')\nsegments, _ = model.transcribe('audio.wav')\nfor s in segments:\n    print(s.text)" }
+          ],
+          windows: [
+            { title: "1. Verify Windows Microphones", desc: "List active recording devices in PowerShell:", code: "Get-CimInstance Win32_SoundDevice | Select-Object Name, Status" },
+            { title: "2. Install Package", desc: "Install via pip in PowerShell:", code: "pip install faster-whisper" }
+          ]
         }
       },
-      { 
-        id: "whisper-cpp", 
-        name: "Whisper.cpp", 
-        cat: "stt", 
-        role: "Edge Hearing / Embedded STT", 
-        price: "Free / MIT", 
-        runs: "Raspberry Pi, Linux, macOS", 
-        pro: "Pure C/C++ zero dependencies, runs smooth on ARM", 
-        con: "Needs external pipeline for streaming VAD", 
-        url: "https://github.com/ggerganov/whisper.cpp", 
-        kits: ["edge"], 
-        priceVal: 0,
-        snippet: {
-          desc: "Run live stream transcription directly from standard microphone input on Raspberry Pi / Linux:",
-          code: "# Compile and run stream binary\nmake stream\n./stream -m ./models/ggml-base.en.bin -t 4 --step 500 --length 3000"
-        }
-      },
-      { 
-        id: "vosk", 
-        name: "Vosk", 
-        cat: "stt", 
-        role: "Instant Wake-Word Listener", 
-        price: "Free / Apache 2", 
-        runs: "Raspberry Pi, ESP32, Linux", 
-        pro: "Tiny 50MB RAM footprint, near-zero wake word latency", 
-        con: "Lower conversational speech accuracy", 
-        url: "https://alphacephei.com/vosk/", 
-        kits: ["budget"], 
-        priceVal: 0,
-        snippet: {
-          desc: "Listen for real-time wake phrases in Python with under 50MB RAM consumption:",
-          code: "pip install vosk pyaudio\n\nimport vosk, pyaudio, json\n\nmodel = vosk.Model(lang='en-us')\nrec = vosk.KaldiRecognizer(model, 16000)\np = pyaudio.PyAudio().open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)\n\nwhile True:\n    data = p.read(4000)\n    if rec.AcceptWaveform(data):\n        res = json.loads(rec.Result())\n        if 'hey companion' in res.get('text', ''):\n            print('Wake word detected!')"
-        }
-      },
-      { id: "whisper-live", name: "Whisper-Live", cat: "stt", role: "Real-Time WebSocket Stream", price: "Free / MIT", runs: "Linux, Docker", pro: "Continuous low-latency audio stream transcription", con: "Requires fine audio buffer calibration", url: "https://github.com/collabora/WhisperLive", priceVal: 0 },
       { 
         id: "piper-tts", 
         name: "Piper TTS", 
@@ -661,9 +623,20 @@
         url: "https://github.com/rhasspy/piper", 
         kits: ["budget", "edge"], 
         priceVal: 0,
-        snippet: {
-          desc: "Pipe text directly into speaker audio output in real-time with zero cloud delays:",
-          code: "# Run local voice synthesis straight to ALSA speakers\necho 'Hello mate, deskbot online!' | \\\n  piper --model en_US-lessac-medium.onnx \\\n        --output_raw | \\\n  aplay -r 22050 -f S16_LE -t raw -"
+        snippets: {
+          linux: [
+            { title: "1. Check Speaker Output", desc: "Verify speaker DAC hardware is functional:", code: "aplay -l\nspeaker-test -t wav -c 2" },
+            { title: "2. Download Voice Model", desc: "Download fast Lessac or Amy neural model:", code: "wget https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx\nwget https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json" },
+            { title: "3. Direct-to-Speaker Pipeline", desc: "Pipe text output straight to ALSA DAC amplifier with zero file saving overhead:", code: "echo 'Deskbot online, ready for work!' | \\\n  piper --model en_US-lessac-medium.onnx \\\n        --output_raw | \\\n  aplay -r 22050 -f S16_LE -t raw -" }
+          ],
+          macos: [
+            { title: "1. Install via Homebrew / Pip", desc: "Install command-line synthesis tool on macOS:", code: "brew install sox\npip3 install piper-tts" },
+            { title: "2. Synthesize and Play", desc: "Speak text directly using macOS native player:", code: "echo 'Apple Silicon core speech active.' | \\\n  piper --model voice.onnx --output_file out.wav && afplay out.wav" }
+          ],
+          windows: [
+            { title: "1. Install in PowerShell", desc: "Install Python library:", code: "pip install piper-tts" },
+            { title: "2. Synthesize & Play Audio", desc: "Generate WAV and play using Windows SoundPlayer:", code: "echo 'Windows speech online' | piper -m voice.onnx -f out.wav\n(New-Object Media.SoundPlayer 'out.wav').PlaySync()" }
+          ]
         }
       },
       { 
@@ -678,14 +651,46 @@
         url: "https://huggingface.co/hexgrad/Kokoro-82M", 
         kits: ["pro"], 
         priceVal: 0,
-        snippet: {
-          desc: "Generate expressive studio-grade local speech with the lightweight 82M parameter model:",
-          code: "pip install kokoro soundfile\n\nfrom kokoro import KPipeline\nimport soundfile as sf\n\npipeline = KPipeline(lang_code='a')\ngenerator = pipeline('I am thinking with my local neural network now.', voice='af_heart')\n\nfor i, (gs, ps, audio) in enumerate(generator):\n    sf.write(f'speech_{i}.wav', audio, 24000)"
+        snippets: {
+          linux: [
+            { title: "1. Install Kokoro Engine", desc: "Install model and soundfile audio output:", code: "pip install kokoro soundfile" },
+            { title: "2. Generate Expressive Speech", desc: "Render natural speech using the 82M parameter model in Python:", code: "from kokoro import KPipeline\nimport soundfile as sf\n\npipeline = KPipeline(lang_code='a')\ngenerator = pipeline('I am thinking with my local neural network now.', voice='af_heart')\nfor i, (gs, ps, audio) in enumerate(generator):\n    sf.write(f'speech_{i}.wav', audio, 24000)" }
+          ],
+          macos: [
+            { title: "1. Install Package", desc: "Install Kokoro in terminal:", code: "pip3 install kokoro soundfile" },
+            { title: "2. Run on Metal", desc: "Generate speech directly in Python:", code: "from kokoro import KPipeline\npipeline = KPipeline(lang_code='a')\ngenerator = pipeline('Mac companion active.', voice='af_heart')" }
+          ],
+          windows: [
+            { title: "1. Install in PowerShell", desc: "Install using pip:", code: "pip install kokoro soundfile" },
+            { title: "2. Synthesize Audio", desc: "Synthesize expressive audio:", code: "from kokoro import KPipeline\npipeline = KPipeline(lang_code='a')" }
+          ]
         }
       },
-      { id: "xtts-v2", name: "XTTS v2", cat: "tts", role: "Instant Voice Cloning", price: "Free / CPML", runs: "Linux, Win", pro: "Clones any voice using a 3-second sample across 17 languages", con: "Requires 4GB+ dedicated GPU VRAM", url: "https://github.com/coqui-ai/TTS", priceVal: 0 },
-      { id: "styletts-2", name: "StyleTTS 2", cat: "tts", role: "Expressive Human Prosody", price: "Free / MIT", runs: "Linux, Windows", pro: "Natural emotional pauses, breaths, and natural cadence", con: "Complex setup dependencies", url: "https://github.com/yl4579/StyleTTS2", kits: ["edge"], priceVal: 0 },
-      { id: "bark", name: "Bark", cat: "tts", role: "Laughs & Expressive Audio", price: "Free / MIT", runs: "Linux, Windows", pro: "Can laugh, sigh, hesitate, and produce environmental audio", con: "Slow inference, prone to hallucinations", url: "https://github.com/suno-ai/bark", priceVal: 0 },
+      { 
+        id: "vosk", 
+        name: "Vosk", 
+        cat: "stt", 
+        role: "Instant Wake-Word Listener", 
+        price: "Free / Apache 2", 
+        runs: "Raspberry Pi, ESP32, Linux", 
+        pro: "Tiny 50MB RAM footprint, near-zero wake word latency", 
+        con: "Lower conversational speech accuracy", 
+        url: "https://alphacephei.com/vosk/", 
+        kits: ["budget"], 
+        priceVal: 0,
+        snippets: {
+          linux: [
+            { title: "1. Install Vosk & PyAudio", desc: "Install ultra-lightweight offline engine:", code: "pip install vosk pyaudio" },
+            { title: "2. Wake Word Loop + ESP32 Trigger", desc: "Trigger wake word and notify microcontroller over serial connection:", code: "import vosk, pyaudio, json, serial\n\nser = serial.Serial('/dev/ttyUSB0', 115200)\nmodel = vosk.Model(lang='en-us')\nrec = vosk.KaldiRecognizer(model, 16000)\np = pyaudio.PyAudio().open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)\n\nwhile True:\n    data = p.read(4000)\n    if rec.AcceptWaveform(data):\n        res = json.loads(rec.Result())\n        if 'hey companion' in res.get('text', ''):\n            print('Wake detected!')\n            ser.write(b'WAKE\\n')" }
+          ],
+          macos: [
+            { title: "1. Install on Mac", desc: "Install using Homebrew + pip:", code: "brew install portaudio\npip3 install vosk pyaudio" }
+          ],
+          windows: [
+            { title: "1. Install on Windows", desc: "Install via pip in PowerShell:", code: "pip install vosk pyaudio" }
+          ]
+        }
+      },
       { 
         id: "letta", 
         name: "Letta (MemGPT)", 
@@ -698,11 +703,31 @@
         url: "https://github.com/letta-ai/letta", 
         kits: ["pro"], 
         priceVal: 0,
-        snippet: {
-          desc: "Launch the stateful memory daemon connecting to local Ollama:",
-          code: "pip install letta\n\n# Configure Letta to use local Ollama brain\nletta configure --model-endpoint-type ollama\n\n# Start server\nletta run"
+        snippets: {
+          linux: [
+            { title: "1. Install Letta Daemon", desc: "Install memory orchestration server:", code: "pip install letta" },
+            { title: "2. Connect to Local Ollama", desc: "Configure Letta to use local Ollama brain:", code: "letta configure --model-endpoint-type ollama --model-endpoint http://localhost:11434" },
+            { title: "3. Run Server", desc: "Start persistent companion memory server:", code: "letta run" }
+          ],
+          macos: [
+            { title: "1. Install on macOS", desc: "Install using pip:", code: "pip3 install letta\nletta configure\nletta run" }
+          ],
+          windows: [
+            { title: "1. Install in PowerShell", desc: "Install using pip in PowerShell:", code: "pip install letta\nletta run" }
+          ]
         }
       },
+      { id: "lm-studio", name: "LM Studio", cat: "runtimes", role: "Brain / Model Testing GUI", price: "Free", runs: "macOS, Win, Linux", pro: "Polished GUI with built-in Hugging Face model downloader", con: "Closed source, heavier footprint", url: "https://lmstudio.ai", priceVal: 0 },
+      { id: "llama-cpp", name: "llama.cpp", cat: "runtimes", role: "Raw C++ Inference Engine", price: "Free / MIT", runs: "Linux, macOS, Win, Pi", pro: "Extreme performance, sets the GGUF quantization standard", con: "Steep terminal compilation curve", url: "https://github.com/ggerganov/llama.cpp", kits: ["edge"], priceVal: 0 },
+      { id: "vllm", name: "vLLM", cat: "runtimes", role: "High-Throughput Server", price: "Free / Apache 2", runs: "Linux, Docker", pro: "PagedAttention algorithm, blazing token throughput", con: "Needs high-end discrete NVIDIA/AMD GPU", url: "https://github.com/vllm-project/vllm", priceVal: 0 },
+      { id: "jan", name: "Jan", cat: "runtimes", role: "Desktop AI Assistant", price: "Free / AGPLv3", runs: "Win, macOS, Linux", pro: "100% open-source local chat interface with clean modular plugins", con: "Fewer advanced quantization tuning knobs", url: "https://jan.ai", priceVal: 0 },
+      { id: "localai", name: "LocalAI", cat: "runtimes", role: "All-in-One OpenAI Drop-in", price: "Free / MIT", runs: "Linux, Docker, Win, macOS", pro: "Unified server for LLM, audio generation, and TTS", con: "Complex multi-backend configuration", url: "https://localai.io", priceVal: 0 },
+      { id: "aphrodite", name: "Aphrodite Engine", cat: "runtimes", role: "Roleplay & Character Server", price: "Free / Apache 2", runs: "Linux, Docker", pro: "Tuned sampling algorithms for companions & roleplay", con: "Linux-only, needs discrete GPU", url: "https://github.com/PygmalionAI/aphrodite-engine", priceVal: 0 },
+      { id: "whisper-cpp", name: "Whisper.cpp", cat: "stt", role: "Edge Hearing / Embedded STT", price: "Free / MIT", runs: "Raspberry Pi, Linux, macOS", pro: "Pure C/C++ zero dependencies, runs smooth on ARM", con: "Needs external pipeline for streaming VAD", url: "https://github.com/ggerganov/whisper.cpp", kits: ["edge"], priceVal: 0 },
+      { id: "whisper-live", name: "Whisper-Live", cat: "stt", role: "Real-Time WebSocket Stream", price: "Free / MIT", runs: "Linux, Docker", pro: "Continuous low-latency audio stream transcription", con: "Requires fine audio buffer calibration", url: "https://github.com/collabora/WhisperLive", priceVal: 0 },
+      { id: "xtts-v2", name: "XTTS v2", cat: "tts", role: "Instant Voice Cloning", price: "Free / CPML", runs: "Linux, Win", pro: "Clones any voice using a 3-second sample across 17 languages", con: "Requires 4GB+ dedicated GPU VRAM", url: "https://github.com/coqui-ai/TTS", priceVal: 0 },
+      { id: "styletts-2", name: "StyleTTS 2", cat: "tts", role: "Expressive Human Prosody", price: "Free / MIT", runs: "Linux, Windows", pro: "Natural emotional pauses, breaths, and natural cadence", con: "Complex setup dependencies", url: "https://github.com/yl4579/StyleTTS2", kits: ["edge"], priceVal: 0 },
+      { id: "bark", name: "Bark", cat: "tts", role: "Laughs & Expressive Audio", price: "Free / MIT", runs: "Linux, Windows", pro: "Can laugh, sigh, hesitate, and produce environmental audio", con: "Slow inference, prone to hallucinations", url: "https://github.com/suno-ai/bark", priceVal: 0 },
       { id: "elizaos", name: "ElizaOS", cat: "orchestration", role: "Character & Social Agent", price: "Free / MIT", runs: "Node.js, Linux, Docker", pro: "Built-in voice, Twitter, Discord connectors + character cards", con: "Rapidly updating repository", url: "https://github.com/elizaos/eliza", kits: ["edge"], priceVal: 0 },
       { id: "autogen", name: "AutoGen", cat: "orchestration", role: "Multi-Agent Conversation", price: "Free / MIT", runs: "Python, Linux, Win", pro: "Coordinates multi-specialist bot conversations", con: "Can loop compute if prompts are loose", url: "https://github.com/microsoft/autogen", priceVal: 0 },
       { id: "langchain", name: "LangChain", cat: "orchestration", role: "Tool & Sensor Calling", price: "Free / MIT", runs: "Python, TypeScript", pro: "Massive hardware sensor, vector, and API library", con: "Heavy abstraction layer", url: "https://www.langchain.com", priceVal: 0 },
@@ -1012,10 +1037,30 @@
     let currentCat = 'all';
     let userBuild = new Set();
     let viewingBuildOnly = false;
+    let activeSnippetTool = null;
+    let currentOS = localStorage.getItem('deskbot_os') || 'linux';
 
-    tools.forEach(t => {
-      if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
-    });
+    // Load persistent stack from local storage, or load default budget kit
+    try {
+      const savedBuild = localStorage.getItem('deskbot_user_build');
+      if (savedBuild) {
+        JSON.parse(savedBuild).forEach(id => userBuild.add(id));
+      } else {
+        tools.forEach(t => {
+          if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
+        });
+      }
+    } catch (e) {
+      tools.forEach(t => {
+        if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
+      });
+    }
+
+    function saveBuildToStorage() {
+      try {
+        localStorage.setItem('deskbot_user_build', JSON.stringify([...userBuild]));
+      } catch (e) {}
+    }
 
     // --- How It Works Explainer Modal Controls ---
     function openPipelineExplainerModal() {
@@ -1026,27 +1071,80 @@
       document.getElementById('pipeline-modal').classList.add('hidden');
     }
 
-    // --- OPTION 3: Code Snippet Modal Logic ---
+    // --- Multi-OS Code Snippet Modal Logic ---
     function openSnippetModal(id) {
       const tool = tools.find(t => t.id === id);
-      if (!tool || !tool.snippet) return;
+      if (!tool || !tool.snippets) return;
 
+      activeSnippetTool = tool;
       document.getElementById('snip-title').textContent = tool.name;
       document.getElementById('snip-role').textContent = tool.role;
-      document.getElementById('snip-desc').textContent = tool.snippet.desc;
-      document.getElementById('snip-code').textContent = tool.snippet.code;
-      document.getElementById('snip-copied-msg').classList.add('opacity-0');
-
+      
+      switchOS(currentOS);
       document.getElementById('snippet-modal').classList.remove('hidden');
     }
 
     function closeSnippetModal() {
       document.getElementById('snippet-modal').classList.add('hidden');
+      activeSnippetTool = null;
     }
 
-    function copySnippetCode() {
-      const code = document.getElementById('snip-code').textContent;
-      navigator.clipboard.writeText(code).then(() => {
+    function switchOS(os) {
+      currentOS = os;
+      localStorage.setItem('deskbot_os', os);
+
+      // Update button styling
+      ['linux', 'macos', 'windows'].forEach(k => {
+        const btn = document.getElementById(`os-btn-${k}`);
+        if (btn) {
+          if (k === os) {
+            btn.className = "px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white transition shadow";
+          } else {
+            btn.className = "px-3 py-1 rounded-lg text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition";
+          }
+        }
+      });
+
+      renderSnippetSteps();
+    }
+
+    function renderSnippetSteps() {
+      if (!activeSnippetTool || !activeSnippetTool.snippets) return;
+
+      const container = document.getElementById('snip-steps-container');
+      const steps = activeSnippetTool.snippets[currentOS] || activeSnippetTool.snippets['linux'] || [];
+
+      if (steps.length === 0) {
+        container.innerHTML = `
+          <div class="py-6 text-center text-slate-500 text-xs">
+            No specific CLI snippets registered for this operating system.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = steps.map((s, idx) => `
+        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800/80 space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-xs text-white">${s.title}</h4>
+            <button 
+              onclick="copyBlockCode('code-block-${idx}')" 
+              class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-semibold rounded border border-slate-700 transition"
+            >
+              Copy
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400">${s.desc}</p>
+          <pre id="code-block-${idx}" class="p-3 rounded-lg bg-slate-900 border border-slate-800 font-mono text-[11px] text-indigo-300 overflow-x-auto leading-relaxed select-all">${s.code}</pre>
+        </div>
+      `).join('');
+    }
+
+    function copyBlockCode(elementId) {
+      const codeEl = document.getElementById(elementId);
+      if (!codeEl) return;
+
+      navigator.clipboard.writeText(codeEl.textContent).then(() => {
         const msg = document.getElementById('snip-copied-msg');
         msg.classList.remove('opacity-0');
         setTimeout(() => msg.classList.add('opacity-0'), 2500);
@@ -1129,6 +1227,7 @@
       } else {
         userBuild.add(id);
       }
+      saveBuildToStorage();
       updateBuildBadges();
       updateTrayItemsList();
       applyFilters();
@@ -1142,6 +1241,7 @@
       tools.forEach(t => {
         if (t.kits && t.kits.includes(kit)) userBuild.add(t.id);
       });
+      saveBuildToStorage();
       updateBuildBadges();
       updateTrayItemsList();
       applyFilters();
@@ -1149,6 +1249,7 @@
 
     function clearCustomStack() {
       userBuild.clear();
+      saveBuildToStorage();
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('ring-2', 'ring-indigo-400'));
       viewingBuildOnly = false;
       document.getElementById('tray-view-btn').textContent = "View Stack Only";
@@ -1396,7 +1497,7 @@
       }
     }
 
-    // --- Directory Grid Render (Dual-Button Row with Code Snippet Support) ---
+    // --- Directory Grid Render (Dual-Button Row with Multi-OS Snippet Support) ---
     function render(items) {
       counter.textContent = `Showing ${items.length} ${items.length === 1 ? 'Tool' : 'Tools'}`;
       if (items.length === 0) {
@@ -1441,12 +1542,12 @@
                   >
                     <span>📐 Pinout</span>
                   </button>
-                ` : (t.snippet ? `
+                ` : (t.snippets ? `
                   <button 
                     onclick="openSnippetModal('${t.id}')"
                     class="w-1/2 py-2 px-2.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 border border-slate-700/80"
                   >
-                    <span>💻 Snippet</span>
+                    <span>💻 CLI / Code</span>
                   </button>
                 ` : '')}
                 
@@ -1454,7 +1555,7 @@
                   href="${resolvedUrl}" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  class="${(t.specs || t.snippet) ? 'w-1/2' : 'w-full'} block text-center py-2 px-2.5 ${t.badge ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'} text-white rounded-lg text-xs font-semibold transition"
+                  class="${(t.specs || t.snippets) ? 'w-1/2' : 'w-full'} block text-center py-2 px-2.5 ${t.badge ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-slate-800 hover:bg-slate-700 text-slate-200'} text-white rounded-lg text-xs font-semibold transition"
                 >
                   ${t.ctaText || (t.specs ? 'Find / Buy \u2192' : 'Get Specs \u2192')}
                 </a>
