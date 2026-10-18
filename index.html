@@ -680,7 +680,7 @@
     </div>
   </div>
 
-  <!-- EXPANDED BEGINNER MASTERCLASS GUIDE -->
+  <!-- EXPANDED BEGINNER MASTERCLASS GUIDE (WITH AHA TEACHING CARDS) -->
   <div 
     id="beginner-guide-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -743,10 +743,25 @@
           </div>
         </details>
 
+        <!-- Teaching Moment: USB Webcams vs Serial Sensor Eyes -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
               <span class="text-indigo-400 font-mono text-sm">03.</span>
+              <span>Why Not Just Use Regular USB Webcams?</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
+            <p>Standard USB webcams send raw, uncompressed 1080p video streams into your computer. This forces your CPU or graphics card to decode millions of pixels every second, which burns battery and creates sluggish response times.</p>
+            <p class="text-slate-300"><strong>The Smart Solution:</strong> Dedicated vision sensors (like OpenMV or ESP32-CAM) do the face-math directly on the sensor itself. Instead of video, they only send a lightweight text message down the wire: <code>X: 120, Y: 85</code>. Your robot tracks your face instantly with zero computer lag.</p>
+          </div>
+        </details>
+
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
+          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-indigo-400 font-mono text-sm">04.</span>
               <span>The Audio Loop: Why I2S Beats Analog</span>
             </span>
             <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
@@ -760,7 +775,7 @@
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
-              <span class="text-indigo-400 font-mono text-sm">04.</span>
+              <span class="text-indigo-400 font-mono text-sm">05.</span>
               <span>Physical Motion: Servos & Head Tilts</span>
             </span>
             <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
@@ -775,44 +790,18 @@
           </div>
         </details>
 
-        <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
-          <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
-            <span class="flex items-center gap-2">
-              <span class="text-indigo-400 font-mono text-sm">05.</span>
-              <span>Giving It Memory & Character</span>
-            </span>
-            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <p>A smart model isn't fun if it sounds like a robotic customer service bot. You can give your companion a unique identity using two tools:</p>
-            <ul class="list-disc list-inside space-y-1.5 text-slate-300 pl-1">
-              <li><strong class="text-white">System Prompt:</strong> Tell the AI: <em>"You are a witty, concise desk companion. Keep answers to 1-2 spoken sentences. Include motion tags like [NOD] or [TILT] when appropriate."</em></li>
-              <li><strong class="text-white">Letta Memory Layer:</strong> Connects a lifelong database so your bot remembers your name, projects, and past conversations across reboots.</li>
-            </ul>
-          </div>
-        </details>
-
+        <!-- Teaching Moment: The Ground Loop Mystery -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
               <span class="text-indigo-400 font-mono text-sm">06.</span>
-              <span>The Top 3 Workbench Traps (Avoid These!)</span>
+              <span>The Ground Loop Mystery (Why is my Bot Buzzing?)</span>
             </span>
             <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
-              <p class="font-bold text-rose-300 text-xs sm:text-sm">⚠️ Trap 1: Powering motors directly from microcontroller pins</p>
-              <p class="text-slate-400 text-xs sm:text-sm">Servos pull huge sudden spikes of current. If you wire them directly to the 5V pin of your ESP32 or Pi, the board will brown-out and reboot constantly. Always use a separate 5V power wire or capacitor.</p>
-            </div>
-            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
-              <p class="font-bold text-amber-300 text-xs sm:text-sm">⚠️ Trap 2: Charge-only USB cables</p>
-              <p class="text-slate-400 text-xs sm:text-sm">Many cheap phone charging cables omit the data wires. If your computer doesn't detect your board when plugged in, switch to a verified USB-C 4-wire data cable.</p>
-            </div>
-            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
-              <p class="font-bold text-indigo-300 text-xs sm:text-sm">⚠️ Trap 3: Missing Common Ground</p>
-              <p class="text-slate-400 text-xs sm:text-sm">If using a separate battery for your motors, all GND (ground) pins between your controller and battery must be tied together, otherwise signal voltages float and servos will twitch violently.</p>
-            </div>
+            <p>If your speaker makes an annoying electrical whine every time the robot tilts its head, you have a ground loop or a floating ground reference.</p>
+            <p class="text-slate-300"><strong>The Golden Rule of Robotics:</strong> All GND (Ground) pins across your battery, your motor driver, and your microcontroller must connect to a single shared wire rail on your breadboard. When all parts share the exact same 0-volt baseline, electrical motor buzzing disappears completely.</p>
           </div>
         </details>
       </div>
@@ -944,9 +933,7 @@
       }
     };
 
-    // RELIABLE, BROADER ALIEXPRESS SEARCH ROUTER
     function buildAliExpressLink(query) {
-      // Clean query and replace with high-yield search terms
       let clean = (query || 'robotics').toLowerCase();
       clean = clean.replace('fpv', '').replace('right angle', '').replace('braided', '').trim();
       const terms = encodeURIComponent(clean);
@@ -1277,18 +1264,16 @@
       }).join('');
     }
 
+    // STRICT BLUEPRINT LOADING: Loads solely the blueprint toolIds, preventing 24-item clutter
     function selectStarterStack(stackId) {
       activeStackId = stackId;
       const selected = starterStacks.find(s => s.id === stackId);
       if (!selected) return;
 
       userBuild.clear();
-      if (selected.toolIds) {
+      if (selected.toolIds && Array.isArray(selected.toolIds)) {
         selected.toolIds.forEach(id => userBuild.add(id));
       }
-      tools.forEach(t => {
-        if (t.kits && t.kits.includes(stackId)) userBuild.add(t.id);
-      });
 
       localStorage.setItem('deskbot_user_build', JSON.stringify([...userBuild]));
       updateBuildBadges();
@@ -1377,7 +1362,7 @@
         const inBuild = userBuild.has(t.id);
         const resolvedUrl = resolveSmartLink(t);
         const activeStack = starterStacks.find(s => s.id === activeStackId);
-        const inActiveStack = activeStack && activeStack.toolIds && (activeStack.toolIds.includes(t.id) || (t.kits && t.kits.includes(activeStackId)));
+        const inActiveStack = activeStack && activeStack.toolIds && activeStack.toolIds.includes(t.id);
         const catIcon = CATEGORY_ICONS[t.cat] || '🤖';
 
         return `
@@ -1450,8 +1435,8 @@
         const stack = starterStacks.find(s => s.id === activeStackId);
         if (stack && stack.toolIds) {
           filtered.sort((a, b) => {
-            const aMatch = stack.toolIds.includes(a.id) || (a.kits && a.kits.includes(activeStackId));
-            const bMatch = stack.toolIds.includes(b.id) || (b.kits && b.kits.includes(activeStackId));
+            const aMatch = stack.toolIds.includes(a.id);
+            const bMatch = stack.toolIds.includes(b.id);
             return (bMatch ? 1 : 0) - (aMatch ? 1 : 0);
           });
         }
@@ -1740,7 +1725,7 @@
       }
     });
 
-    // ROBUST DATA LOADING
+    // ROBUST DATA LOADING (Guaranteed Clean State)
     Promise.all([
       fetch('./tools.json', { cache: 'no-store' }).then(res => res.json()),
       fetch('./stacks.json', { cache: 'no-store' }).then(res => res.json()).catch(() => [])
