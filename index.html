@@ -140,7 +140,7 @@
           </div>
 
           <span id="tool-counter" class="hidden md:inline-block text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
-            41 Tools
+            Loading Tools...
           </span>
         </div>
       </div>
@@ -748,7 +748,7 @@
   <script>
     // --- CONFIGURED WITH YOUR OFFICIAL AFFILIATE CODES ---
     const AFFILIATE_CONFIG = {
-      aliexpress_tag: "deskbotstack", // <-- YOUR ACTIVE ALIEXPRESS TRACKING ID
+      aliexpress_tag: "deskbotstack",
       seeed_tag: "",
       amazon_tag: ""
     };
@@ -1027,7 +1027,6 @@
         triggerDownload('.env.example', envContent, 'text/plain');
       }, 350);
 
-      // Open the informative "What's Next?" pop-up
       setTimeout(() => {
         openWhatsNextModal();
       }, 600);
@@ -1606,9 +1605,12 @@
       applyFilters();
     }
 
-    // --- FETCH DATA FROM TOOLS.JSON & INITIALIZE ---
-    fetch('./tools.json')
-      .then(res => res.json())
+    // --- FETCH DATA FROM TOOLS.JSON WITH ROBUST PATH RESOLUTION ---
+    fetch('./tools.json', { cache: 'no-store' })
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then(data => {
         tools = data;
 
