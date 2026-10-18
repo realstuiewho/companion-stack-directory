@@ -680,7 +680,7 @@
     </div>
   </div>
 
-  <!-- EXPANDED BEGINNER MASTERCLASS GUIDE (WITH AHA TEACHING CARDS) -->
+  <!-- EXPANDED BEGINNER MASTERCLASS GUIDE (WITH GITHUB SURVIVAL CHAPTER) -->
   <div 
     id="beginner-guide-modal" 
     class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
@@ -707,6 +707,7 @@
       </div>
 
       <div class="mt-6 space-y-3.5 text-sm sm:text-base">
+        <!-- Chapter 1 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700" open>
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -727,6 +728,7 @@
           </div>
         </details>
 
+        <!-- Chapter 2 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -743,7 +745,7 @@
           </div>
         </details>
 
-        <!-- Teaching Moment: USB Webcams vs Serial Sensor Eyes -->
+        <!-- Chapter 3 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -758,6 +760,7 @@
           </div>
         </details>
 
+        <!-- Chapter 4 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -772,6 +775,7 @@
           </div>
         </details>
 
+        <!-- Chapter 5 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -790,7 +794,7 @@
           </div>
         </details>
 
-        <!-- Teaching Moment: The Ground Loop Mystery -->
+        <!-- Chapter 6 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700">
           <summary class="font-bold text-base sm:text-lg text-white cursor-pointer flex justify-between items-center select-none">
             <span class="flex items-center gap-2">
@@ -802,6 +806,40 @@
           <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
             <p>If your speaker makes an annoying electrical whine every time the robot tilts its head, you have a ground loop or a floating ground reference.</p>
             <p class="text-slate-300"><strong>The Golden Rule of Robotics:</strong> All GND (Ground) pins across your battery, your motor driver, and your microcontroller must connect to a single shared wire rail on your breadboard. When all parts share the exact same 0-volt baseline, electrical motor buzzing disappears completely.</p>
+          </div>
+        </details>
+
+        <!-- NEW CHAPTER 7: DECODING GITHUB -->
+        <details class="group p-4 bg-slate-950 rounded-2xl border border-indigo-500/50 transition hover:border-indigo-400">
+          <summary class="font-bold text-base sm:text-lg text-indigo-300 cursor-pointer flex justify-between items-center select-none">
+            <span class="flex items-center gap-2">
+              <span class="text-emerald-400 font-mono text-sm">07.</span>
+              <span>Decoding GitHub: What To Do When You Click a Link</span>
+            </span>
+            <span class="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="mt-3 text-xs sm:text-sm text-slate-200 leading-relaxed space-y-3 pt-2 border-t border-slate-800/80">
+            <p>
+              When you click on an open-source project link on this site (like Ollama, faster-whisper, or Piper), you will usually land on a website called <strong>GitHub</strong>.
+            </p>
+            <p class="text-slate-300">
+              For beginners, GitHub looks like a confusing wall of code files and developer jargon. <strong>Do not panic!</strong> You do not need an account, and you do not need to know how to code. Here is your 3-step survival guide:
+            </p>
+            
+            <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 space-y-1.5">
+              <h5 class="font-bold text-white text-xs sm:text-sm">1. Scroll Down to the README (The Instruction Manual)</h5>
+              <p class="text-slate-400 text-xs sm:text-sm">Ignore the intimidating list of files at the top. Scroll down past them until you see a formatted document called the <code>README.md</code>. This is the official project manual. It is written in plain English and tells you what the tool does, system requirements, and step-by-step setup guides.</p>
+            </div>
+
+            <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 space-y-1.5">
+              <h5 class="font-bold text-emerald-300 text-xs sm:text-sm">2. The Green "&lt;&gt; Code" Button (Direct Download)</h5>
+              <p class="text-slate-400 text-xs sm:text-sm">If you want to download a project's files without typing any terminal commands, look near the top right of the page for a bright green button that says <strong>&lt;&gt; Code</strong>. Click it, then click <strong>Download ZIP</strong>. Unzip that folder on your computer and you have the complete software ready to explore.</p>
+            </div>
+
+            <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 space-y-1.5">
+              <h5 class="font-bold text-indigo-300 text-xs sm:text-sm">3. The "Releases" Section (Pre-Built Installers)</h5>
+              <p class="text-slate-400 text-xs sm:text-sm">Many tools offer pre-built installer files (like an everyday <code>.exe</code> for Windows or <code>.dmg</code> for Mac). On the right-hand sidebar of any GitHub page, look for the word <strong>Releases</strong>. Clicking the latest version gives you direct download links for regular point-and-click installers!</p>
+            </div>
           </div>
         </details>
       </div>
@@ -1264,7 +1302,6 @@
       }).join('');
     }
 
-    // STRICT BLUEPRINT LOADING: Loads solely the blueprint toolIds, preventing 24-item clutter
     function selectStarterStack(stackId) {
       activeStackId = stackId;
       const selected = starterStacks.find(s => s.id === stackId);
@@ -1725,7 +1762,7 @@
       }
     });
 
-    // ROBUST DATA LOADING (Guaranteed Clean State)
+    // ROBUST DATA LOADING
     Promise.all([
       fetch('./tools.json', { cache: 'no-store' }).then(res => res.json()),
       fetch('./stacks.json', { cache: 'no-store' }).then(res => res.json()).catch(() => [])
