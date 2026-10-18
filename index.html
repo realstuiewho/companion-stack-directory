@@ -164,16 +164,16 @@
       </div>
     </section>
 
-    <!-- NEW: DYNAMIC SIGNAL CHAIN VISUALIZER (Revealed when "View My Parts Only" is active) -->
+    <!-- DYNAMIC SIGNAL CHAIN VISUALIZER WITH COMPONENT SWAP BUTTONS -->
     <section id="signal-chain-section" class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 hidden">
       <div class="p-5 sm:p-6 rounded-3xl bg-slate-900 border-2 border-indigo-500/60 shadow-2xl space-y-4">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
           <div>
             <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-lg border border-emerald-700/50">
-              Your Custom Companion Nervous System
+              Interactive Hardware Nervous System
             </span>
             <h2 class="text-lg sm:text-xl font-extrabold text-white mt-1">Live Signal & Perception Pipeline</h2>
-            <p class="text-xs sm:text-sm text-slate-300">How your selected parts speak to each other from sound wave to real-world movement.</p>
+            <p class="text-xs sm:text-sm text-slate-300">Click any component to swap with verified compatible drop-in alternatives.</p>
           </div>
           <button 
             onclick="viewActiveStackOnly()" 
@@ -284,7 +284,7 @@
       </div>
     </section>
 
-    <!-- Category Filter Strip -->
+    <!-- NEW EXPANDED CATEGORY FILTER STRIP (8 Clean Headings) -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-6 flex flex-wrap gap-2 justify-center">
       <button onclick="filterCat('all', this)" class="cat-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow">All</button>
       <button onclick="filterCat('runtimes', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🧠 Brains</button>
@@ -292,10 +292,44 @@
       <button onclick="filterCat('tts', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🗣️ Voices</button>
       <button onclick="filterCat('orchestration', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">📚 Memory</button>
       <button onclick="filterCat('hardware', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🤖 Hardware</button>
+      <button onclick="filterCat('power', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">⚡ Power & Adapters</button>
+      <button onclick="filterCat('chassis', this)" class="cat-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800">🦴 Bodies & 3D Chassis</button>
     </div>
 
     <!-- MAIN RECTANGULAR TILES GRID -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="grid"></main>
+  </div>
+
+  <!-- SWAP COMPONENT POP-UP MODAL -->
+  <div 
+    id="swap-modal" 
+    class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4" 
+    onclick="closeSwapModal()"
+  >
+    <div 
+      class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
+      onclick="event.stopPropagation()"
+    >
+      <div class="flex justify-between items-start pb-4 border-b border-slate-800">
+        <div>
+          <span class="text-xs uppercase font-bold tracking-wider text-indigo-400 bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-800/50">
+            Nervous System Customizer
+          </span>
+          <h3 id="swap-modal-title" class="text-2xl font-extrabold text-white mt-1.5">🔄 Swap Component</h3>
+          <p id="swap-modal-subtitle" class="text-xs sm:text-sm text-slate-300 mt-0.5">Select a verified drop-in replacement for your chain.</p>
+        </div>
+        <button 
+          onclick="closeSwapModal()" 
+          class="text-slate-400 hover:text-white text-lg font-bold w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition flex-shrink-0"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div id="swap-options-list" class="mt-5 space-y-3">
+        <!-- Injected dynamically by JavaScript -->
+      </div>
+    </div>
   </div>
 
   <!-- WIDE MEMORY CHECKER MODAL -->
@@ -472,7 +506,7 @@
             Community Catalog
           </span>
           <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1.5">💡 Suggest a Tool or Part</h3>
-          <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Suggest an open-source brain, motor, or voice engine for DeskbotStack.</p>
+          <p class="text-xs sm:text-sm text-slate-300 mt-0.5">Suggest an open-source brain, motor, power module, or 3D chassis.</p>
         </div>
         <button 
           onclick="closeSuggestToolModal()" 
@@ -500,11 +534,13 @@
               id="suggest-cat" 
               class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-200 focus:outline-none focus:border-emerald-500 text-sm"
             >
-              <option value="🧠 Brains & Cloud Power">🧠 Brain / LLM Runtime</option>
-              <option value="👂 Ears & Listening">👂 Ears / Speech-To-Text</option>
-              <option value="🗣️ Voices & Speaking">🗣️ Voice / Text-To-Speech</option>
-              <option value="📚 Memory & Personality">📚 Memory & Personality</option>
-              <option value="🤖 Arms, Motors & Bodies">🤖 Arms, Servos & Hardware</option>
+              <option value="🧠 Brains">🧠 Brain / LLM Runtime</option>
+              <option value="👂 Ears">👂 Ears / Speech-To-Text</option>
+              <option value="🗣️ Voices">🗣️ Voice / Text-To-Speech</option>
+              <option value="📚 Memory">📚 Memory & Personality</option>
+              <option value="🤖 Hardware">🤖 Arms, Servos & Hardware</option>
+              <option value="⚡ Power & Adapters">⚡ Power & Adapters</option>
+              <option value="🦴 Bodies & 3D Chassis">🦴 Bodies & 3D Chassis</option>
             </select>
           </div>
 
@@ -671,7 +707,6 @@
         </button>
       </div>
 
-      <!-- Chapters Accordion -->
       <div class="mt-6 space-y-3.5 text-sm sm:text-base">
         <!-- Chapter 1 -->
         <details class="group p-4 bg-slate-950 rounded-2xl border border-slate-800 transition hover:border-slate-700" open>
@@ -843,7 +878,9 @@
       stt: '🎙️',
       tts: '🗣️',
       orchestration: '📚',
-      hardware: '🤖'
+      hardware: '🤖',
+      power: '⚡',
+      chassis: '🦴'
     };
 
     function buildAliExpressLink(query) {
@@ -868,6 +905,78 @@
     function closeWhatsNextModal() { document.getElementById('whats-next-modal').classList.add('hidden'); }
     function openBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.remove('hidden'); }
     function closeBeginnerGuideModal() { document.getElementById('beginner-guide-modal').classList.add('hidden'); }
+
+    function openSwapModal(stageKey, currentToolId) {
+      const modal = document.getElementById('swap-modal');
+      const title = document.getElementById('swap-modal-title');
+      const subtitle = document.getElementById('swap-modal-subtitle');
+      const list = document.getElementById('swap-options-list');
+
+      title.textContent = `🔄 Swap ${stageKey.toUpperCase()}`;
+      subtitle.textContent = `Pick a verified alternative to drop straight into your robot chain:`;
+
+      // Filter compatible options for this stage
+      let compatible = [];
+      if (stageKey === 'ears') {
+        compatible = tools.filter(t => t.cat === 'stt' || t.id === 'usb-speakerphone' || t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic');
+      } else if (stageKey === 'stt') {
+        compatible = tools.filter(t => t.cat === 'stt');
+      } else if (stageKey === 'brain') {
+        compatible = tools.filter(t => t.cat === 'runtimes' || t.cat === 'orchestration');
+      } else if (stageKey === 'voice') {
+        compatible = tools.filter(t => t.cat === 'tts');
+      } else if (stageKey === 'body') {
+        compatible = tools.filter(t => t.cat === 'hardware' || t.cat === 'power' || t.cat === 'chassis');
+      }
+
+      list.innerHTML = compatible.map(tool => {
+        const isCurrent = userBuild.has(tool.id);
+        const icon = CATEGORY_ICONS[tool.cat] || '🤖';
+        return `
+          <div class="p-4 rounded-2xl border ${isCurrent ? 'bg-indigo-950/60 border-indigo-500 ring-2 ring-indigo-500/50' : 'bg-slate-950 border-slate-800 hover:border-slate-700'} flex items-center justify-between gap-3 transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="text-2xl p-2 rounded-xl bg-slate-900 border border-slate-800 flex-shrink-0">${icon}</span>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-white text-sm sm:text-base truncate">${tool.name}</h4>
+                  <span class="text-xs font-mono font-bold text-emerald-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">${tool.price}</span>
+                </div>
+                <p class="text-xs text-slate-300 truncate mt-0.5">${tool.role}</p>
+              </div>
+            </div>
+            <button 
+              onclick="executeSwap('${currentToolId || ''}', '${tool.id}')"
+              class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex-shrink-0 transition ${
+                isCurrent 
+                  ? 'bg-emerald-600 text-white cursor-default' 
+                  : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow'
+              }"
+            >
+              ${isCurrent ? '✓ Active' : 'Swap In'}
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeSwapModal() {
+      document.getElementById('swap-modal').classList.add('hidden');
+    }
+
+    function executeSwap(oldId, newId) {
+      if (oldId && oldId !== '' && userBuild.has(oldId)) {
+        userBuild.delete(oldId);
+      }
+      userBuild.add(newId);
+      localStorage.setItem('deskbot_user_build', JSON.stringify([...userBuild]));
+      updateBuildBadges();
+      updateTrayItemsList();
+      updateSignalChainVisualizer();
+      applyFilters();
+      closeSwapModal();
+    }
 
     function submitToolToGitHub() {
       const name = document.getElementById('suggest-name').value.trim();
@@ -931,7 +1040,7 @@
       document.getElementById('tool-detail-modal').classList.add('hidden');
     }
 
-    // DYNAMIC SIGNAL CHAIN RENDERER
+    // DYNAMIC SIGNAL CHAIN RENDERER (With Swap Options)
     function updateSignalChainVisualizer() {
       const section = document.getElementById('signal-chain-section');
       if (!viewingBuildOnly || userBuild.size === 0) {
@@ -942,38 +1051,46 @@
       section.classList.remove('hidden');
       const selected = tools.filter(t => userBuild.has(t.id));
 
-      function getSlotHtml(category, label, fallbackMsg) {
+      function getSlotHtml(stageKey, fallbackMsg) {
         const matches = selected.filter(t => {
-          if (category === 'ears') return t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic' || t.id === 'usb-speakerphone';
-          if (category === 'stt') return t.cat === 'stt' && t.id !== 'inmp441' && t.id !== 'ms4030-mic' && t.id !== 'respeaker' && t.id !== 'respeaker-4mic' && t.id !== 'usb-speakerphone';
-          if (category === 'runtimes') return t.cat === 'runtimes' || t.cat === 'orchestration';
-          if (category === 'tts') return t.cat === 'tts';
-          if (category === 'hardware') return t.cat === 'hardware' && t.id !== 'inmp441' && t.id !== 'ms4030-mic' && t.id !== 'respeaker' && t.id !== 'respeaker-4mic' && t.id !== 'usb-speakerphone';
+          if (stageKey === 'ears') return t.id === 'inmp441' || t.id === 'ms4030-mic' || t.id === 'respeaker' || t.id === 'respeaker-4mic' || t.id === 'usb-speakerphone';
+          if (stageKey === 'stt') return t.cat === 'stt' && t.id !== 'inmp441' && t.id !== 'ms4030-mic' && t.id !== 'respeaker' && t.id !== 'respeaker-4mic' && t.id !== 'usb-speakerphone';
+          if (stageKey === 'brain') return t.cat === 'runtimes' || t.cat === 'orchestration';
+          if (stageKey === 'voice') return t.cat === 'tts';
+          if (stageKey === 'body') return t.cat === 'hardware' || t.cat === 'power' || t.cat === 'chassis';
           return false;
         });
 
         if (matches.length > 0) {
           return matches.map(m => `
-            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800/80 mt-1 cursor-pointer hover:border-indigo-500 transition" onclick="openToolDetailModal('${m.id}')">
-              <span class="font-bold text-white block truncate text-xs sm:text-sm">${m.name}</span>
-              <span class="text-[11px] text-slate-400 block truncate">${m.role}</span>
+            <div class="p-2 rounded-xl bg-slate-900 border border-slate-800/80 mt-1 flex flex-col justify-between">
+              <div onclick="openToolDetailModal('${m.id}')" class="cursor-pointer hover:text-indigo-300">
+                <span class="font-bold text-white block truncate text-xs sm:text-sm">${m.name}</span>
+                <span class="text-[11px] text-slate-400 block truncate">${m.role}</span>
+              </div>
+              <button 
+                onclick="openSwapModal('${stageKey}', '${m.id}')"
+                class="mt-2 py-1 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 font-bold text-[10px] border border-slate-700 transition flex items-center justify-center gap-1"
+              >
+                <span>🔄 Swap</span>
+              </button>
             </div>
           `).join('');
         }
 
         return `
-          <div onclick="filterCat('${category === 'ears' ? 'stt' : category}', null)" class="p-2.5 rounded-xl border border-dashed border-slate-700 bg-slate-950/60 text-slate-400 hover:border-indigo-400 hover:text-white transition cursor-pointer text-center mt-1">
+          <div onclick="openSwapModal('${stageKey}', '')" class="p-3 rounded-xl border border-dashed border-slate-700 bg-slate-950/60 text-slate-400 hover:border-indigo-400 hover:text-white transition cursor-pointer text-center mt-1">
             <span class="text-xs font-semibold block">${fallbackMsg}</span>
-            <span class="text-[10px] text-indigo-400 font-bold mt-0.5 block">+ Click to Add</span>
+            <span class="text-[10px] text-indigo-400 font-bold mt-1 block">➕ Choose Component</span>
           </div>
         `;
       }
 
-      document.getElementById('chain-ears-content').innerHTML = getSlotHtml('ears', 'Ears', 'No Mic Board Selected');
-      document.getElementById('chain-stt-content').innerHTML = getSlotHtml('stt', 'STT', 'No Hearing Model Selected');
-      document.getElementById('chain-brain-content').innerHTML = getSlotHtml('runtimes', 'Brain', 'No AI Brain Selected');
-      document.getElementById('chain-voice-content').innerHTML = getSlotHtml('tts', 'Voice', 'No Voice Engine Selected');
-      document.getElementById('chain-body-content').innerHTML = getSlotHtml('hardware', 'Body', 'No Motors/Controller Selected');
+      document.getElementById('chain-ears-content').innerHTML = getSlotHtml('ears', 'No Mic Board Selected');
+      document.getElementById('chain-stt-content').innerHTML = getSlotHtml('stt', 'No Hearing Model Selected');
+      document.getElementById('chain-brain-content').innerHTML = getSlotHtml('brain', 'No AI Brain Selected');
+      document.getElementById('chain-voice-content').innerHTML = getSlotHtml('voice', 'No Voice Engine Selected');
+      document.getElementById('chain-body-content').innerHTML = getSlotHtml('body', 'No Hardware Selected');
     }
 
     // STARTER BLUEPRINTS
@@ -1403,6 +1520,7 @@
       localStorage.setItem('deskbot_user_build', JSON.stringify([...userBuild]));
       updateBuildBadges();
       updateTrayItemsList();
+      updateSignalChainVisualizer();
       applyFilters();
     }
 
@@ -1470,6 +1588,7 @@
         closeSuggestToolModal();
         closeWhatsNextModal();
         closeBeginnerGuideModal();
+        closeSwapModal();
       }
     });
 
