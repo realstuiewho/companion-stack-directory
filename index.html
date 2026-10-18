@@ -7,7 +7,6 @@
   <meta name="description" content="A simple, human-friendly guide to building desk companions: pick a brain, give it ears and a voice, and wire up motors without headaches." />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* High-legibility typography for reading ease */
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       letter-spacing: 0.015em;
@@ -945,11 +944,17 @@
       }
     };
 
+    // RELIABLE, BROADER ALIEXPRESS SEARCH ROUTER
     function buildAliExpressLink(query) {
+      // Clean query and replace with high-yield search terms
+      let clean = (query || 'robotics').toLowerCase();
+      clean = clean.replace('fpv', '').replace('right angle', '').replace('braided', '').trim();
+      const terms = encodeURIComponent(clean);
+
       if (AFFILIATE_CONFIG.aliexpress_tag) {
-        return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}&aff_platform=portals-tool&sk=${AFFILIATE_CONFIG.aliexpress_tag}`;
+        return `https://www.aliexpress.com/wholesale?SearchText=${terms}&aff_platform=portals-tool&sk=${AFFILIATE_CONFIG.aliexpress_tag}`;
       }
-      return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}`;
+      return `https://www.aliexpress.com/wholesale?SearchText=${terms}`;
     }
 
     function resolveSmartLink(item) {
@@ -1735,7 +1740,7 @@
       }
     });
 
-    // ROBUST DATA LOADING (Guaranteed Card Drawing)
+    // ROBUST DATA LOADING
     Promise.all([
       fetch('./tools.json', { cache: 'no-store' }).then(res => res.json()),
       fetch('./stacks.json', { cache: 'no-store' }).then(res => res.json()).catch(() => [])
