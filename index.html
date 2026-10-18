@@ -90,7 +90,6 @@
                   </button>
                 </div>
                 
-                <!-- 1-Click Computer Setup Downloader with Pop-up Help Button -->
                 <div class="space-y-1">
                   <div class="flex items-center gap-1.5">
                     <button 
@@ -115,7 +114,6 @@
                   </div>
                 </div>
 
-                <!-- Workbench Checklist Button -->
                 <div class="space-y-1">
                   <div class="flex items-center gap-1.5">
                     <button 
@@ -173,7 +171,7 @@
       </div>
     </section>
 
-    <!-- NEW: STARTER STACKS BLUEPRINTS SECTION -->
+    <!-- STARTER STACKS BLUEPRINTS SECTION -->
     <section class="max-w-6xl mx-auto px-6 mb-10">
       <div class="p-6 rounded-3xl bg-slate-900/90 border border-indigo-500/30 shadow-2xl">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
@@ -185,7 +183,7 @@
           <button 
             id="reset-view-btn" 
             onclick="resetActiveStack()" 
-            class="hidden px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow"
+            class="hidden px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center gap-1.5 shadow"
           >
             <span>↺ Reset View</span>
           </button>
@@ -193,11 +191,11 @@
 
         <!-- 4 Blueprint Cards Container -->
         <div id="starter-stacks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-5">
-          <!-- Populated dynamically by JavaScript -->
+          <!-- Populated dynamically -->
         </div>
 
-        <!-- Selected Stack Hardware Bill of Materials Box -->
-        <div id="active-hardware-bom" class="hidden mt-6 pt-5 border-t border-slate-800/80">
+        <!-- Physical Hardware Bill of Materials Box -->
+        <div id="active-hardware-bom" class="mt-6 pt-5 border-t border-slate-800/80">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Physical Bill of Materials</span>
@@ -441,15 +439,9 @@
             <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <p>
-              Think of <strong>Docker</strong> like digital shipping containers.
-            </p>
-            <p class="text-slate-400">
-              Normally, installing artificial intelligence models requires installing dozens of confusing background tools, code libraries, and Python versions that can mess up your regular PC files.
-            </p>
-            <p class="text-slate-400">
-              Docker keeps everything neatly sealed inside its own clean sandbox. It downloads the exact tools you picked, connects them together automatically, and can be deleted cleanly in one click without leaving junk on your hard drive.
-            </p>
+            <p>Think of <strong>Docker</strong> like digital shipping containers.</p>
+            <p class="text-slate-400">Normally, installing artificial intelligence models requires installing dozens of confusing background tools, code libraries, and Python versions that can mess up your regular PC files.</p>
+            <p class="text-slate-400">Docker keeps everything neatly sealed inside its own clean sandbox. It downloads the exact tools you picked, connects them together automatically, and can be deleted cleanly in one click without leaving junk on your hard drive.</p>
           </div>
         </details>
 
@@ -459,15 +451,9 @@
             <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <p>
-              This is a plain-text <strong>instruction recipe</strong> for your computer.
-            </p>
-            <p class="text-slate-400">
-              When Docker reads this file, it sees: <em>"Fetch the brain tool, open port 8283 for memory, give it a private storage folder, and hook up the voice engine."</em>
-            </p>
-            <p class="text-slate-400">
-              Instead of typing 20 different setup commands into a terminal, this single recipe card tells your computer everything it needs to know in one breath.
-            </p>
+            <p>This is a plain-text <strong>instruction recipe</strong> for your computer.</p>
+            <p class="text-slate-400">When Docker reads this file, it sees: <em>"Fetch the brain tool, open port 8283 for memory, give it a private storage folder, and hook up the voice engine."</em></p>
+            <p class="text-slate-400">Instead of typing 20 different setup commands into a terminal, this single recipe card tells your computer everything it needs to know in one breath.</p>
           </div>
         </details>
 
@@ -477,15 +463,9 @@
             <span class="text-xs text-slate-500 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <div class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2 pt-2 border-t border-slate-800/80">
-            <p>
-              "ENV" stands for <strong>Environment</strong>. It’s where you safely store private account keys or passwords.
-            </p>
-            <p class="text-slate-400">
-              If you ever use cloud services like ElevenLabs (for realistic voices) or RunPod (for rented cloud graphics cards), you paste your secret keys into this file.
-            </p>
-            <p class="text-slate-400">
-              The blueprint reads your keys from here quietly so you never have to paste private passwords into your main software code!
-            </p>
+            <p>"ENV" stands for <strong>Environment</strong>. It’s where you safely store private account keys or passwords.</p>
+            <p class="text-slate-400">If you ever use cloud services like ElevenLabs (for realistic voices) or RunPod (for rented cloud graphics cards), you paste your secret keys into this file.</p>
+            <p class="text-slate-400">The blueprint reads your keys from here quietly so you never have to paste private passwords into your main software code!</p>
           </div>
         </details>
       </div>
@@ -775,7 +755,7 @@
 
     let tools = [];
     let starterStacks = [];
-    let activeStackId = null;
+    let activeStackId = 'conversationalist'; // Default to featured
 
     const grid = document.getElementById('grid');
     const counter = document.getElementById('tool-counter');
@@ -815,7 +795,7 @@
             onclick="selectStarterStack('${stack.id}')"
             class="p-4 rounded-2xl cursor-pointer transition flex flex-col justify-between border ${
               isActive 
-                ? 'bg-indigo-950/50 border-indigo-500 ring-2 ring-indigo-500/50 shadow-xl' 
+                ? 'bg-indigo-950/60 border-indigo-500 ring-2 ring-indigo-500/50 shadow-xl' 
                 : (isFeatured ? 'bg-slate-950/80 border-indigo-500/40 hover:border-indigo-400' : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60')
             }"
           >
@@ -842,11 +822,6 @@
     }
 
     function selectStarterStack(stackId) {
-      if (activeStackId === stackId) {
-        resetActiveStack();
-        return;
-      }
-
       activeStackId = stackId;
       const selected = starterStacks.find(s => s.id === stackId);
       if (!selected) return;
@@ -860,8 +835,10 @@
     function resetActiveStack() {
       activeStackId = null;
       document.getElementById('reset-view-btn').classList.add('hidden');
-      document.getElementById('active-hardware-bom').classList.add('hidden');
       renderStarterStacks();
+      // Keep featured BOM shown for context
+      const featured = starterStacks.find(s => s.id === 'conversationalist');
+      if (featured) renderHardwareBOM(featured);
       applyFilters();
     }
 
@@ -1601,7 +1578,7 @@
         const inBuild = userBuild.has(t.id);
         const resolvedUrl = resolveSmartLink(t);
         const activeStack = starterStacks.find(s => s.id === activeStackId);
-        const inActiveStack = activeStack && activeStack.toolIds && activeStack.toolIds.includes(t.id);
+        const inActiveStack = activeStack && activeStack.toolIds && (activeStack.toolIds.includes(t.id) || (t.kits && t.kits.includes(activeStackId)));
 
         return `
           <div class="bg-slate-900 border ${
@@ -1668,14 +1645,7 @@
 
     function applyFilters() {
       const query = (searchBox ? searchBox.value : '').toLowerCase().trim();
-      let filtered = tools;
-
-      if (activeStackId) {
-        const stack = starterStacks.find(s => s.id === activeStackId);
-        if (stack && stack.toolIds) {
-          filtered = filtered.filter(t => stack.toolIds.includes(t.id));
-        }
-      }
+      let filtered = [...tools];
 
       if (viewingBuildOnly) {
         filtered = filtered.filter(t => userBuild.has(t.id));
@@ -1697,6 +1667,18 @@
             t.specs.tip.toLowerCase().includes(query)
           ))
         );
+      }
+
+      // If a blueprint is active, smoothly sort matching blueprint tools to the top!
+      if (activeStackId) {
+        const stack = starterStacks.find(s => s.id === activeStackId);
+        if (stack && stack.toolIds) {
+          filtered.sort((a, b) => {
+            const aMatch = stack.toolIds.includes(a.id) || (a.kits && a.kits.includes(activeStackId));
+            const bMatch = stack.toolIds.includes(b.id) || (b.kits && b.kits.includes(activeStackId));
+            return (bMatch ? 1 : 0) - (aMatch ? 1 : 0);
+          });
+        }
       }
 
       render(filtered);
@@ -1726,8 +1708,11 @@
       activeStackId = null;
       if (searchBox) searchBox.value = '';
       document.getElementById('reset-view-btn').classList.add('hidden');
-      document.getElementById('active-hardware-bom').classList.add('hidden');
       renderStarterStacks();
+
+      // Show default featured hardware BOM
+      const featured = starterStacks.find(s => s.id === 'conversationalist');
+      if (featured) renderHardwareBOM(featured);
 
       document.querySelectorAll('.diag-node').forEach(n => n.classList.remove('ring-2', 'ring-indigo-400'));
       document.getElementById('tray-view-btn').textContent = "View My Parts Only";
@@ -1763,6 +1748,13 @@
       }
 
       renderStarterStacks();
+
+      // Automatically render the featured hardware BOM on initial load
+      const defaultStack = starterStacks.find(s => s.id === activeStackId) || starterStacks[0];
+      if (defaultStack) {
+        renderHardwareBOM(defaultStack);
+      }
+
       runCalc();
       updateBuildBadges();
       applyFilters();
