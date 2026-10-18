@@ -171,22 +171,46 @@
           class="w-full pl-10 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
         />
       </div>
+    </section>
 
-      <!-- Quick Starter Recipes -->
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
-        <span class="text-xs text-slate-500 font-medium mr-1">Choose a Starter Recipe:</span>
-        <button onclick="loadPresetStack('budget', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-950/40 transition">
-          ⚡ $50 Budget Desk Companion
-        </button>
-        <button onclick="loadPresetStack('pro', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-950/40 transition">
-          🧠 High-End Studio Companion
-        </button>
-        <button onclick="loadPresetStack('edge', this)" class="kit-btn px-3 py-1 rounded-full text-xs font-semibold bg-slate-900 border border-amber-500/30 text-amber-400 hover:bg-amber-950/40 transition">
-          🤖 All-In-One Autonomous Rig
-        </button>
-        <button onclick="clearCustomStack()" class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
-          Reset Build
-        </button>
+    <!-- NEW: STARTER STACKS BLUEPRINTS SECTION -->
+    <section class="max-w-6xl mx-auto px-6 mb-10">
+      <div class="p-6 rounded-3xl bg-slate-900/90 border border-indigo-500/30 shadow-2xl">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-800 gap-3">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950/70 px-2 py-0.5 rounded border border-indigo-800/40">Ready-To-Build Recipes</span>
+            <h2 class="text-xl font-extrabold text-white mt-1">Starter Stack Blueprints</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Click any blueprint to highlight matching software tools and physical hardware.</p>
+          </div>
+          <button 
+            id="reset-view-btn" 
+            onclick="resetActiveStack()" 
+            class="hidden px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5 shadow"
+          >
+            <span>↺ Reset View</span>
+          </button>
+        </div>
+
+        <!-- 4 Blueprint Cards Container -->
+        <div id="starter-stacks-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-5">
+          <!-- Populated dynamically by JavaScript -->
+        </div>
+
+        <!-- Selected Stack Hardware Bill of Materials Box -->
+        <div id="active-hardware-bom" class="hidden mt-6 pt-5 border-t border-slate-800/80">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Physical Bill of Materials</span>
+              <h3 id="bom-title" class="text-sm font-bold text-white mt-0.5">Recommended Hardware Parts</h3>
+            </div>
+            <div id="bom-cost-badge" class="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2.5 py-1 rounded-lg border border-emerald-800/40 self-start sm:self-auto">
+              Hardware: ~$15 - $25 AUD
+            </div>
+          </div>
+          <div id="bom-parts-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            <!-- Hardware cards populated dynamically -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -364,7 +388,6 @@
       class="bg-slate-900 border border-indigo-500/60 rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative animate-in fade-in zoom-in-95 duration-150 max-h-[92vh] overflow-y-auto" 
       onclick="event.stopPropagation()"
     >
-      <!-- Modal Header -->
       <div class="flex justify-between items-start pb-4 border-b border-slate-800">
         <div>
           <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-950/70 px-2.5 py-1 rounded border border-emerald-800/50">
@@ -381,7 +404,6 @@
         </button>
       </div>
 
-      <!-- Quick 3-Step Setup Box -->
       <div class="mt-5 p-4 sm:p-5 bg-slate-950 rounded-2xl border border-slate-800 space-y-3">
         <h4 class="text-sm font-bold text-white flex items-center gap-2">
           <span>🚀 The 3-Step Workbench Routine</span>
@@ -408,7 +430,6 @@
         </div>
       </div>
 
-      <!-- Interactive Learn-The-Files Section -->
       <div class="mt-5 space-y-3">
         <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
           🔍 Click To Learn What These Programs Actually Are:
@@ -469,7 +490,6 @@
         </details>
       </div>
 
-      <!-- Modal Footer -->
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
         <span class="text-xs text-slate-500 italic">💡 You can re-open this anytime by clicking ❓ in the top tray.</span>
         <button 
@@ -559,10 +579,10 @@
 
       <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
         <button 
-          onclick="loadPresetStack('budget', null); closeBeginnerGuideModal();" 
+          onclick="selectStarterStack('budget'); closeBeginnerGuideModal();" 
           class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition"
         >
-          ⚡ Load $50 Budget Recipe Now
+          ⚡ View Budget Pioneer Recipe
         </button>
         <button 
           onclick="closeBeginnerGuideModal()" 
@@ -754,6 +774,9 @@
     };
 
     let tools = [];
+    let starterStacks = [];
+    let activeStackId = null;
+
     const grid = document.getElementById('grid');
     const counter = document.getElementById('tool-counter');
     const searchBox = document.getElementById('search-box');
@@ -763,15 +786,122 @@
     let activeSnippetTool = null;
     let currentOS = localStorage.getItem('deskbot_os') || 'linux';
 
+    function buildAliExpressLink(query) {
+      if (AFFILIATE_CONFIG.aliexpress_tag) {
+        return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}&aff_platform=portals-tool&sk=${AFFILIATE_CONFIG.aliexpress_tag}`;
+      }
+      return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(query)}`;
+    }
+
     function resolveSmartLink(item) {
       if (item.affiliateUrl) return item.affiliateUrl;
       if (item.aliSearchQuery) {
-        if (AFFILIATE_CONFIG.aliexpress_tag) {
-          return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(item.aliSearchQuery)}&aff_platform=portals-tool&sk=${AFFILIATE_CONFIG.aliexpress_tag}`;
-        }
-        return `https://www.aliexpress.com/wholesale?SearchText=${encodeURIComponent(item.aliSearchQuery)}`;
+        return buildAliExpressLink(item.aliSearchQuery);
       }
       return item.url;
+    }
+
+    // --- STARTER STACKS LOGIC ---
+    function renderStarterStacks() {
+      const container = document.getElementById('starter-stacks-grid');
+      if (!container || starterStacks.length === 0) return;
+
+      container.innerHTML = starterStacks.map(stack => {
+        const isActive = activeStackId === stack.id;
+        const isFeatured = stack.id === 'conversationalist';
+
+        return `
+          <div 
+            onclick="selectStarterStack('${stack.id}')"
+            class="p-4 rounded-2xl cursor-pointer transition flex flex-col justify-between border ${
+              isActive 
+                ? 'bg-indigo-950/50 border-indigo-500 ring-2 ring-indigo-500/50 shadow-xl' 
+                : (isFeatured ? 'bg-slate-950/80 border-indigo-500/40 hover:border-indigo-400' : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60')
+            }"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-2">
+                <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                  isActive ? 'bg-indigo-500 text-white' : (isFeatured ? 'bg-indigo-950 text-indigo-300 border border-indigo-800/60' : 'bg-slate-800 text-slate-400')
+                }">
+                  ${stack.badge}
+                </span>
+                <span class="text-[10px] font-mono text-emerald-400 font-semibold">${stack.monthlyEst}</span>
+              </div>
+              <h3 class="text-sm font-bold text-white leading-snug">${stack.name}</h3>
+              <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">${stack.tagline}</p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+              <span class="text-slate-500">Hardware: <strong class="text-slate-300 font-mono">${stack.hardwareEst}</strong></span>
+              <span class="font-bold ${isActive ? 'text-indigo-400' : 'text-slate-400'}">${isActive ? 'Active Blueprint' : 'Select \u2192'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectStarterStack(stackId) {
+      if (activeStackId === stackId) {
+        resetActiveStack();
+        return;
+      }
+
+      activeStackId = stackId;
+      const selected = starterStacks.find(s => s.id === stackId);
+      if (!selected) return;
+
+      document.getElementById('reset-view-btn').classList.remove('hidden');
+      renderStarterStacks();
+      renderHardwareBOM(selected);
+      applyFilters();
+    }
+
+    function resetActiveStack() {
+      activeStackId = null;
+      document.getElementById('reset-view-btn').classList.add('hidden');
+      document.getElementById('active-hardware-bom').classList.add('hidden');
+      renderStarterStacks();
+      applyFilters();
+    }
+
+    function renderHardwareBOM(stack) {
+      const bomSection = document.getElementById('active-hardware-bom');
+      const titleEl = document.getElementById('bom-title');
+      const costBadge = document.getElementById('bom-cost-badge');
+      const partsGrid = document.getElementById('bom-parts-grid');
+
+      if (!stack.hardware || stack.hardware.length === 0) {
+        bomSection.classList.add('hidden');
+        return;
+      }
+
+      bomSection.classList.remove('hidden');
+      titleEl.textContent = `Physical Setup: ${stack.name}`;
+      costBadge.textContent = `Hardware: ${stack.hardwareEst}`;
+
+      partsGrid.innerHTML = stack.hardware.map(item => `
+        <div class="p-3.5 bg-slate-950 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="flex items-center justify-between text-[10px] text-indigo-400 font-bold mb-1">
+              <span class="uppercase tracking-wider font-mono">${item.part}</span>
+              <span class="text-slate-500">Verified Spec</span>
+            </div>
+            <h4 class="text-xs font-bold text-white">${item.name}</h4>
+            <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">${item.role}</p>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-slate-800/80">
+            <a 
+              href="${buildAliExpressLink(item.searchQuery)}" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="w-full inline-block text-center py-1.5 px-3 bg-indigo-600/90 hover:bg-indigo-600 text-white rounded-lg text-xs font-semibold transition"
+            >
+              Find on AliExpress &rarr;
+            </a>
+          </div>
+        </div>
+      `).join('');
     }
 
     function openBeginnerGuideModal() {
@@ -1204,24 +1334,9 @@
       applyFilters();
     }
 
-    function loadPresetStack(kit, btn) {
-      userBuild.clear();
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('ring-2', 'ring-indigo-400'));
-      if (btn) btn.classList.add('ring-2', 'ring-indigo-400');
-
-      tools.forEach(t => {
-        if (t.kits && t.kits.includes(kit)) userBuild.add(t.id);
-      });
-      saveBuildToStorage();
-      updateBuildBadges();
-      updateTrayItemsList();
-      applyFilters();
-    }
-
     function clearCustomStack() {
       userBuild.clear();
       saveBuildToStorage();
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('ring-2', 'ring-indigo-400'));
       viewingBuildOnly = false;
       document.getElementById('tray-view-btn').textContent = "View My Parts Only";
       updateBuildBadges();
@@ -1485,15 +1600,21 @@
       grid.innerHTML = items.map(t => {
         const inBuild = userBuild.has(t.id);
         const resolvedUrl = resolveSmartLink(t);
+        const activeStack = starterStacks.find(s => s.id === activeStackId);
+        const inActiveStack = activeStack && activeStack.toolIds && activeStack.toolIds.includes(t.id);
 
         return `
-          <div class="bg-slate-900 border ${inBuild ? 'border-indigo-500/80 ring-2 ring-indigo-500/30' : (t.badge ? 'border-indigo-500/40 ring-1 ring-indigo-500/20' : 'border-slate-800')} rounded-2xl p-5 flex flex-col justify-between hover:border-slate-700 transition relative">
+          <div class="bg-slate-900 border ${
+            inActiveStack 
+              ? 'border-indigo-500 ring-2 ring-indigo-500/50 shadow-lg' 
+              : (inBuild ? 'border-indigo-500/80 ring-2 ring-indigo-500/30' : (t.badge ? 'border-indigo-500/40 ring-1 ring-indigo-500/20' : 'border-slate-800'))
+          } rounded-2xl p-5 flex flex-col justify-between hover:border-slate-700 transition relative">
             
-            ${inBuild ? `<span class="absolute -top-2.5 left-4 bg-emerald-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">✓ IN YOUR ROBOT BUILD</span>` : ''}
+            ${inActiveStack ? `<span class="absolute -top-2.5 left-4 bg-indigo-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">⭐ IN ACTIVE BLUEPRINT</span>` : (inBuild ? `<span class="absolute -top-2.5 left-4 bg-emerald-600 text-white text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full shadow">✓ IN YOUR ROBOT BUILD</span>` : '')}
             ${t.badge ? `<span class="absolute -top-2.5 right-4 bg-indigo-600 text-white text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full shadow">${t.badge}</span>` : ''}
             
             <div>
-              <div class="flex justify-between items-start mb-2 ${inBuild ? 'mt-1' : ''}">
+              <div class="flex justify-between items-start mb-2 ${(inBuild || inActiveStack) ? 'mt-1' : ''}">
                 <h3 class="font-bold text-lg text-white">${t.name}</h3>
                 <span class="text-[11px] font-medium px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">${t.price}</span>
               </div>
@@ -1549,6 +1670,13 @@
       const query = (searchBox ? searchBox.value : '').toLowerCase().trim();
       let filtered = tools;
 
+      if (activeStackId) {
+        const stack = starterStacks.find(s => s.id === activeStackId);
+        if (stack && stack.toolIds) {
+          filtered = filtered.filter(t => stack.toolIds.includes(t.id));
+        }
+      }
+
       if (viewingBuildOnly) {
         filtered = filtered.filter(t => userBuild.has(t.id));
       } else if (currentCat !== 'all') {
@@ -1595,7 +1723,12 @@
     function resetToAll() {
       currentCat = 'all';
       viewingBuildOnly = false;
+      activeStackId = null;
       if (searchBox) searchBox.value = '';
+      document.getElementById('reset-view-btn').classList.add('hidden');
+      document.getElementById('active-hardware-bom').classList.add('hidden');
+      renderStarterStacks();
+
       document.querySelectorAll('.diag-node').forEach(n => n.classList.remove('ring-2', 'ring-indigo-400'));
       document.getElementById('tray-view-btn').textContent = "View My Parts Only";
       document.getElementById('tray-view-btn').className = "w-1/2 py-2 px-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-[11px] border border-slate-700 transition text-center";
@@ -1605,38 +1738,39 @@
       applyFilters();
     }
 
-    // --- FETCH DATA FROM TOOLS.JSON WITH ROBUST PATH RESOLUTION ---
-    fetch('./tools.json', { cache: 'no-store' })
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        tools = data;
+    // --- FETCH DATA FROM TOOLS.JSON & STACKS.JSON ---
+    Promise.all([
+      fetch('./tools.json', { cache: 'no-store' }).then(res => res.json()),
+      fetch('./stacks.json', { cache: 'no-store' }).then(res => res.json()).catch(() => [])
+    ])
+    .then(([toolsData, stacksData]) => {
+      tools = toolsData;
+      starterStacks = stacksData;
 
-        try {
-          const savedBuild = localStorage.getItem('deskbot_user_build');
-          if (savedBuild) {
-            JSON.parse(savedBuild).forEach(id => userBuild.add(id));
-          } else {
-            tools.forEach(t => {
-              if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
-            });
-          }
-        } catch (e) {
+      try {
+        const savedBuild = localStorage.getItem('deskbot_user_build');
+        if (savedBuild) {
+          JSON.parse(savedBuild).forEach(id => userBuild.add(id));
+        } else {
           tools.forEach(t => {
             if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
           });
         }
+      } catch (e) {
+        tools.forEach(t => {
+          if (t.kits && t.kits.includes('budget')) userBuild.add(t.id);
+        });
+      }
 
-        runCalc();
-        updateBuildBadges();
-        applyFilters();
-      })
-      .catch(err => {
-        console.error('Failed to load tools.json:', err);
-        counter.textContent = 'Error loading tools';
-      });
+      renderStarterStacks();
+      runCalc();
+      updateBuildBadges();
+      applyFilters();
+    })
+    .catch(err => {
+      console.error('Failed to load catalog data:', err);
+      counter.textContent = 'Error loading tools';
+    });
   </script>
 </body>
 </html>
