@@ -246,6 +246,66 @@
     }
   },
   {
+    "id": "inmp441",
+    "name": "INMP441 Micro Digital Mic",
+    "cat": "stt",
+    "role": "Fingernail-Sized Digital Ear For ESP32",
+    "price": "~$2-$4 USD",
+    "runs": "Connects to ESP32 Microcontroller",
+    "pro": "Crisp digital sound with zero buzzing or background static for under $4",
+    "con": "Requires careful 3.3V wiring",
+    "url": "https://invensense.tdk.com/products/digital/inmp441/",
+    "aliSearchQuery": "INMP441 I2S Omnidirectional Microphone Module",
+    "kits": ["budget"],
+    "priceVal": 3,
+    "specs": {
+      "interface": "Digital Sound Wires (I2S)",
+      "power": "Strictly 3.3V Power pin (Do NOT use 5V)",
+      "wiring": "Clock -> Pin 14 | Word Select -> Pin 15 | Data -> Pin 32 | Ground -> Ground",
+      "tip": "Keep the connection wires short (under 10cm) to keep the audio crystal clear."
+    }
+  },
+  {
+    "id": "respeaker",
+    "name": "ReSpeaker Dual-Microphone Hat",
+    "cat": "stt",
+    "role": "Directional Ears (Plugs Right Onto Raspberry Pi)",
+    "price": "~$12-$18 USD",
+    "runs": "Plugs into Raspberry Pi top pins",
+    "pro": "Hears your voice across the room clearly and includes a built-in speaker amplifier",
+    "con": "Made specifically for Raspberry Pi pin headers",
+    "url": "https://www.seeedstudio.com/ReSpeaker-2-Mics-Pi-HAT-p-2874.html",
+    "aliSearchQuery": "Seeed ReSpeaker 2 Mics Pi HAT",
+    "kits": ["edge", "pro"],
+    "priceVal": 15,
+    "specs": {
+      "interface": "Plugs directly on top of the Raspberry Pi header",
+      "power": "Takes power automatically from the Pi",
+      "wiring": "Zero wiring needed - pushes straight onto the top pins",
+      "tip": "Adjust the volume in your sound settings to ~80% so the microphones don't distort loud speech."
+    }
+  },
+  {
+    "id": "usb-speakerphone",
+    "name": "USB Desktop Conference Speakerphone",
+    "cat": "stt",
+    "role": "360° Room Ear & Voice Hub (For Mini PCs)",
+    "price": "~$25-$45 USD",
+    "runs": "USB Plug & Play (Linux, Mac, Windows)",
+    "pro": "Built-in hardware echo cancellation so your bot never accidentally transcribes its own spoken voice",
+    "con": "Larger puck shape sits on desk rather than inside a small robot head",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "USB conference microphone 360 omnidirectional speakerphone",
+    "kits": ["pro"],
+    "priceVal": 35,
+    "specs": {
+      "interface": "USB 2.0 / USB-C Direct Plug",
+      "power": "5V USB Bus Powered (No wall plug needed)",
+      "wiring": "Single USB cable to your mini PC or Raspberry Pi",
+      "tip": "The fastest way to give a local mini-PC high-quality ears and voice without any messy wiring."
+    }
+  },
+  {
     "id": "openmv-cam",
     "name": "OpenMV Cam H7 Plus (Machine Vision)",
     "cat": "hardware",
@@ -581,46 +641,6 @@
     }
   },
   {
-    "id": "respeaker",
-    "name": "ReSpeaker Dual-Microphone Hat",
-    "cat": "hardware",
-    "role": "Directional Ears (Plugs Right Onto Raspberry Pi)",
-    "price": "~$12-$18 USD",
-    "runs": "Plugs into Raspberry Pi top pins",
-    "pro": "Hears your voice across the room clearly and includes a built-in speaker amplifier",
-    "con": "Made specifically for Raspberry Pi pin headers",
-    "url": "https://www.seeedstudio.com/ReSpeaker-2-Mics-Pi-HAT-p-2874.html",
-    "aliSearchQuery": "Seeed ReSpeaker 2 Mics Pi HAT",
-    "kits": ["edge", "pro"],
-    "priceVal": 15,
-    "specs": {
-      "interface": "Plugs directly on top of the Raspberry Pi header",
-      "power": "Takes power automatically from the Pi",
-      "wiring": "Zero wiring needed - pushes straight onto the top pins",
-      "tip": "Adjust the volume in your sound settings to ~80% so the microphones don't distort loud speech."
-    }
-  },
-  {
-    "id": "inmp441",
-    "name": "INMP441 Micro Digital Mic",
-    "cat": "hardware",
-    "role": "Fingernail-Sized Digital Ear For ESP32",
-    "price": "~$2-$4 USD",
-    "runs": "Connects to ESP32 Microcontroller",
-    "pro": "Crisp digital sound with zero buzzing or background static for under $4",
-    "con": "Requires careful 3.3V wiring",
-    "url": "https://invensense.tdk.com/products/digital/inmp441/",
-    "aliSearchQuery": "INMP441 I2S Omnidirectional Microphone Module",
-    "kits": ["budget"],
-    "priceVal": 3,
-    "specs": {
-      "interface": "Digital Sound Wires (I2S)",
-      "power": "Strictly 3.3V Power pin (Do NOT use 5V)",
-      "wiring": "Clock -> Pin 14 | Word Select -> Pin 15 | Data -> Pin 32 | Ground -> Ground",
-      "tip": "Keep the connection wires short (under 10cm) to keep the audio crystal clear."
-    }
-  },
-  {
     "id": "max98357a",
     "name": "MAX98357A Mini Speaker Amplifier",
     "cat": "hardware",
@@ -842,106 +862,6 @@
     }
   },
   {
-    "id": "pan-tilt-kit",
-    "name": "Pan-Tilt Micro Gimbal Bracket",
-    "cat": "hardware",
-    "role": "2-Axis Head & Eye Movement Assembly",
-    "price": "~$4-$8 USD",
-    "runs": "Holds 2x MG90S Servos",
-    "pro": "Inexpensive nylon bracket that gives your bot full up/down nodding and left/right turning",
-    "con": "Servos are sold separately in some packs",
-    "url": "https://www.aliexpress.com",
-    "aliSearchQuery": "mini pan tilt camera mount bracket FPV",
-    "kits": ["budget", "edge"],
-    "priceVal": 5,
-    "specs": {
-      "interface": "Mechanical Servo Spline Mount",
-      "power": "Passive Bracket (Servos draw power from 5V rail)",
-      "wiring": "Mount horizontal servo to base, vertical servo to camera/screen bracket",
-      "tip": "Center both servos to 90 degrees in your software before screwing the horns onto the bracket."
-    }
-  },
-  {
-    "id": "breadboard-jumper-kit",
-    "name": "Solderless Breadboard & 65x Jumpers",
-    "cat": "hardware",
-    "role": "Workbench Prototyping Base (No Soldering Needed)",
-    "price": "~$3-$6 USD",
-    "runs": "Universal Electronics Prototyping",
-    "pro": "Lets you wire sensors, microphones, and screens together instantly with zero soldering iron required",
-    "con": "Not suitable for violent moving parts",
-    "url": "https://www.aliexpress.com",
-    "aliSearchQuery": "solderless breadboard 830 tie points jumper wire kit",
-    "kits": ["budget"],
-    "priceVal": 4,
-    "specs": {
-      "interface": "2.54mm Standard Pitch Header Holes",
-      "power": "Dual Power Distribution Rails (+ and - along both sides)",
-      "wiring": "Push male jumper pins directly into the numbered tie points",
-      "tip": "Keep all your ground wires tied to the blue rail so all boards share a common ground reference."
-    }
-  },
-  {
-    "id": "usb-speakerphone",
-    "name": "USB Desktop Conference Speakerphone",
-    "cat": "hardware",
-    "role": "360° Room Ear & Voice Hub (For Mini PCs)",
-    "price": "~$25-$45 USD",
-    "runs": "USB Plug & Play (Linux, Mac, Windows)",
-    "pro": "Built-in hardware echo cancellation so your bot never accidentally transcribes its own spoken voice",
-    "con": "Larger puck shape sits on desk rather than inside a small robot head",
-    "url": "https://www.aliexpress.com",
-    "aliSearchQuery": "USB conference microphone 360 omnidirectional speakerphone",
-    "kits": ["pro"],
-    "priceVal": 35,
-    "specs": {
-      "interface": "USB 2.0 / USB-C Direct Plug",
-      "power": "5V USB Bus Powered (No wall plug needed)",
-      "wiring": "Single USB cable to your mini PC or Raspberry Pi",
-      "tip": "The fastest way to give a local mini-PC high-quality ears and voice without any messy wiring."
-    }
-  },
-  {
-    "id": "usbc-cables",
-    "name": "90° Right-Angle USB-C Data Cables",
-    "cat": "hardware",
-    "role": "Clean Deskbot Base Cable Management",
-    "price": "~$3-$6 USD",
-    "runs": "Power & High-Speed Serial Data",
-    "pro": "Right-angle plug keeps thick cables hidden cleanly behind your companion's base",
-    "con": "Ensure you buy data cables, not charge-only cables",
-    "url": "https://www.aliexpress.com",
-    "aliSearchQuery": "right angle USB-C data cable braided 90 degree",
-    "kits": ["budget", "pro"],
-    "priceVal": 4,
-    "specs": {
-      "interface": "USB-A to USB-C or USB-C to USB-C (Right-Angle)",
-      "power": "Supports 5V up to 3A power delivery",
-      "wiring": "Full 4-wire data connection for flashing ESP32 microcontrollers",
-      "tip": "Always verify the cable supports data transfer so you can flash code without unplugging."
-    }
-  },
-  {
-    "id": "battery-shield",
-    "name": "18650 Battery Shield Module (5V/3A)",
-    "cat": "hardware",
-    "role": "Cordless Deskbot Battery Base",
-    "price": "~$4-$8 USD",
-    "runs": "Mobile / Untethered Robot Base",
-    "pro": "Lets your deskbot sit anywhere on your desk without power cords plugged into the wall",
-    "con": "Adds weight and thickness to the robot base",
-    "url": "https://www.aliexpress.com",
-    "aliSearchQuery": "18650 battery shield V3 5V 3A Micro USB Type C",
-    "kits": ["edge"],
-    "priceVal": 6,
-    "specs": {
-      "interface": "USB-A Output, USB-C Charging Port, Header Pins",
-      "power": "Accepts 1x or 2x 3.7V 18650 Lithium cells; outputs steady 5V 3A",
-      "wiring": "5V pin to ESP32 / Pi power input, GND to common ground",
-      "tip": "Features built-in overcharge and short-circuit protection for safe desk charging."
-    }
-  },
-  {
     "id": "oled-096",
     "name": "0.96-inch I2C OLED Display (128x64)",
     "cat": "hardware",
@@ -1019,6 +939,166 @@
       "power": "3.3V or 5V Power rail + Coin Battery Backup",
       "wiring": "VCC -> 3.3V | GND -> Ground | SCL -> Pin 22 | SDA -> Pin 21",
       "tip": "Use this so your desk companion can greet you with 'Good morning' or remind you of tea time without needing an NTP internet sync."
+    }
+  },
+  {
+    "id": "buck-converter",
+    "name": "5V 3A DC-DC Buck Step-Down Regulator",
+    "cat": "power",
+    "role": "Stops Motor Brown-Outs & Reboots",
+    "price": "~$2-$4 USD",
+    "runs": "Power Line (Between Battery & Servos)",
+    "pro": "Steps 9V-24V power safely down to a rock-solid 5V 3A so your microcontroller never reboots when motors nod",
+    "con": "Requires basic screw terminal or solder connection",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "DC DC buck converter 5V 3A step down power module",
+    "kits": ["budget", "pro"],
+    "priceVal": 3,
+    "specs": {
+      "interface": "Screw Terminals or Solder Pads (IN+, IN-, OUT+, OUT-)",
+      "power": "Inputs 7V-28V DC; Outputs steady 5.0V up to 3 Amps",
+      "wiring": "Battery -> Input | Servos & Driver -> Output | Common Ground",
+      "tip": "The #1 cure for mysterious robot crashes when servos start moving."
+    }
+  },
+  {
+    "id": "usbc-trigger",
+    "name": "USB-C PD Fast Charge Trigger Decoy Board",
+    "cat": "power",
+    "role": "Powers Robot From Any Phone Charger",
+    "price": "~$1-$3 USD",
+    "runs": "USB-C Power Delivery",
+    "pro": "Tricks any modern USB-C phone charger or power bank into outputting 9V or 12V for strong motors",
+    "con": "Requires a USB-C PD capable power brick",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "Type C PD trigger decoy module 5V 9V 12V",
+    "kits": ["pro"],
+    "priceVal": 2,
+    "specs": {
+      "interface": "USB-C Female Jack to Solder Pads",
+      "power": "Selectable 5V, 9V, 12V output up to 5 Amps",
+      "wiring": "Plug in standard phone charger; solder output wires to your motor board",
+      "tip": "Set solder pads to 5V or 9V to power heavy robotic arms without bulky wall adapters."
+    }
+  },
+  {
+    "id": "usbc-cables",
+    "name": "90° Right-Angle USB-C Data Cables",
+    "cat": "power",
+    "role": "Clean Hidden Desk Cable Management",
+    "price": "~$3-$6 USD",
+    "runs": "Power & High-Speed Serial Data",
+    "pro": "Right-angle plug tucks thick cords invisibly behind your robot's base",
+    "con": "Must buy data cables, not charge-only cables",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "right angle USB-C data cable braided 90 degree",
+    "kits": ["budget", "pro"],
+    "priceVal": 4,
+    "specs": {
+      "interface": "USB-A to USB-C or USB-C to USB-C (Right-Angle)",
+      "power": "Supports 5V up to 3A power delivery",
+      "wiring": "Full 4-wire data connection for flashing ESP32 microcontrollers",
+      "tip": "Always verify the cable supports data transfer so you can flash code without unplugging."
+    }
+  },
+  {
+    "id": "battery-shield",
+    "name": "18650 Battery Shield Module (5V/3A)",
+    "cat": "power",
+    "role": "Cordless Deskbot Rechargeable Base",
+    "price": "~$4-$8 USD",
+    "runs": "Mobile / Untethered Robot Base",
+    "pro": "Lets your deskbot sit anywhere on your desk without power cords plugged into the wall",
+    "con": "Adds weight and thickness to the robot base",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "18650 battery shield V3 5V 3A Micro USB Type C",
+    "kits": ["edge"],
+    "priceVal": 6,
+    "specs": {
+      "interface": "USB-A Output, USB-C Charging Port, Header Pins",
+      "power": "Accepts 1x or 2x 3.7V 18650 Lithium cells; outputs steady 5V 3A",
+      "wiring": "5V pin to ESP32 / Pi power input, GND to common ground",
+      "tip": "Features built-in overcharge and short-circuit protection for safe desk charging."
+    }
+  },
+  {
+    "id": "breadboard-jumper-kit",
+    "name": "Solderless Breadboard & 65x Jumpers",
+    "cat": "power",
+    "role": "Workbench Prototyping Base (No Soldering Needed)",
+    "price": "~$3-$6 USD",
+    "runs": "Universal Electronics Prototyping",
+    "pro": "Lets you wire sensors, microphones, and screens together instantly with zero soldering iron required",
+    "con": "Not suitable for violent moving parts",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "solderless breadboard 830 tie points jumper wire kit",
+    "kits": ["budget"],
+    "priceVal": 4,
+    "specs": {
+      "interface": "2.54mm Standard Pitch Header Holes",
+      "power": "Dual Power Distribution Rails (+ and - along both sides)",
+      "wiring": "Push male jumper pins directly into the numbered tie points",
+      "tip": "Keep all your ground wires tied to the blue rail so all boards share a common ground reference."
+    }
+  },
+  {
+    "id": "standoff-kit",
+    "name": "M2 & M3 Black Nylon Standoff Screw Kit",
+    "cat": "chassis",
+    "role": "Prevents Electrical Shorts on Desktop",
+    "price": "~$4-$8 USD (Box of 160)",
+    "runs": "Chassis & Board Mounting",
+    "pro": "Elevates bare microcontrollers and microphone boards safely off your desk to stop metallic shorts",
+    "con": "Non-magnetic nylon requires gentle hand-threading",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "M2 M3 black nylon standoff spacer screw nut kit",
+    "kits": ["budget", "pro"],
+    "priceVal": 5,
+    "specs": {
+      "interface": "Standard M2 & M3 thread sizes",
+      "power": "100% Non-Conductive Insulating Nylon",
+      "wiring": "Screw directly through the mounting holes on ESP32, Pi, and sensor corners",
+      "tip": "Essential for mounting bare circuit boards onto 3D printed robot frames without burning chips."
+    }
+  },
+  {
+    "id": "pan-tilt-kit",
+    "name": "Pan-Tilt Micro Gimbal Bracket",
+    "cat": "chassis",
+    "role": "2-Axis Head & Eye Movement Assembly",
+    "price": "~$4-$8 USD",
+    "runs": "Holds 2x MG90S Servos",
+    "pro": "Inexpensive nylon bracket that gives your bot full up/down nodding and left/right turning",
+    "con": "Servos are sold separately in some packs",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "mini pan tilt camera mount bracket FPV",
+    "kits": ["budget", "edge"],
+    "priceVal": 5,
+    "specs": {
+      "interface": "Mechanical Servo Spline Mount",
+      "power": "Passive Bracket (Servos draw power from 5V rail)",
+      "wiring": "Mount horizontal servo to base, vertical servo to camera/screen bracket",
+      "tip": "Center both servos to 90 degrees in your software before screwing the horns onto the bracket."
+    }
+  },
+  {
+    "id": "acrylic-baseplate",
+    "name": "Laser-Cut Acrylic Robot Mounting Plate",
+    "cat": "chassis",
+    "role": "Weighted Workbench Desk Base",
+    "price": "~$3-$7 USD",
+    "runs": "Desktop Companion Chassis",
+    "pro": "Keeps your companion firmly planted on your desk so nodding head motors don't tip the robot over",
+    "con": "Peel protective brown paper film before assembly",
+    "url": "https://www.aliexpress.com",
+    "aliSearchQuery": "acrylic smart robot car chassis base plate",
+    "kits": ["budget"],
+    "priceVal": 4,
+    "specs": {
+      "interface": "Pre-drilled mounting slots for microcontrollers and breadboards",
+      "power": "Solid 3mm Thick Clear Acrylic",
+      "wiring": "Use M3 nylon standoffs to bolt your microcontroller directly to the plate",
+      "tip": "Stick 4 rubber silicone feet to the underside so your bot doesn't slide around your desk."
     }
   }
 ]
