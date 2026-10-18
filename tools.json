@@ -16,8 +16,8 @@
     "snippets": {
       "linux": [
         { "title": "1. Install RunPod Tool", "desc": "Install the command tool to control your rented cloud machines:", "code": "pip install runpod\nrunpod config --api-key YOUR_RUNPOD_API_KEY" },
-        { "title": "2. Launch Rented GPU", "desc": "Start a high-end cloud machine with a pre-installed AI brain:", "code": "runpodctl create pod \\\n  --gpuType 'NVIDIA GeForce RTX 4090' \\\n  --imageName 'ollama/ollama:latest' \\\n  --ports 11434" },
-        { "title": "3. Connect Robot To Cloud", "desc": "Send your robot's questions straight to your rented cloud server:", "code": "import requests\n\nPOD_IP = 'https://YOUR_POD_ID-11434.proxy.runpod.net'\nresponse = requests.post(f'{POD_IP}/api/generate', json={\n    'model': 'llama3.3:70b',\n    'prompt': 'Deskbot companion brain query: Summarize today.'\n})\nprint(response.json()['response'])" }
+        { "title": "2. Launch Rented GPU", "desc": "Start a high-end cloud machine with a pre-installed AI brain:", "code": "runpodctl create pod --gpuType 'NVIDIA GeForce RTX 4090' --imageName 'ollama/ollama:latest' --ports 11434" },
+        { "title": "3. Connect Robot To Cloud", "desc": "Send your robot's questions straight to your rented cloud server:", "code": "import requests\n\nPOD_IP = 'https://YOUR_POD_ID-11434.proxy.runpod.net'\nresponse = requests.post(f'{POD_IP}/api/generate', json={'model': 'llama3.3:70b', 'prompt': 'Deskbot query: Summarize today.'})\nprint(response.json()['response'])" }
       ],
       "macos": [
         { "title": "1. Install Tool", "desc": "Install tool in terminal on your Mac:", "code": "pip3 install runpod\nrunpod config --api-key YOUR_RUNPOD_API_KEY" },
@@ -71,7 +71,7 @@
       "linux": [
         { "title": "1. Quick Install", "desc": "Install with one terminal line on Linux or Raspberry Pi:", "code": "curl -fsSL https://ollama.com/install.sh | sh" },
         { "title": "2. Download A Model", "desc": "Download and run a lightweight 3B brain:", "code": "ollama run llama3.2:3b" },
-        { "title": "3. Ask It A Question", "desc": "Test the brain with a prompt:", "code": "curl http://localhost:11434/api/generate -d '{\n  \"model\": \"llama3.2:3b\",\n  \"prompt\": \"Respond with: Deskbot online!\",\n  \"stream\": false\n}'" }
+        { "title": "3. Ask It A Question", "desc": "Test the brain with a prompt:", "code": "curl http://localhost:11434/api/generate -d '{\"model\": \"llama3.2:3b\", \"prompt\": \"Respond with: Deskbot online!\", \"stream\": false}'" }
       ],
       "macos": [
         { "title": "1. Install on Mac", "desc": "Install on Apple Silicon Mac:", "code": "brew install ollama\nollama serve" },
@@ -103,7 +103,7 @@
         { "title": "1. Install Library", "desc": "Install on Mac:", "code": "pip3 install pyserial" }
       ],
       "windows": [
-        { "title": "1. Install in PowerShell", "desc": "Install on Windows:", code: "pip install pyserial" }
+        { "title": "1. Install in PowerShell", "desc": "Install on Windows:", "code": "pip install pyserial" }
       ]
     }
   },
