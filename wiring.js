@@ -39,24 +39,15 @@
     return modal;
   }
 
-  // 2. Put the button directly INSIDE the LittleG Starter Blueprint Tile
+  // 2. Put the button directly INSIDE the LittleG Tile
   function attachButtonToLittleGTile() {
-    // If button already exists on the tile, do nothing
     if (document.getElementById('btn-tile-blueprint-view')) return;
 
-    // Find the LittleG card in the Starter Blueprints grid
-    const allCards = Array.from(document.querySelectorAll('div, section, article'));
-    const littleGCard = allCards.find(el => {
-      const h3 = el.querySelector('h3, h4, .font-bold');
-      return h3 && h3.textContent.includes('LittleG');
-    });
+    // Use the exact identifier discovered in console
+    const littleGCard = document.querySelector('[onclick*="selectStarterStack(\'little-g\')"]') ||
+                        document.querySelector('[onclick*="little-g"]');
 
     if (!littleGCard) return;
-
-    // Find the bottom row of the card (where "Active Blueprint" or "Load Blueprint" sits)
-    const bottomRow = littleGCard.querySelector('.flex.items-center.justify-between') ||
-                      littleGCard.querySelector('.flex') ||
-                      littleGCard.lastElementChild;
 
     const btn = document.createElement('button');
     btn.id = 'btn-tile-blueprint-view';
@@ -70,11 +61,7 @@
       m.classList.remove('hidden');
     };
 
-    if (bottomRow && bottomRow.parentElement) {
-      bottomRow.insertAdjacentElement('beforebegin', btn);
-    } else {
-      littleGCard.appendChild(btn);
-    }
+    littleGCard.appendChild(btn);
   }
 
   // 3. Dynamic Build Tray Pinouts
@@ -153,20 +140,18 @@
     asciiBox.textContent = schematic;
   }
 
-  // Continuous safe watcher so re-renders never lose the button
-  function refresh() {
+  function loop() {
     attachButtonToLittleGTile();
     updateDiagram();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', refresh);
+    document.addEventListener('DOMContentLoaded', loop);
   } else {
-    refresh();
+    loop();
   }
 
-  // Runs every 400ms to guarantee it catches renderStarterStacks() whenever blueprints change
-  setInterval(refresh, 400);
+  setInterval(loop, 400);
 
   window.renderBuildWiringDiagram = updateDiagram;
 })();
