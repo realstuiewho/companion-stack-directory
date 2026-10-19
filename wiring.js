@@ -1,7 +1,7 @@
-// DeskBotStack Dynamic Wiring & LittleG Tile Button Extension
+// DeskBotStack Dynamic Wiring & LittleG Popup Clean
 (function () {
 
-  // 1. Technical Exploded Blueprint Modal (Self-Contained)
+  // 1. Technical Exploded Blueprint Modal
   function getModal() {
     let modal = document.getElementById('little-g-modal');
     if (!modal) {
@@ -18,7 +18,7 @@
             <button id="close-teaser-modal" class="text-slate-400 hover:text-white text-2xl font-bold px-2 cursor-pointer">&times;</button>
           </div>
           <div class="overflow-auto p-4 flex items-center justify-center bg-slate-950">
-            <img src="watermarked_img_12370607140268248611.jpg" alt="LittleG Exploded Blueprint View" class="w-full h-auto rounded-lg border border-slate-800 shadow-md">
+            <img src="littleg-exploded.jpg" alt="LittleG Exploded Blueprint View" class="w-full h-auto rounded-lg border border-slate-800 shadow-md">
           </div>
           <div class="p-4 border-t border-slate-800 bg-slate-900 flex items-center justify-between">
             <span class="text-xs text-slate-400 font-mono">Drawing No: DBS-LG-001</span>
@@ -43,7 +43,6 @@
   function attachButtonToLittleGTile() {
     if (document.getElementById('btn-tile-blueprint-view')) return;
 
-    // Use the exact identifier discovered in console
     const littleGCard = document.querySelector('[onclick*="selectStarterStack(\'little-g\')"]') ||
                         document.querySelector('[onclick*="little-g"]');
 
