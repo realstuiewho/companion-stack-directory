@@ -7,66 +7,66 @@
   function injectShowcaseBanner() {
     if (document.getElementById('little-g-showcase')) return;
 
-    // Find the Starter Blueprints section to sit directly below it
-    const blueprintHeading = Array.from(document.querySelectorAll('h2, h3, div')).find(el => 
-      el.textContent && el.textContent.includes('Starter Blueprints')
-    );
-    const targetContainer = blueprintHeading ? blueprintHeading.closest('section, .max-w-7xl, div') : null;
+    // Find the best anchor: either below the blueprints grid or right above the main tools section
+    const blueprintsSection = document.querySelector('[id*="blueprint"], [class*="blueprint"]') ||
+                              Array.from(document.querySelectorAll('section, div')).find(el => 
+                                el.textContent && el.textContent.includes('Starter Blueprints')
+                              );
 
     const showcase = document.createElement('section');
     showcase.id = 'little-g-showcase';
-    showcase.className = 'my-12 px-4 max-w-7xl mx-auto';
+    showcase.className = 'my-10 px-4 max-w-7xl mx-auto w-full';
     showcase.innerHTML = `
-      <div class="relative overflow-hidden rounded-2xl border border-indigo-500/40 bg-gradient-to-br from-slate-900 via-slate-900/90 to-indigo-950/40 p-6 sm:p-10 shadow-2xl">
+      <div class="relative overflow-hidden rounded-2xl border border-cyan-500/40 bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/60 p-6 sm:p-8 shadow-2xl">
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          <!-- Thumbnail Column -->
+          <!-- Left: Thumbnail & Trigger -->
           <div class="lg:col-span-5 flex flex-col items-center">
-            <div id="open-teaser-card" class="relative group cursor-pointer w-full max-w-md rounded-xl overflow-hidden border border-slate-700 bg-slate-950/80 shadow-inner">
-              <img src="littleG3.png" alt="LittleG Tri-Arm Edition" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100">
-              <div class="absolute bottom-3 left-3 right-3 bg-slate-900/90 border border-cyan-500/40 rounded-lg p-2.5 flex items-center justify-between text-xs font-mono">
+            <div id="open-teaser-card" class="relative group cursor-pointer w-full max-w-md rounded-xl overflow-hidden border border-slate-700 bg-slate-950 shadow-lg">
+              <img src="littleG3.png" alt="LittleG Tri-Arm Edition" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
+              <div class="absolute bottom-3 left-3 right-3 bg-slate-900/90 border border-cyan-500/50 rounded-lg p-2.5 flex items-center justify-between text-xs font-mono">
                 <span class="flex items-center gap-2 text-cyan-300 font-bold">
                   <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
                   EXPLODED CAD PREVIEW
                 </span>
-                <span class="text-slate-400 text-[11px] group-hover:text-white transition-colors">Click to Inspect &rarr;</span>
+                <span class="text-slate-300 text-[11px] group-hover:text-white">&rarr; Click to Inspect</span>
               </div>
             </div>
-            <p class="text-[11px] font-mono text-slate-400 mt-2">Drawn to scale &bull; 350mm Height &bull; Symmetrical Tri-Arm System</p>
+            <p class="text-[11px] font-mono text-slate-400 mt-2 text-center">350mm Height &bull; Symmetrical Tri-Arm System</p>
           </div>
 
-          <!-- Description Column -->
-          <div class="lg:col-span-7 flex flex-col justify-center">
+          <!-- Right: Details & Action Button -->
+          <div class="lg:col-span-7 flex flex-col justify-center text-left">
             <div class="flex flex-wrap items-center gap-2 mb-3">
               <span class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded">Flagship Maker Blueprint</span>
-              <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded">100% Solderless SO-101 Tooling</span>
+              <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded">SO-101 Modular Tooling</span>
             </div>
 
             <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               LittleG: <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Tri-Arm Sentinel</span> Edition
             </h2>
             
-            <p class="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
-              The ultimate physical desktop companion. Features bimanual manipulating arms, an expressive 4" AMOLED face on an articulated 6-axis camera neck, and an infinite 360&deg; rotating base with spatial audio ears.
+            <p class="mt-3 text-sm text-slate-300 leading-relaxed">
+              Bimanual manipulating arms, an expressive 4" AMOLED face on an articulated 6-axis camera neck, and an infinite 360&deg; rotating base with spatial audio ears.
             </p>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 my-6 font-mono text-xs">
-              <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800">
-                <span class="text-slate-400 block text-[10px] uppercase">Limb Architecture</span>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 my-5 font-mono text-xs">
+              <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800">
+                <span class="text-slate-400 block text-[10px] uppercase">Limb Mechanics</span>
                 <strong class="text-indigo-300 text-sm">3x Hiwonder Bus</strong>
               </div>
-              <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800">
+              <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800">
                 <span class="text-slate-400 block text-[10px] uppercase">Base Station</span>
                 <strong class="text-cyan-300 text-sm">360&deg; Slip Ring Hub</strong>
               </div>
-              <div class="p-3 bg-slate-950/60 rounded-lg border border-slate-800 col-span-2 sm:col-span-1">
+              <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 col-span-2 sm:col-span-1">
                 <span class="text-slate-400 block text-[10px] uppercase">Workspace Brain</span>
                 <strong class="text-emerald-300 text-sm">Pi CM5 + Ollama</strong>
               </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-              <button id="btn-inspect-exploded" class="px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm text-center shadow-lg shadow-cyan-500/20 transition-all">
+            <div class="pt-2">
+              <button id="btn-inspect-exploded" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 transition-all cursor-pointer">
                 ⚡ Inspect Exploded Blueprint
               </button>
             </div>
@@ -76,42 +76,44 @@
       </div>
     `;
 
-    // Inject exploded preview modal into page
-    const modal = document.createElement('div');
-    modal.id = 'little-g-modal';
-    modal.className = 'fixed inset-0 z-50 hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4';
-    modal.innerHTML = `
-      <div class="relative w-full max-w-4xl bg-slate-900 border border-cyan-500/40 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-        <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/50">
-          <div>
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider font-mono">DBS-LG-001: Master Exploded Assembly</h3>
-            <p class="text-xs text-slate-400 font-mono">16 Functional Subsystems &bull; Metric Fastener Schedule</p>
+    // Modal creation
+    let modal = document.getElementById('little-g-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'little-g-modal';
+      modal.className = 'fixed inset-0 z-[100] hidden bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4';
+      modal.innerHTML = `
+        <div class="relative w-full max-w-4xl bg-slate-900 border border-cyan-500/40 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+          <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+            <div>
+              <h3 class="text-sm font-bold text-white uppercase tracking-wider font-mono">DBS-LG-001: Master Exploded Assembly</h3>
+              <p class="text-xs text-slate-400 font-mono">16 Functional Subsystems &bull; Metric Fastener Schedule</p>
+            </div>
+            <button id="close-teaser-modal" class="text-slate-400 hover:text-white text-2xl font-bold px-2 cursor-pointer">&times;</button>
           </div>
-          <button id="close-teaser-modal" class="text-slate-400 hover:text-white text-2xl font-bold px-2">&times;</button>
+          <div class="overflow-auto p-4 flex items-center justify-center bg-slate-950">
+            <img src="watermarked_img_12370607140268248611.jpg" alt="LittleG Exploded Blueprint View" class="w-full h-auto rounded-lg border border-slate-800">
+          </div>
+          <div class="p-4 border-t border-slate-800 bg-slate-900 flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-mono">Drawing No: DBS-LG-001</span>
+            <button id="modal-close-btn" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase rounded-lg cursor-pointer">
+              Close Preview
+            </button>
+          </div>
         </div>
-        <div class="overflow-auto p-4 flex items-center justify-center bg-slate-950">
-          <img src="watermarked_img_12370607140268248611.jpg" alt="LittleG Exploded Blueprint View" class="w-full h-auto rounded-lg border border-slate-800 shadow-md">
-        </div>
-        <div class="p-4 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p class="text-xs text-slate-300 font-mono text-center sm:text-left">
-            Complete Maker Pack includes offline pan/zoom viewer, printable PDF, and sliced STL pack.
-          </p>
-          <button id="modal-close-btn" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-colors">
-            Close Preview
-          </button>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(modal);
-
-    if (targetContainer && targetContainer.parentElement) {
-      targetContainer.insertAdjacentElement('afterend', showcase);
-    } else {
-      document.body.appendChild(showcase);
+      `;
+      document.body.appendChild(modal);
     }
 
-    // Modal click bindings
+    // Insert showcase banner
+    if (blueprintsSection && blueprintsSection.parentElement) {
+      blueprintsSection.insertAdjacentElement('afterend', showcase);
+    } else {
+      const main = document.querySelector('main') || document.body;
+      main.insertBefore(showcase, main.firstChild);
+    }
+
+    // Event hooks
     function openModal() { modal.classList.remove('hidden'); }
     function closeModal() { modal.classList.add('hidden'); }
 
@@ -135,9 +137,6 @@
   }
 
   function createDiagramBox() {
-    const misplaced = document.querySelectorAll('#workbench-wiring-diagram');
-    if (misplaced.length > 1) misplaced.forEach(el => el.remove());
-
     const drawer = getWorkbenchDrawer();
     if (!drawer) return null;
 
@@ -210,15 +209,20 @@
     asciiBox.textContent = schematic;
   }
 
-  // ==========================================
-  // INITIALIZATION & LISTENERS
-  // ==========================================
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      injectShowcaseBanner();
-      updateDiagram();
-    }, 300);
-  });
+  // Run on load and poll slightly to ensure DOM is ready
+  function init() {
+    injectShowcaseBanner();
+    updateDiagram();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  setTimeout(init, 500);
+  setTimeout(init, 1500);
 
   document.addEventListener('click', (e) => {
     if (e.target.closest('button') || e.target.closest('.blueprint-card') || e.target.closest('[onclick]')) {
