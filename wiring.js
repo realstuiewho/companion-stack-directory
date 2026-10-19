@@ -45,34 +45,34 @@
     return modal;
   }
 
-  // 3. Insert compact button inside LittleG's active BOM bar
+  // 3. Insert compact button inside LittleG's active BOM or Blueprint tile
   function injectCompactButton() {
     purgeOldShowcase();
 
-    // Check if LittleG BOM is currently on screen
-    const bomTitle = Array.from(document.querySelectorAll('h3, h4, div')).find(el => 
-      el.textContent && el.textContent.includes('LittleG (Tri-Arm Edition)') && el.textContent.includes('Physical Setup')
-    );
-
-    if (!bomTitle) {
-      const existingBtn = document.getElementById('btn-tile-exploded');
-      if (existingBtn) existingBtn.remove();
-      return;
-    }
-
     if (document.getElementById('btn-tile-exploded')) return;
+
+    // Find the LittleG active title anywhere on screen
+    const allTitles = Array.from(document.querySelectorAll('h1, h2, h3, h4, div, span'));
+    const targetHeader = allTitles.find(el => 
+      el.textContent && 
+      el.textContent.includes('LittleG') && 
+      (el.textContent.includes('Physical Setup') || el.classList.contains('active-blueprint-title') || el.closest('.active'))
+    ) || allTitles.find(el => el.textContent && el.textContent.includes('Physical Setup: LittleG'));
+
+    if (!targetHeader) return;
 
     const btn = document.createElement('button');
     btn.id = 'btn-tile-exploded';
     btn.className = 'ml-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 font-mono text-xs font-bold transition-all cursor-pointer shadow-sm align-middle';
     btn.innerHTML = `<span>⚡</span> Inspect Exploded Blueprint`;
     btn.onclick = (e) => {
+      e.preventDefault();
       e.stopPropagation();
       const m = getModal();
       m.classList.remove('hidden');
     };
 
-    bomTitle.appendChild(btn);
+    targetHeader.appendChild(btn);
   }
 
   // 4. Build Tray dynamic pinouts
@@ -87,7 +87,7 @@
 
   function updateDiagram() {
     const drawer = getWorkbenchDrawer();
-    if (!drawer) return null;
+    if (!drawer) return;
 
     let box = document.getElementById('workbench-wiring-diagram');
     if (!box) {
@@ -163,7 +163,7 @@
     tick();
   }
 
-  setInterval(tick, 600);
+  setInterval(tick, 500);
   document.addEventListener('click', () => setTimeout(tick, 100));
 
   window.renderBuildWiringDiagram = updateDiagram;
