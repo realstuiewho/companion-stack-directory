@@ -7,15 +7,15 @@
   function injectShowcaseBanner() {
     if (document.getElementById('little-g-showcase')) return;
 
-    // Find the best anchor: either below the blueprints grid or right above the main tools section
-    const blueprintsSection = document.querySelector('[id*="blueprint"], [class*="blueprint"]') ||
-                              Array.from(document.querySelectorAll('section, div')).find(el => 
-                                el.textContent && el.textContent.includes('Starter Blueprints')
-                              );
+    // Find the category filter row (All, Brains, Ears, etc.) to place the showcase right above it
+    const allBtn = Array.from(document.querySelectorAll('button, div')).find(el => 
+      el.textContent && el.textContent.trim() === 'All' && el.parentElement
+    );
+    const filterRow = allBtn ? allBtn.closest('div.flex, div') : null;
 
     const showcase = document.createElement('section');
     showcase.id = 'little-g-showcase';
-    showcase.className = 'my-10 px-4 max-w-7xl mx-auto w-full';
+    showcase.className = 'my-8 px-4 max-w-7xl mx-auto w-full';
     showcase.innerHTML = `
       <div class="relative overflow-hidden rounded-2xl border border-cyan-500/40 bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/60 p-6 sm:p-8 shadow-2xl">
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -105,12 +105,12 @@
       document.body.appendChild(modal);
     }
 
-    // Insert showcase banner
-    if (blueprintsSection && blueprintsSection.parentElement) {
-      blueprintsSection.insertAdjacentElement('afterend', showcase);
+    // Insert showcase banner right before the category filter buttons
+    if (filterRow && filterRow.parentElement) {
+      filterRow.parentElement.insertBefore(showcase, filterRow);
     } else {
       const main = document.querySelector('main') || document.body;
-      main.insertBefore(showcase, main.firstChild);
+      main.appendChild(showcase);
     }
 
     // Event hooks
@@ -209,7 +209,6 @@
     asciiBox.textContent = schematic;
   }
 
-  // Run on load and poll slightly to ensure DOM is ready
   function init() {
     injectShowcaseBanner();
     updateDiagram();
@@ -221,8 +220,10 @@
     init();
   }
 
-  setTimeout(init, 500);
-  setTimeout(init, 1500);
+  // Poll intervals to handle slower dynamic rendering
+  setTimeout(init, 300);
+  setTimeout(init, 1000);
+  setTimeout(init, 2500);
 
   document.addEventListener('click', (e) => {
     if (e.target.closest('button') || e.target.closest('.blueprint-card') || e.target.closest('[onclick]')) {
