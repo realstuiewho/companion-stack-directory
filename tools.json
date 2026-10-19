@@ -83,6 +83,31 @@
     }
   },
   {
+    "id": "moondream2",
+    "name": "Moondream2 (Local Vision Brain)",
+    "cat": "runtimes",
+    "role": "Tiny On-Device Eyes (Reads Text & Describes Objects)",
+    "price": "Free / Open Source",
+    "runs": "Linux, Mac, Windows, Raspberry Pi",
+    "pro": "Tiny 1.8B vision model that runs fast even on modest computers to see what is on your desk",
+    "con": "Lower resolution detail compared to giant cloud vision models",
+    "url": "https://moondream.ai",
+    "kits": ["edge", "pro"],
+    "priceVal": 0,
+    "snippets": {
+      "linux": [
+        { "title": "1. Run with Ollama", "desc": "Download and run Moondream in one command:", "code": "ollama run moondream" },
+        { "title": "2. Inspect an Image", "desc": "Send a camera snapshot for instant description:", "code": "ollama run moondream \"What is sitting on the desk in front of you?\" < /tmp/desk_cam.jpg" }
+      ],
+      "macos": [
+        { "title": "1. Run on Mac", "desc": "Run natively with Ollama on Mac:", "code": "ollama run moondream" }
+      ],
+      "windows": [
+        { "title": "1. Run in PowerShell", "desc": "Run using Ollama on Windows:", "code": "ollama run moondream" }
+      ]
+    }
+  },
+  {
     "id": "robot-bridge",
     "name": "Robot Serial Motion Bridge",
     "cat": "orchestration",
@@ -104,6 +129,30 @@
       ],
       "windows": [
         { "title": "1. Install in PowerShell", "desc": "Install on Windows:", "code": "pip install pyserial" }
+      ]
+    }
+  },
+  {
+    "id": "tft-espi-eyes",
+    "name": "Animated Eyes & Faces Engine",
+    "cat": "orchestration",
+    "role": "Blinking Eye Animations & Mouth Flaps for LCD Displays",
+    "price": "Free / Open Source",
+    "runs": "ESP32, MicroPython, Arduino C++",
+    "pro": "Smooth 60 FPS blinking, tracking pupil animations, and talking mouths on round or rectangular screens",
+    "con": "Requires flashing code directly to the display microcontroller",
+    "url": "https://github.com/Bodmer/TFT_eSPI",
+    "kits": ["budget", "pro"],
+    "priceVal": 0,
+    "snippets": {
+      "linux": [
+        { "title": "1. Install Arduino CLI", "desc": "Install the command tool to flash your eye display:", "code": "curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh\narduino-cli lib install TFT_eSPI" }
+      ],
+      "macos": [
+        { "title": "1. Install on Mac", "desc": "Install via Homebrew:", "code": "brew install arduino-cli" }
+      ],
+      "windows": [
+        { "title": "1. Arduino IDE Setup", "desc": "Open Arduino IDE and search for 'TFT_eSPI' in Library Manager.", "code": "# Search and install TFT_eSPI inside Library Manager" }
       ]
     }
   },
@@ -598,6 +647,69 @@
       "power": "Powered simply through a standard USB-C phone cable",
       "wiring": "Motor Data: GPIO 21 & 22 | Microphone: GPIO 14, 15, 32",
       "tip": "Pick a board that says '8MB PSRAM' if you want it to listen for wake words locally."
+    }
+  },
+  {
+    "id": "m5stack-cores3",
+    "name": "M5Stack CoreS3 (All-in-One Dev Kit)",
+    "cat": "hardware",
+    "role": "Single-Purchase Robot Head (Screen, Dual Mics, Speaker & Camera)",
+    "price": "~$55-$65 USD",
+    "runs": "ESP32-S3 (Arduino, MicroPython, UIFlow)",
+    "pro": "Everything integrated into a finished case: 2.0-inch touchscreen, camera, dual mics, speaker, and battery",
+    "con": "Pre-built form factor is fixed in size",
+    "url": "https://m5stack.com",
+    "aliSearchQuery": "M5Stack CoreS3 ESP32-S3 development kit",
+    "badge": "All-in-One Kit",
+    "kits": ["budget", "edge", "pro"],
+    "priceVal": 60,
+    "specs": {
+      "interface": "USB-C, Grove I2C Ports, MicroSD Slot, Wi-Fi",
+      "power": "Built-in rechargeable battery or USB-C phone charger",
+      "wiring": "Zero wiring or soldering; all sensors and speakers are already connected on the internal circuit",
+      "tip": "The ultimate starter kit for beginners who want instant voice, vision, and touch without a breadboard."
+    }
+  },
+  {
+    "id": "m5stack-atom-echo",
+    "name": "M5Stack Atom Echo (Smart Voice Puck)",
+    "cat": "hardware",
+    "role": "Miniature All-in-One Voice Pod (Mic & Speaker)",
+    "price": "~$8-$12 USD",
+    "runs": "ESP32 (Wi-Fi Voice Streamer)",
+    "pro": "Coin-sized enclosed unit with built-in digital microphone, speaker, and RGB status LED",
+    "con": "No display screen",
+    "url": "https://m5stack.com",
+    "aliSearchQuery": "M5Stack ATOM Echo Smart Speaker Dev Kit",
+    "badge": "Budget All-in-One",
+    "kits": ["budget"],
+    "priceVal": 10,
+    "specs": {
+      "interface": "USB-C, Wi-Fi, Bluetooth",
+      "power": "5V USB-C Power",
+      "wiring": "Zero jumper wires needed; plug into USB and flash with voice assistant firmware",
+      "tip": "The fastest, cleanest $10 hardware solution for the 'Budget Pioneer' and 'Realtime Conversationalist' stacks."
+    }
+  },
+  {
+    "id": "sensecap-indicator",
+    "name": "Seeed SenseCAP Indicator (4-Inch AI Hub)",
+    "cat": "hardware",
+    "role": "Finished Desktop Companion Station (Touchscreen & Dual Mics)",
+    "price": "~$45-$55 USD",
+    "runs": "ESP32-S3 + RP2040 Dual Processors",
+    "pro": "Vivid 4-inch touch display, dual microphones, speaker, and sensors in a sleek desk enclosure",
+    "con": "Needs USB-C connection for continuous desktop power",
+    "url": "https://www.seeedstudio.com",
+    "aliSearchQuery": "Seeed Studio SenseCAP Indicator D1 ESP32 RP2040",
+    "badge": "Desktop Station Kit",
+    "kits": ["pro"],
+    "priceVal": 49,
+    "specs": {
+      "interface": "USB-C, Dual Grove I2C Ports, Wi-Fi, BLE",
+      "power": "5V USB-C Wall or PC connection",
+      "wiring": "Completely self-contained desk station; zero loose wiring or loose breadboard parts",
+      "tip": "Ideal for builders wanting a premium bedside or desk-mounted touch companion that runs local or cloud voice."
     }
   },
   {
