@@ -1,7 +1,7 @@
 // DeskBotStack Dynamic Wiring & LittleG Popup Clean
 (function () {
 
-  // 1. Technical Exploded Blueprint Modal with Direct Checkout Link
+  // 1. Technical Exploded Blueprint Modal with Direct Etsy Listing Link
   function getModal() {
     let modal = document.getElementById('little-g-modal');
     if (!modal) {
@@ -23,8 +23,8 @@
           <div class="p-4 border-t border-slate-800 bg-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3">
             <span class="text-xs text-slate-400 font-mono">Drawing No: DBS-LG-001</span>
             
-            <!-- Direct Checkout / Funnel Button -->
-            <a href="https://www.etsy.com" target="_blank" id="btn-modal-checkout" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider font-mono rounded-lg text-center shadow-lg shadow-cyan-500/20 transition-all cursor-pointer">
+            <!-- Direct Live Etsy Listing Link -->
+            <a href="https://www.etsy.com/au/listing/4598641631/littleg-tri-arm-desktop-robot-companion?ref=shop_home_active_1&pro=1&dd=1" target="_blank" rel="noopener noreferrer" id="btn-modal-checkout" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider font-mono rounded-lg text-center shadow-lg shadow-cyan-500/20 transition-all cursor-pointer">
               🛒 Get Complete Maker Pack (Etsy) &rarr;
             </a>
 
