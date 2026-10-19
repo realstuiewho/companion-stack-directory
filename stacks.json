@@ -138,5 +138,75 @@
         "searchQuery": "solderless breadboard 830 tie points jumper wire kit"
       }
     ]
+  },
+  {
+    "id": "vision-rig",
+    "name": "The Desk Eyes Vision Rig",
+    "badge": "Workspace Vision",
+    "tagline": "Sees your desktop, inspects physical objects, reads handwriting, and tracks presence.",
+    "monthlyEst": "$0 - $5 / mo",
+    "hardwareEst": "~$45 - $75 AUD",
+    "toolIds": ["moondream2", "ollama", "piper-tts", "esp32cam", "picam3", "rpi5"],
+    "manifest": {
+      "brain": "Moondream2 / Qwen2-VL Local Vision",
+      "voice": "Piper TTS (Spoken Descriptions)",
+      "ears": "faster-whisper Listener",
+      "body": "Autofocus Camera + Desk Mount"
+    },
+    "hardware": [
+      {
+        "part": "Eye Sensor",
+        "name": "Raspberry Pi Camera Module 3 (Autofocus)",
+        "role": "12MP autofocus sensor that reads text and inspects small items",
+        "searchQuery": "Raspberry Pi Camera Module 3 12MP Autofocus"
+      },
+      {
+        "part": "Vision Board",
+        "name": "ESP32-CAM (Budget Wireless Eye)",
+        "role": "Low-cost wireless camera streamer for small desk setups",
+        "searchQuery": "ESP32-CAM OV2640 Camera Module with CH340 Downloader"
+      },
+      {
+        "part": "Mounting",
+        "name": "Pan-Tilt Micro Gimbal Bracket",
+        "role": "Pans and tilts the camera eye to follow you or point at the desk",
+        "searchQuery": "mini pan tilt camera mount bracket FPV"
+      }
+    ]
+  },
+  {
+    "id": "expressive-face",
+    "name": "The Cyberpunk Expressive Face",
+    "badge": "Animated Display",
+    "tagline": "Dynamic pupil tracking, animated emotional eye blinks, and audio-reactive mouth flaps.",
+    "monthlyEst": "$0 / mo",
+    "hardwareEst": "~$30 - $45 AUD",
+    "toolIds": ["tft-espi-eyes", "waveshare-lcd", "oled-096", "esp32s3", "cavity-speaker", "max98357a"],
+    "manifest": {
+      "brain": "ESP32-S3 Animation Driver (60 FPS)",
+      "voice": "MAX98357A + Cavity Speaker",
+      "ears": "INMP441 Microphone",
+      "body": "GC9A01 Round Color Display + Enclosure"
+    },
+    "hardware": [
+      {
+        "part": "Expressive Face",
+        "name": "Waveshare 1.28-inch Round Color LCD",
+        "role": "Renders smooth blinking pupil graphics and facial expressions",
+        "searchQuery": "Waveshare 1.28 inch Round Touch LCD GC9A01"
+      },
+      {
+        "part": "Status HUD",
+        "name": "0.96-inch I2C OLED Display (128x64)",
+        "role": "Shows connection status, battery, or mouth-flap animations",
+        "searchQuery": "0.96 inch OLED I2C 128x64 display module SSD1306"
+      },
+      {
+        "part": "Audio Output",
+        "name": "Cavity Mini Speaker (3W 4-Ohm)",
+        "role": "Crisp speech output mounted right behind the faceplate",
+        "searchQuery": "3W 4 ohm cavity speaker JST 1.25"
+      }
+    ]
   }
 ]
