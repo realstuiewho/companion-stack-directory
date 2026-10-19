@@ -1,5 +1,40 @@
 [
   {
+    "id": "little-g",
+    "name": "LittleG (Tri-Arm Edition)",
+    "badge": "Flagship Bimanual Hub",
+    "tagline": "Tri-arm embodied desk companion with bimanual manipulation, 6-axis camera neck, and 360° sentinel hub.",
+    "monthlyEst": "$0 / mo (Local)",
+    "hardwareEst": "~$380 - $650 AUD",
+    "toolIds": ["ollama", "letta", "faster-whisper", "piper-tts", "robot-bridge", "waveshare-roarm", "rpi5", "usb-speakerphone"],
+    "manifest": {
+      "brain": "Raspberry Pi CM5 / Pi 5 + Workstation Ollama",
+      "voice": "Piper TTS / USB Speakerphone Array",
+      "ears": "ReSpeaker / 360° Spatial DOA Array",
+      "body": "Tri-Arm Hiwonder Serial Bus Architecture"
+    },
+    "hardware": [
+      {
+        "part": "Arms & Neck",
+        "name": "Hiwonder Serial Bus Servos (3x 6-DOF Assemblies)",
+        "role": "Drives left arm, right arm, and 6-axis articulated camera neck",
+        "searchQuery": "Hiwonder bus servo serial robotic arm kit"
+      },
+      {
+        "part": "Display Face",
+        "name": "4-5 inch High-Contrast Screen & Camera",
+        "role": "Expressive animated eyes and workspace vision inspection",
+        "searchQuery": "4 inch HDMI LCD display capacitive touch"
+      },
+      {
+        "part": "Base Station",
+        "name": "Rotating Sentinel Base with 360° Ring",
+        "role": "Houses compute, power distribution, and spatial sound direction",
+        "searchQuery": "heavy duty rotating slip ring 12V 360 rotation"
+      }
+    ]
+  },
+  {
     "id": "conversationalist",
     "name": "The Realtime Conversationalist",
     "badge": "Featured Blueprint",
