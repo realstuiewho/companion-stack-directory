@@ -1,70 +1,74 @@
 // DeskBotStack Dynamic Connections Diagram Extension
 (function () {
-  function getTrayContainer() {
-    return document.getElementById('build-tray-panel') ||
-           document.getElementById('build-tray') ||
-           document.querySelector('.build-tray') ||
-           document.querySelector('[id*="tray"]');
+  function getWorkbenchDrawer() {
+    // Finds the actual slide-out drawer by looking for the Workbench button
+    const buttons = Array.from(document.querySelectorAll('button'));
+    const checklistBtn = buttons.find(b => 
+      b.textContent.includes('Workbench Checklist') || 
+      b.textContent.includes('1-Click Computer Setup')
+    );
+    return checklistBtn ? checklistBtn.closest('div.fixed, aside, [class*="tray"], div') : null;
   }
 
   function createDiagramBox() {
-    const buildTray = getTrayContainer();
-    if (!buildTray) return null;
+    // Remove any accidental boxes from the navbar header
+    const misplaced = document.querySelectorAll('#workbench-wiring-diagram');
+    if (misplaced.length > 1) {
+      misplaced.forEach(el => el.remove());
+    }
+
+    const drawer = getWorkbenchDrawer();
+    if (!drawer) return null;
 
     let box = document.getElementById('workbench-wiring-diagram');
-    if (box) return box;
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'workbench-wiring-diagram';
+      box.className = 'mt-4 p-3 bg-slate-900/95 border border-indigo-500/40 rounded-xl text-left font-mono text-xs text-indigo-300 shadow-xl';
+    }
 
-    box = document.createElement('div');
-    box.id = 'workbench-wiring-diagram';
-    box.className = 'mt-4 p-3 bg-slate-900/90 border border-indigo-500/40 rounded-xl text-left font-mono text-xs text-indigo-300 shadow-inner';
     box.innerHTML = `
       <div class="flex items-center justify-between pb-2 mb-2 border-b border-indigo-500/30">
         <span class="font-bold text-indigo-400 uppercase tracking-wider text-[11px]">⚡ Dynamic Pinout Schematic</span>
-        <span id="diagram-status" class="text-[10px] text-emerald-400">Workbench Ready</span>
+        <span id="diagram-status" class="text-[10px] text-emerald-400">Live Circuit</span>
       </div>
-      <pre id="diagram-ascii-content" class="overflow-x-auto text-[11px] leading-tight text-emerald-300 whitespace-pre p-2 bg-slate-950/80 rounded border border-slate-800">Select hardware modules to view wiring...</pre>
+      <pre id="diagram-ascii-content" class="overflow-x-auto text-[11px] leading-relaxed text-emerald-300 whitespace-pre p-2 bg-slate-950/90 rounded border border-slate-800">Select hardware modules to view wiring...</pre>
     `;
 
-    // Place cleanly right below the tray action buttons
-    const buttons = buildTray.querySelectorAll('button');
-    if (buttons.length > 0) {
-      const lastButton = buttons[buttons.length - 1];
-      const buttonParent = lastButton.parentElement;
-      buttonParent.insertAdjacentElement('afterend', box);
+    // Place cleanly at the bottom of the drawer beneath the buttons
+    const buttons = Array.from(drawer.querySelectorAll('button'));
+    const lastBtn = buttons.find(b => b.textContent.includes('Workbench Checklist')) || buttons[buttons.length - 1];
+    if (lastBtn && lastBtn.parentElement) {
+      lastBtn.parentElement.insertAdjacentElement('afterend', box);
     } else {
-      buildTray.appendChild(box);
+      drawer.appendChild(box);
     }
+
     return box;
   }
 
   function updateDiagram() {
-    createDiagramBox();
+    const box = createDiagramBox();
     const asciiBox = document.getElementById('diagram-ascii-content');
     if (!asciiBox) return;
 
-    // Grab tools from memory or data script
     const toolsData = window.tools || window.toolsData || [];
+    let activeIds = [];
 
-    // Detect items currently in the build tray
-    let activeHardware = [];
-
-    if (Array.isArray(window.buildTray) && window.buildTray.length > 0) {
-      activeHardware = window.buildTray.map(item => {
-        return typeof item === 'string' ? toolsData.find(t => t.id === item) : item;
-      }).filter(Boolean);
+    // Read userBuild from DeskbotStack's state
+    if (window.userBuild && typeof window.userBuild.forEach === 'function') {
+      window.userBuild.forEach(id => activeIds.push(id));
     } else {
-      // DOM Fallback: Check items listed in the right-hand build tray
-      const trayCards = document.querySelectorAll('#build-tray-items > div, .build-tray-item, [data-part-id]');
-      trayCards.forEach(card => {
-        const titleEl = card.querySelector('h4, .part-title, .font-medium');
-        const titleText = titleEl ? titleEl.textContent.trim().toLowerCase() : '';
-        const match = toolsData.find(t => t.name.toLowerCase() === titleText || titleText.includes(t.name.toLowerCase()));
-        if (match && !activeHardware.includes(match)) activeHardware.push(match);
-      });
+      try {
+        const saved = localStorage.getItem('deskbot_user_build');
+        if (saved) activeIds = JSON.parse(saved);
+      } catch (e) {}
     }
 
-    // Filter down to hardware with pinout/wiring specs
-    const wireParts = activeHardware.filter(t => t && t.specs && t.specs.wiring);
+    // Match selected IDs to tools with wiring specs
+    const wireParts = activeIds
+      .map(id => toolsData.find(t => t.id === id))
+      .filter(t => t && t.specs && t.specs.wiring);
 
     if (wireParts.length === 0) {
       asciiBox.textContent = "┌──────────────────────────────────────────────┐\n│ Select hardware modules to view live pinouts │\n└──────────────────────────────────────────────┘";
@@ -84,19 +88,17 @@
       if (!isLast) schematic += " │\n";
     });
 
-    schematic += " └─────────────────────────────────────────────► Common GND & 5V/3.3V Rail";
+    schematic += " └─────────────────────────────────────────────► Common GND & 5V Rail";
     asciiBox.textContent = schematic;
   }
 
-  // Auto-init and listen for Blueprint or Build Tray clicks
   window.addEventListener('DOMContentLoaded', () => {
-    createDiagramBox();
-    updateDiagram();
+    setTimeout(updateDiagram, 300);
   });
 
   document.addEventListener('click', (e) => {
     if (e.target.closest('button') || e.target.closest('.blueprint-card') || e.target.closest('[onclick]')) {
-      setTimeout(updateDiagram, 180);
+      setTimeout(updateDiagram, 200);
     }
   });
 
