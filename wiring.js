@@ -1,10 +1,14 @@
-// DeskBotStack Dynamic Wiring & LittleG Popup Extension
+// DeskBotStack Dynamic Wiring & LittleG Popup Clean
 (function () {
 
-  // ==========================================
-  // PART 1: EXPLODED VIEW MODAL & TILE BUTTON
-  // ==========================================
-  function ensureModal() {
+  // 1. Force-remove any previous bulky showcase banner from DOM
+  function purgeOldShowcase() {
+    const old = document.getElementById('little-g-showcase');
+    if (old) old.remove();
+  }
+
+  // 2. Ensure the technical modal exists in body
+  function getModal() {
     let modal = document.getElementById('little-g-modal');
     if (!modal) {
       modal = document.createElement('div');
@@ -32,57 +36,46 @@
       `;
       document.body.appendChild(modal);
 
-      const closeModal = () => modal.classList.add('hidden');
-      document.getElementById('close-teaser-modal')?.addEventListener('click', closeModal);
-      document.getElementById('modal-close-btn')?.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+      const close = () => modal.classList.add('hidden');
+      document.getElementById('close-teaser-modal')?.addEventListener('click', close);
+      document.getElementById('modal-close-btn')?.addEventListener('click', close);
+      modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
     }
     return modal;
   }
 
-  function injectBlueprintTileButton() {
-    ensureModal();
+  // 3. Insert compact button inside LittleG's active BOM bar
+  function injectCompactButton() {
+    purgeOldShowcase();
 
-    // Remove old bulky showcase if present
-    const oldShowcase = document.getElementById('little-g-showcase');
-    if (oldShowcase) oldShowcase.remove();
-
-    // Look for the LittleG card in Starter Blueprints or the Physical BOM header
-    const littleGCard = Array.from(document.querySelectorAll('.blueprint-card, div')).find(el => 
-      el.textContent && el.textContent.includes('LittleG') && el.querySelector('p, span')
+    // Check if LittleG BOM is currently on screen
+    const bomTitle = Array.from(document.querySelectorAll('h3, h4, div')).find(el => 
+      el.textContent && el.textContent.includes('LittleG (Tri-Arm Edition)') && el.textContent.includes('Physical Setup')
     );
 
-    // Look for the Physical BOM header when LittleG is active
-    const bomHeader = Array.from(document.querySelectorAll('h3, h4, div')).find(el => 
-      el.textContent && el.textContent.includes('Physical Setup: LittleG')
-    );
-
-    // Target either the BOM header bar or the LittleG blueprint card
-    const target = bomHeader || littleGCard;
-    if (!target) return;
+    if (!bomTitle) {
+      const existingBtn = document.getElementById('btn-tile-exploded');
+      if (existingBtn) existingBtn.remove();
+      return;
+    }
 
     if (document.getElementById('btn-tile-exploded')) return;
 
     const btn = document.createElement('button');
     btn.id = 'btn-tile-exploded';
-    btn.className = 'ml-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 font-mono text-xs font-bold transition-all cursor-pointer shadow-sm align-middle';
+    btn.className = 'ml-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 font-mono text-xs font-bold transition-all cursor-pointer shadow-sm align-middle';
     btn.innerHTML = `<span>⚡</span> Inspect Exploded Blueprint`;
-    btn.onclick = () => {
-      const m = ensureModal();
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const m = getModal();
       m.classList.remove('hidden');
     };
 
-    if (bomHeader) {
-      bomHeader.appendChild(btn);
-    } else if (littleGCard) {
-      littleGCard.appendChild(btn);
-    }
+    bomTitle.appendChild(btn);
   }
 
-  // ==========================================
-  // PART 2: DYNAMIC WIRING SCHEMATIC IN TRAY
-  // ==========================================
+  // 4. Build Tray dynamic pinouts
   function getWorkbenchDrawer() {
     const buttons = Array.from(document.querySelectorAll('button'));
     const checklistBtn = buttons.find(b => 
@@ -92,7 +85,7 @@
     return checklistBtn ? checklistBtn.closest('div.fixed, aside, [class*="tray"], div') : null;
   }
 
-  function createDiagramBox() {
+  function updateDiagram() {
     const drawer = getWorkbenchDrawer();
     if (!drawer) return null;
 
@@ -101,29 +94,22 @@
       box = document.createElement('div');
       box.id = 'workbench-wiring-diagram';
       box.className = 'mt-4 p-3 bg-slate-900/95 border border-indigo-500/40 rounded-xl text-left font-mono text-xs text-indigo-300 shadow-xl';
+      box.innerHTML = `
+        <div class="flex items-center justify-between pb-2 mb-2 border-b border-indigo-500/30">
+          <span class="font-bold text-indigo-400 uppercase tracking-wider text-[11px]">⚡ Dynamic Pinout Schematic</span>
+          <span id="diagram-status" class="text-[10px] text-emerald-400">Live Circuit</span>
+        </div>
+        <pre id="diagram-ascii-content" class="overflow-x-auto text-[11px] leading-relaxed text-emerald-300 whitespace-pre p-2 bg-slate-950/90 rounded border border-slate-800">Select hardware modules to view wiring...</pre>
+      `;
+      const buttons = Array.from(drawer.querySelectorAll('button'));
+      const lastBtn = buttons.find(b => b.textContent.includes('Workbench Checklist')) || buttons[buttons.length - 1];
+      if (lastBtn && lastBtn.parentElement) {
+        lastBtn.parentElement.insertAdjacentElement('afterend', box);
+      } else {
+        drawer.appendChild(box);
+      }
     }
 
-    box.innerHTML = `
-      <div class="flex items-center justify-between pb-2 mb-2 border-b border-indigo-500/30">
-        <span class="font-bold text-indigo-400 uppercase tracking-wider text-[11px]">⚡ Dynamic Pinout Schematic</span>
-        <span id="diagram-status" class="text-[10px] text-emerald-400">Live Circuit</span>
-      </div>
-      <pre id="diagram-ascii-content" class="overflow-x-auto text-[11px] leading-relaxed text-emerald-300 whitespace-pre p-2 bg-slate-950/90 rounded border border-slate-800">Select hardware modules to view wiring...</pre>
-    `;
-
-    const buttons = Array.from(drawer.querySelectorAll('button'));
-    const lastBtn = buttons.find(b => b.textContent.includes('Workbench Checklist')) || buttons[buttons.length - 1];
-    if (lastBtn && lastBtn.parentElement) {
-      lastBtn.parentElement.insertAdjacentElement('afterend', box);
-    } else {
-      drawer.appendChild(box);
-    }
-
-    return box;
-  }
-
-  function updateDiagram() {
-    const box = createDiagramBox();
     const asciiBox = document.getElementById('diagram-ascii-content');
     if (!asciiBox) return;
 
@@ -165,24 +151,20 @@
     asciiBox.textContent = schematic;
   }
 
-  function init() {
-    injectBlueprintTileButton();
+  function tick() {
+    purgeOldShowcase();
+    injectCompactButton();
     updateDiagram();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', tick);
   } else {
-    init();
+    tick();
   }
 
-  setTimeout(init, 300);
-  setTimeout(init, 1000);
-  setTimeout(init, 2500);
-
-  document.addEventListener('click', (e) => {
-    setTimeout(init, 200);
-  });
+  setInterval(tick, 600);
+  document.addEventListener('click', () => setTimeout(tick, 100));
 
   window.renderBuildWiringDiagram = updateDiagram;
 })();
