@@ -1,7 +1,7 @@
 // DeskBotStack Dynamic Wiring & LittleG Popup Clean
 (function () {
 
-  // 1. Technical Exploded Blueprint Modal
+  // 1. Technical Exploded Blueprint Modal with Direct Checkout Link
   function getModal() {
     let modal = document.getElementById('little-g-modal');
     if (!modal) {
@@ -20,9 +20,15 @@
           <div class="overflow-auto p-4 flex items-center justify-center bg-slate-950">
             <img src="littleg-exploded.jpg" alt="LittleG Exploded Blueprint View" class="w-full h-auto rounded-lg border border-slate-800 shadow-md">
           </div>
-          <div class="p-4 border-t border-slate-800 bg-slate-900 flex items-center justify-between">
+          <div class="p-4 border-t border-slate-800 bg-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3">
             <span class="text-xs text-slate-400 font-mono">Drawing No: DBS-LG-001</span>
-            <button id="modal-close-btn" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase rounded-lg cursor-pointer">
+            
+            <!-- Direct Checkout / Funnel Button -->
+            <a href="https://www.etsy.com" target="_blank" id="btn-modal-checkout" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider font-mono rounded-lg text-center shadow-lg shadow-cyan-500/20 transition-all cursor-pointer">
+              🛒 Get Complete Maker Pack (Etsy) &rarr;
+            </a>
+
+            <button id="modal-close-btn" class="w-full sm:w-auto px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase rounded-lg cursor-pointer">
               Close Preview
             </button>
           </div>
