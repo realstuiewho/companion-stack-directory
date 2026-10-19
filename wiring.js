@@ -1,13 +1,7 @@
-// DeskBotStack Dynamic Wiring & LittleG Popup Clean
+// DeskBotStack Dynamic Wiring & LittleG Tile Button Extension
 (function () {
 
-  // 1. Purge any stray legacy banners
-  function purgeOldShowcase() {
-    const old = document.getElementById('little-g-showcase');
-    if (old) old.remove();
-  }
-
-  // 2. Ensure modal exists
+  // 1. Technical Exploded Blueprint Modal (Self-Contained)
   function getModal() {
     let modal = document.getElementById('little-g-modal');
     if (!modal) {
@@ -45,60 +39,45 @@
     return modal;
   }
 
-  // 3. Inject clickable Blueprint Action Button into the BOM card grid
-  function injectBlueprintCard() {
-    purgeOldShowcase();
+  // 2. Put the button directly INSIDE the LittleG Starter Blueprint Tile
+  function attachButtonToLittleGTile() {
+    // If button already exists on the tile, do nothing
+    if (document.getElementById('btn-tile-blueprint-view')) return;
 
-    // Check if LittleG BOM is currently on screen
-    const isLittleG = Array.from(document.querySelectorAll('h1, h2, h3, h4, div')).some(el => 
-      el.textContent && el.textContent.includes('Physical Setup: LittleG')
-    );
+    // Find the LittleG card in the Starter Blueprints grid
+    const allCards = Array.from(document.querySelectorAll('div, section, article'));
+    const littleGCard = allCards.find(el => {
+      const h3 = el.querySelector('h3, h4, .font-bold');
+      return h3 && h3.textContent.includes('LittleG');
+    });
 
-    const existingCard = document.getElementById('card-exploded-blueprint');
+    if (!littleGCard) return;
 
-    if (!isLittleG) {
-      if (existingCard) existingCard.remove();
-      return;
-    }
+    // Find the bottom row of the card (where "Active Blueprint" or "Load Blueprint" sits)
+    const bottomRow = littleGCard.querySelector('.flex.items-center.justify-between') ||
+                      littleGCard.querySelector('.flex') ||
+                      littleGCard.lastElementChild;
 
-    if (existingCard) return;
-
-    // Find the BOM cards container (holding the 3 hardware cards)
-    const hardwareCards = Array.from(document.querySelectorAll('button, a')).filter(el => 
-      el.textContent && el.textContent.includes('Find on AliExpress')
-    );
-
-    if (hardwareCards.length === 0) return;
-
-    const parentGrid = hardwareCards[0].closest('.grid, div.flex, div');
-    if (!parentGrid) return;
-
-    const actionCard = document.createElement('div');
-    actionCard.id = 'card-exploded-blueprint';
-    actionCard.className = 'relative p-4 rounded-xl border border-cyan-500/50 bg-gradient-to-br from-slate-900 to-indigo-950/70 shadow-lg flex flex-col justify-between cursor-pointer transition-transform hover:scale-[1.02]';
-    actionCard.innerHTML = `
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-[10px] uppercase font-mono font-bold tracking-wider text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30">CAD SCHEMATIC</span>
-          <span class="text-[11px] font-mono text-emerald-400">Interactive</span>
-        </div>
-        <h4 class="text-sm font-bold text-white mb-1">DBS-LG-001 Exploded Blueprint</h4>
-        <p class="text-xs text-slate-300 font-mono">Inspect all 16 modular subsystems, fastener schedules & wire harnesses.</p>
-      </div>
-      <button class="mt-4 w-full py-2 px-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider font-mono shadow-md transition-all cursor-pointer">
-        ⚡ Open Exploded Blueprint
-      </button>
-    `;
-
-    actionCard.onclick = () => {
+    const btn = document.createElement('button');
+    btn.id = 'btn-tile-blueprint-view';
+    btn.type = 'button';
+    btn.className = 'mt-3 w-full py-1.5 px-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 font-mono text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-sm';
+    btn.innerHTML = `<span>⚡</span> View Exploded Blueprint`;
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
       const m = getModal();
       m.classList.remove('hidden');
     };
 
-    parentGrid.appendChild(actionCard);
+    if (bottomRow && bottomRow.parentElement) {
+      bottomRow.insertAdjacentElement('beforebegin', btn);
+    } else {
+      littleGCard.appendChild(btn);
+    }
   }
 
-  // 4. Build Tray dynamic pinouts
+  // 3. Dynamic Build Tray Pinouts
   function getWorkbenchDrawer() {
     const buttons = Array.from(document.querySelectorAll('button'));
     const checklistBtn = buttons.find(b => 
@@ -174,19 +153,20 @@
     asciiBox.textContent = schematic;
   }
 
-  function tick() {
-    injectBlueprintCard();
+  // Continuous safe watcher so re-renders never lose the button
+  function refresh() {
+    attachButtonToLittleGTile();
     updateDiagram();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', tick);
+    document.addEventListener('DOMContentLoaded', refresh);
   } else {
-    tick();
+    refresh();
   }
 
-  setInterval(tick, 500);
-  document.addEventListener('click', () => setTimeout(tick, 100));
+  // Runs every 400ms to guarantee it catches renderStarterStacks() whenever blueprints change
+  setInterval(refresh, 400);
 
   window.renderBuildWiringDiagram = updateDiagram;
 })();
