@@ -1,8 +1,8 @@
-// DeskBotStack Dynamic Layout Upgrade: Visual Robotics Carousel + Tool Filter Search + LittleG
+// DeskBotStack Dynamic Layout Upgrade: Hover Mini-Carousels + Visual Platforms + LittleG
 (function () {
 
   // =========================================================================
-  // 1. REORGANIZE HEADER: INSERT VISUAL PLATFORM CAROUSEL & RESTORE SEARCH
+  // 1. REORGANIZE HEADER: HOVER MINI-CAROUSEL CARDS + SEARCH REPOSITION
   // =========================================================================
   function reorganizeLayout() {
     // Hide the old bulky empty hero text to save space
@@ -27,29 +27,68 @@
         carouselSection.className = 'my-6 px-4 max-w-7xl mx-auto w-full';
         carouselSection.innerHTML = `
           <div class="relative overflow-hidden rounded-2xl border border-indigo-500/30 bg-slate-900/90 p-4 sm:p-5 shadow-xl">
+            
+            <style>
+              .hover-carousel-strip {
+                display: flex;
+                width: 400%;
+                height: 100%;
+                transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+              }
+              .hover-carousel-strip img {
+                width: 25%;
+                height: 100%;
+                object-fit: cover;
+                flex-shrink: 0;
+              }
+              .carousel-dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transition: all 0.2s ease;
+              }
+              .carousel-dot.active {
+                background: var(--cyan, #38bdf8);
+                width: 14px;
+                border-radius: 4px;
+              }
+            </style>
+
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-indigo-500/20">
               <div class="flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
                 <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300">Embodied &amp; Commercial AI Platforms</span>
               </div>
-              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest hidden sm:inline">Click Image to Explore Hardware</span>
+              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest hidden sm:inline">Hover Card to View Angles &bull; Click to Explore</span>
             </div>
 
-            <!-- 3 High-Impact Visual Cards (Whole Card is Link) -->
+            <!-- 3 Mini-Carousel Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-              <!-- 1. Unitree G1 -->
+              <!-- 1. Unitree G1 Humanoid -->
               <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+G1+Humanoid+Robot" target="_blank" rel="noopener noreferrer" 
-                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg">
-                <div class="relative w-full h-44 bg-slate-900/80 flex items-center justify-center p-3 overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" 
-                       alt="Unitree G1 Humanoid" 
-                       class="w-full h-full object-cover rounded-lg opacity-85 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
-                  <div class="absolute top-2.5 left-2.5 bg-indigo-950/90 border border-indigo-400/40 text-[9px] font-mono font-bold uppercase text-indigo-300 px-2 py-0.5 rounded">
+                 id="card-unitree-g1"
+                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
+                <div class="relative w-full h-48 bg-slate-900/80 overflow-hidden">
+                  <div class="hover-carousel-strip" id="strip-g1">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 Full Body">
+                    <img src="https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 Head & Vision">
+                    <img src="https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 Joint Mechanics">
+                    <img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 In Action">
+                  </div>
+                  <div class="absolute top-2.5 left-2.5 bg-indigo-950/90 border border-indigo-400/40 text-[9px] font-mono font-bold uppercase text-indigo-300 px-2 py-0.5 rounded shadow">
                     Humanoid Biped
                   </div>
-                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded">
+                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded shadow">
                     $13,500 USD
+                  </div>
+                  <!-- Mini Progress Dots -->
+                  <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5" id="dots-g1">
+                    <span class="carousel-dot active"></span>
+                    <span class="carousel-dot"></span>
+                    <span class="carousel-dot"></span>
+                    <span class="carousel-dot"></span>
                   </div>
                 </div>
                 <div class="p-3 bg-slate-950 flex items-center justify-between border-t border-slate-800/80">
@@ -61,18 +100,28 @@
                 </div>
               </a>
 
-              <!-- 2. Unitree Go2 -->
+              <!-- 2. Unitree Go2 Quadruped -->
               <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+Go2+Quadruped+Robot" target="_blank" rel="noopener noreferrer" 
-                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg">
-                <div class="relative w-full h-44 bg-slate-900/80 flex items-center justify-center p-3 overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1546776310-eef45dd6d63c?auto=format&fit=crop&w=600&q=80" 
-                       alt="Unitree Go2 Robot Dog" 
-                       class="w-full h-full object-cover rounded-lg opacity-85 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
-                  <div class="absolute top-2.5 left-2.5 bg-cyan-950/90 border border-cyan-400/40 text-[9px] font-mono font-bold uppercase text-cyan-300 px-2 py-0.5 rounded">
+                 id="card-unitree-go2"
+                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
+                <div class="relative w-full h-48 bg-slate-900/80 overflow-hidden">
+                  <div class="hover-carousel-strip" id="strip-go2">
+                    <img src="https://images.unsplash.com/photo-1546776310-eef45dd6d63c?auto=format&fit=crop&w=600&q=80" alt="Unitree Go2 Profile">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="Unitree Go2 Head 4D LiDAR">
+                    <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=600&q=80" alt="Unitree Go2 High-Torque Legs">
+                    <img src="https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=600&q=80" alt="Unitree Go2 Terrain Navigation">
+                  </div>
+                  <div class="absolute top-2.5 left-2.5 bg-cyan-950/90 border border-cyan-400/40 text-[9px] font-mono font-bold uppercase text-cyan-300 px-2 py-0.5 rounded shadow">
                     AI Quadruped
                   </div>
-                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded">
+                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded shadow">
                     $2,350+ USD
+                  </div>
+                  <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5" id="dots-go2">
+                    <span class="carousel-dot active"></span>
+                    <span class="carousel-dot"></span>
+                    <span class="carousel-dot"></span>
+                    <span class="carousel-dot"></span>
                   </div>
                 </div>
                 <div class="p-3 bg-slate-950 flex items-center justify-between border-t border-slate-800/80">
@@ -86,16 +135,26 @@
 
               <!-- 3. Elephant Robotics myCobot 280 -->
               <a href="https://www.aliexpress.com/wholesale?SearchText=Elephant+Robotics+myCobot+280" target="_blank" rel="noopener noreferrer" 
-                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg">
-                <div class="relative w-full h-44 bg-slate-900/80 flex items-center justify-center p-3 overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80" 
-                       alt="myCobot 280 Arm" 
-                       class="w-full h-full object-cover rounded-lg opacity-85 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
-                  <div class="absolute top-2.5 left-2.5 bg-amber-950/90 border border-amber-400/40 text-[9px] font-mono font-bold uppercase text-amber-300 px-2 py-0.5 rounded">
+                 id="card-mycobot-280"
+                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
+                <div class="relative w-full h-48 bg-slate-900/80 overflow-hidden">
+                  <div class="hover-carousel-strip" id="strip-mycobot">
+                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80" alt="myCobot 280 Full Reach">
+                    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80" alt="myCobot End Effector Gripper">
+                    <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80" alt="myCobot 6-Axis Servo Joints">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80" alt="myCobot Raspberry Pi Interface">
+                  </div>
+                  <div class="absolute top-2.5 left-2.5 bg-amber-950/90 border border-amber-400/40 text-[9px] font-mono font-bold uppercase text-amber-300 px-2 py-0.5 rounded shadow">
                     Desktop Cobot Arm
                   </div>
-                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded">
+                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded shadow">
                     $649+ USD
+                  </div>
+                  <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5" id="dots-mycobot">
+                    <span class="carousel-dot active"></span>
+                    <span class="carousel-dot"></span>
+                    <span class="carousel-dot"></span>
+                    <span class="carousel-dot"></span>
                   </div>
                 </div>
                 <div class="p-3 bg-slate-950 flex items-center justify-between border-t border-slate-800/80">
@@ -111,6 +170,7 @@
           </div>
         `;
         blueprintsCard.insertAdjacentElement('beforebegin', carouselSection);
+        bindHoverCarousels();
       }
     }
 
@@ -129,6 +189,46 @@
       filterRow.className = "flex flex-wrap items-center justify-between gap-3 mb-6";
       filterRow.appendChild(searchBar);
     }
+  }
+
+  // Helper to attach auto-scrolling on mouse hover
+  function bindHoverCarousels() {
+    const setupCard = (cardId, stripId, dotsId) => {
+      const card = document.getElementById(cardId);
+      const strip = document.getElementById(stripId);
+      const dots = document.getElementById(dotsId)?.children || [];
+      if (!card || !strip) return;
+
+      let timer = null;
+      let currentIndex = 0;
+      const totalImages = 4;
+
+      const setIndex = (idx) => {
+        currentIndex = idx;
+        strip.style.transform = `translateX(-${idx * 25}%)`;
+        Array.from(dots).forEach((d, i) => {
+          if (i === idx) d.classList.add('active');
+          else d.classList.remove('active');
+        });
+      };
+
+      card.addEventListener('mouseenter', () => {
+        clearInterval(timer);
+        timer = setInterval(() => {
+          currentIndex = (currentIndex + 1) % totalImages;
+          setIndex(currentIndex);
+        }, 1200); // Cycles every 1.2s smoothly on hover
+      });
+
+      card.addEventListener('mouseleave', () => {
+        clearInterval(timer);
+        setIndex(0); // Reset to front image on mouse exit
+      });
+    };
+
+    setupCard('card-unitree-g1', 'strip-g1', 'dots-g1');
+    setupCard('card-unitree-go2', 'strip-go2', 'dots-go2');
+    setupCard('card-mycobot-280', 'strip-mycobot', 'dots-mycobot');
   }
 
   // =========================================================================
@@ -242,54 +342,4 @@
     const toolsData = window.tools || window.toolsData || [];
     let activeIds = [];
 
-    if (window.userBuild && typeof window.userBuild.forEach === 'function') {
-      window.userBuild.forEach(id => activeIds.push(id));
-    } else {
-      try {
-        const saved = localStorage.getItem('deskbot_user_build');
-        if (saved) activeIds = JSON.parse(saved);
-      } catch (e) {}
-    }
-
-    const wireParts = activeIds
-      .map(id => toolsData.find(t => t.id === id))
-      .filter(t => t && t.specs && t.specs.wiring);
-
-    if (wireParts.length === 0) {
-      asciiBox.textContent = "┌──────────────────────────────────────────────┐\n│ Select hardware modules to view live pinouts │\n└──────────────────────────────────────────────┘";
-      return;
-    }
-
-    let schematic = "┌──────────────────────────────────────────────┐\n";
-    schematic += "│           HOST CONTROLLER / ESP32            │\n";
-    schematic += "└──────────────────────┬───────────────────────┘\n";
-
-    wireParts.forEach((part, idx) => {
-      const isLast = idx === wireParts.length - 1;
-      const branch = isLast ? " └──► " : " ├──► ";
-      const cleanWiring = part.specs.wiring.replace(/\s+/g, ' ');
-      schematic += `${branch}[${part.name}]\n`;
-      schematic += `       Pinout: ${cleanWiring}\n`;
-      if (!isLast) schematic += " │\n";
-    });
-
-    schematic += " └─────────────────────────────────────────────► Common GND & 5V Rail";
-    asciiBox.textContent = schematic;
-  }
-
-  function loop() {
-    reorganizeLayout();
-    attachButtonToLittleGTile();
-    updateDiagram();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loop);
-  } else {
-    loop();
-  }
-
-  setInterval(loop, 400);
-
-  window.renderBuildWiringDiagram = updateDiagram;
-})();
+    if (window.userBuild && typeof window
