@@ -1,4 +1,4 @@
-// DeskBotStack Dynamic Layout: Commercial Robotics Carousel (Local G1 Photos) + LittleG Suite
+// Cybonoid Dynamic Layout: 4 Commercial Robotics Cards (AheadForm + G1 + Go2 + myCobot) + LittleG Suite
 (function () {
 
   // =========================================================================
@@ -57,10 +57,43 @@
           <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest hidden sm:inline">Hover Card to View Angles &bull; Click to Explore</span>
         </div>
 
-        <!-- 3 Interactive Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- 4 Interactive Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-          <!-- 1. Unitree G1 Humanoid (Wired to your local uploaded photography) -->
+          <!-- 1. AheadForm Origin F1 Bionic Head -->
+          <a href="https://www.aheadform.com" target="_blank" rel="noopener noreferrer" 
+             id="card-aheadform"
+             class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-fuchsia-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
+            <div class="relative w-full h-48 bg-slate-900/80 overflow-hidden">
+              <div class="hover-carousel-strip" id="strip-aheadform">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" alt="AheadForm Bionic Head">
+                <img src="https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?auto=format&fit=crop&w=600&q=80" alt="AheadForm Facial Actuation">
+                <img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80" alt="AheadForm Eye Cameras">
+                <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="AheadForm Silicone Skin Profile">
+              </div>
+              <div class="absolute top-2.5 left-2.5 bg-fuchsia-950/90 border border-fuchsia-400/40 text-[9px] font-mono font-bold uppercase text-fuchsia-300 px-2 py-0.5 rounded shadow">
+                Bionic Head / Embodied AI
+              </div>
+              <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-fuchsia-500/50 text-[11px] font-mono font-bold text-fuchsia-300 px-2 py-0.5 rounded shadow">
+                Inquire / Partner
+              </div>
+              <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5" id="dots-aheadform">
+                <span class="carousel-dot active"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+                <span class="carousel-dot"></span>
+              </div>
+            </div>
+            <div class="p-3 bg-slate-950 flex items-center justify-between border-t border-slate-800/80">
+              <div>
+                <h4 class="text-sm font-bold text-white group-hover:text-fuchsia-300 transition-colors">AheadForm Origin F1</h4>
+                <p class="text-[10px] text-slate-400 font-mono">30+ Facial DOF &bull; Omni Multimodal &bull; Micro-Motors</p>
+              </div>
+              <span class="text-xs text-fuchsia-400 font-bold group-hover:translate-x-1 transition-transform">&rarr;</span>
+            </div>
+          </a>
+
+          <!-- 2. Unitree G1 Humanoid (Wired to your local uploaded photography) -->
           <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+G1+Humanoid+Robot" target="_blank" rel="noopener noreferrer" 
              id="card-unitree-g1"
              class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
@@ -93,7 +126,7 @@
             </div>
           </a>
 
-          <!-- 2. Unitree Go2 Quadruped -->
+          <!-- 3. Unitree Go2 Quadruped -->
           <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+Go2+Quadruped+Robot" target="_blank" rel="noopener noreferrer" 
              id="card-unitree-go2"
              class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
@@ -126,7 +159,7 @@
             </div>
           </a>
 
-          <!-- 3. Elephant Robotics myCobot 280 -->
+          <!-- 4. Elephant Robotics myCobot 280 -->
           <a href="https://www.aliexpress.com/wholesale?SearchText=Elephant+Robotics+myCobot+280" target="_blank" rel="noopener noreferrer" 
              id="card-mycobot-280"
              class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
@@ -202,6 +235,7 @@
       });
     };
 
+    setupCard('card-aheadform', 'strip-aheadform', 'dots-aheadform');
     setupCard('card-unitree-g1', 'strip-g1', 'dots-g1');
     setupCard('card-unitree-go2', 'strip-go2', 'dots-go2');
     setupCard('card-mycobot-280', 'strip-mycobot', 'dots-mycobot');
