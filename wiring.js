@@ -1,115 +1,134 @@
-// DeskBotStack Dynamic Layout Upgrade: Commercial Carousel + In-Card Search + LittleG
+// DeskBotStack Dynamic Layout Upgrade: Visual Robotics Carousel + Tool Filter Search + LittleG
 (function () {
 
   // =========================================================================
-  // 1. REORGANIZE HEADER: MOVE SEARCH INTO BLUEPRINTS & INSERT CAROUSEL
+  // 1. REORGANIZE HEADER: INSERT VISUAL PLATFORM CAROUSEL & RESTORE SEARCH
   // =========================================================================
   function reorganizeLayout() {
-    if (document.getElementById('commercial-robot-carousel')) return;
-
-    // Locate the Starter Blueprints container card
-    const allCards = Array.from(document.querySelectorAll('section, div'));
-    const blueprintsCard = allCards.find(el => {
-      const heading = el.querySelector('h2, h3, div');
-      return heading && heading.textContent.includes('Starter Blueprints') && el.classList.contains('border');
-    }) || document.querySelector('[id*="starter"], [class*="blueprint"]');
-
-    if (!blueprintsCard) return;
-
-    // Locate the original headline text & search input bar above the blueprints
-    const searchBar = document.getElementById('search-input')?.closest('div.relative, div.w-full, div') ||
-                      document.querySelector('input[placeholder*="Search"]')?.closest('div');
-    
+    // Hide the old bulky empty hero text to save space
     const heroTitle = Array.from(document.querySelectorAll('h1, h2, div')).find(el => 
       el.textContent && el.textContent.trim().startsWith('Build Your Own Desk Companion') && el.children.length <= 2
     );
-
-    // Reposition search bar inside the top of the Starter Blueprints card
-    const recipeBadge = Array.from(blueprintsCard.querySelectorAll('span, div')).find(el => 
-      el.textContent && el.textContent.includes('READY-TO-BUILD RECIPES')
-    );
-
-    if (searchBar && recipeBadge) {
-      const recipeRow = recipeBadge.parentElement;
-      if (recipeRow && !recipeRow.querySelector('input')) {
-        recipeRow.className = "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2";
-        searchBar.className = "w-full sm:w-72 relative";
-        recipeRow.appendChild(searchBar);
-      }
-    }
-
     if (heroTitle && heroTitle.parentElement) {
       heroTitle.parentElement.style.display = "none";
     }
 
-    // Build the Commercial & Embodied AI Platform Ribbon
-    const carouselSection = document.createElement('section');
-    carouselSection.id = 'commercial-robot-carousel';
-    carouselSection.className = 'my-6 px-4 max-w-7xl mx-auto w-full';
-    carouselSection.innerHTML = `
-      <div class="relative overflow-hidden rounded-2xl border border-indigo-500/30 bg-slate-900/90 p-4 sm:p-5 shadow-xl">
-        <div class="flex items-center justify-between pb-3 mb-3 border-b border-indigo-500/20">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-            <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300">Commercial &amp; Research Platforms</span>
-          </div>
-          <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest hidden sm:inline">Embodied AI Showcase</span>
-        </div>
+    // A. Insert the Visual Commercial Carousel (if not already present)
+    if (!document.getElementById('commercial-robot-carousel')) {
+      const allCards = Array.from(document.querySelectorAll('section, div'));
+      const blueprintsCard = allCards.find(el => {
+        const heading = el.querySelector('h2, h3, div');
+        return heading && heading.textContent.includes('Starter Blueprints') && el.classList.contains('border');
+      }) || document.querySelector('[id*="starter"], [class*="blueprint"]');
 
-        <!-- Horizontal Scroll Ticker -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-          <!-- Platform 1: Unitree G1 -->
-          <div class="relative p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[9px] font-mono font-bold uppercase text-indigo-300 bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-500/30">Humanoid Biped</span>
-                <span class="text-[11px] font-mono text-emerald-400 font-bold">From $13.5K USD</span>
+      if (blueprintsCard) {
+        const carouselSection = document.createElement('section');
+        carouselSection.id = 'commercial-robot-carousel';
+        carouselSection.className = 'my-6 px-4 max-w-7xl mx-auto w-full';
+        carouselSection.innerHTML = `
+          <div class="relative overflow-hidden rounded-2xl border border-indigo-500/30 bg-slate-900/90 p-4 sm:p-5 shadow-xl">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-indigo-500/20">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300">Embodied &amp; Commercial AI Platforms</span>
               </div>
-              <h4 class="text-sm font-bold text-white tracking-wide">Unitree G1 Humanoid</h4>
-              <p class="text-[11px] text-slate-400 font-mono mt-1 leading-relaxed">23–43 DOF biped, 2m/s walking speed, 3D LiDAR &amp; depth vision array. Official research platform.</p>
+              <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest hidden sm:inline">Click Image to Explore Hardware</span>
             </div>
-            <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+G1+Humanoid+Robot" target="_blank" rel="noopener noreferrer" class="mt-3 w-full py-1.5 px-3 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 font-mono text-xs font-bold text-center transition-all">
-              Explore Platform &rarr;
-            </a>
-          </div>
 
-          <!-- Platform 2: Unitree Go2 -->
-          <div class="relative p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[9px] font-mono font-bold uppercase text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30">AI Quadruped</span>
-                <span class="text-[11px] font-mono text-emerald-400 font-bold">From $2,350 USD</span>
-              </div>
-              <h4 class="text-sm font-bold text-white tracking-wide">Unitree Go2 Robot Dog</h4>
-              <p class="text-[11px] text-slate-400 font-mono mt-1 leading-relaxed">Ultra-wide 4D LiDAR, 3.7m/s agility, auto-stair climb, companion voice &amp; ROS2 secondary development.</p>
+            <!-- 3 High-Impact Visual Cards (Whole Card is Link) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+              <!-- 1. Unitree G1 -->
+              <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+G1+Humanoid+Robot" target="_blank" rel="noopener noreferrer" 
+                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg">
+                <div class="relative w-full h-44 bg-slate-900/80 flex items-center justify-center p-3 overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" 
+                       alt="Unitree G1 Humanoid" 
+                       class="w-full h-full object-cover rounded-lg opacity-85 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
+                  <div class="absolute top-2.5 left-2.5 bg-indigo-950/90 border border-indigo-400/40 text-[9px] font-mono font-bold uppercase text-indigo-300 px-2 py-0.5 rounded">
+                    Humanoid Biped
+                  </div>
+                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded">
+                    $13,500 USD
+                  </div>
+                </div>
+                <div class="p-3 bg-slate-950 flex items-center justify-between border-t border-slate-800/80">
+                  <div>
+                    <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">Unitree G1 Humanoid</h4>
+                    <p class="text-[10px] text-slate-400 font-mono">23–43 DOF &bull; 3D LiDAR &bull; 2 m/s Walk</p>
+                  </div>
+                  <span class="text-xs text-cyan-400 font-bold group-hover:translate-x-1 transition-transform">&rarr;</span>
+                </div>
+              </a>
+
+              <!-- 2. Unitree Go2 -->
+              <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+Go2+Quadruped+Robot" target="_blank" rel="noopener noreferrer" 
+                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg">
+                <div class="relative w-full h-44 bg-slate-900/80 flex items-center justify-center p-3 overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1546776310-eef45dd6d63c?auto=format&fit=crop&w=600&q=80" 
+                       alt="Unitree Go2 Robot Dog" 
+                       class="w-full h-full object-cover rounded-lg opacity-85 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
+                  <div class="absolute top-2.5 left-2.5 bg-cyan-950/90 border border-cyan-400/40 text-[9px] font-mono font-bold uppercase text-cyan-300 px-2 py-0.5 rounded">
+                    AI Quadruped
+                  </div>
+                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded">
+                    $2,350+ USD
+                  </div>
+                </div>
+                <div class="p-3 bg-slate-950 flex items-center justify-between border-t border-slate-800/80">
+                  <div>
+                    <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">Unitree Go2 Robot Dog</h4>
+                    <p class="text-[10px] text-slate-400 font-mono">4D LiDAR &bull; 3.7 m/s &bull; Auto-Stair Climb</p>
+                  </div>
+                  <span class="text-xs text-cyan-400 font-bold group-hover:translate-x-1 transition-transform">&rarr;</span>
+                </div>
+              </a>
+
+              <!-- 3. Elephant Robotics myCobot 280 -->
+              <a href="https://www.aliexpress.com/wholesale?SearchText=Elephant+Robotics+myCobot+280" target="_blank" rel="noopener noreferrer" 
+                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg">
+                <div class="relative w-full h-44 bg-slate-900/80 flex items-center justify-center p-3 overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80" 
+                       alt="myCobot 280 Arm" 
+                       class="w-full h-full object-cover rounded-lg opacity-85 group-hover:scale-105 group-hover:opacity-100 transition-all duration-300">
+                  <div class="absolute top-2.5 left-2.5 bg-amber-950/90 border border-amber-400/40 text-[9px] font-mono font-bold uppercase text-amber-300 px-2 py-0.5 rounded">
+                    Desktop Cobot Arm
+                  </div>
+                  <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded">
+                    $649+ USD
+                  </div>
+                </div>
+                <div class="p-3 bg-slate-950 flex items-center justify-between border-t border-slate-800/80">
+                  <div>
+                    <h4 class="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">myCobot 280 Desk Arm</h4>
+                    <p class="text-[10px] text-slate-400 font-mono">6-Axis Articulated &bull; Pi 4B &bull; ROS2 Support</p>
+                  </div>
+                  <span class="text-xs text-amber-400 font-bold group-hover:translate-x-1 transition-transform">&rarr;</span>
+                </div>
+              </a>
+
             </div>
-            <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+Go2+Quadruped+Robot" target="_blank" rel="noopener noreferrer" class="mt-3 w-full py-1.5 px-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-mono text-xs font-bold text-center transition-all">
-              Explore Platform &rarr;
-            </a>
           </div>
+        `;
+        blueprintsCard.insertAdjacentElement('beforebegin', carouselSection);
+      }
+    }
 
-          <!-- Platform 3: Elephant Robotics myCobot 280 -->
-          <div class="relative p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[9px] font-mono font-bold uppercase text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">Desktop Cobot Arm</span>
-                <span class="text-[11px] font-mono text-emerald-400 font-bold">From $649 USD</span>
-              </div>
-              <h4 class="text-sm font-bold text-white tracking-wide">myCobot 280 Workspace Arm</h4>
-              <p class="text-[11px] text-slate-400 font-mono mt-1 leading-relaxed">6-axis articulated desk arm, 280mm reach, 250g payload, brained on Raspberry Pi 4B &amp; ROS.</p>
-            </div>
-            <a href="https://www.aliexpress.com/wholesale?SearchText=Elephant+Robotics+myCobot+280" target="_blank" rel="noopener noreferrer" class="mt-3 w-full py-1.5 px-3 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-mono text-xs font-bold text-center transition-all">
-              Explore Platform &rarr;
-            </a>
-          </div>
+    // B. Place Search Bar alongside the Category Filters (All, Brains, Ears)
+    const searchBar = document.getElementById('search-input')?.closest('div.relative, div.w-full, div') ||
+                      document.querySelector('input[placeholder*="Search"]')?.closest('div');
 
-        </div>
-      </div>
-    `;
+    const allPill = Array.from(document.querySelectorAll('button, div')).find(el => 
+      el.textContent && el.textContent.trim() === 'All' && el.parentElement
+    );
+    const filterRow = allPill ? allPill.closest('div.flex, div') : null;
 
-    // Insert carousel directly above the blueprints card
-    blueprintsCard.insertAdjacentElement('beforebegin', carouselSection);
+    if (searchBar && filterRow && !filterRow.querySelector('input')) {
+      searchBar.style.display = "block";
+      searchBar.className = "w-full sm:w-64 relative";
+      filterRow.className = "flex flex-wrap items-center justify-between gap-3 mb-6";
+      filterRow.appendChild(searchBar);
+    }
   }
 
   // =========================================================================
