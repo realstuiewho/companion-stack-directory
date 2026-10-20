@@ -1,27 +1,30 @@
-// DeskBotStack Dynamic Layout Upgrade: Hover Mini-Carousels + Visual Platforms + LittleG
+// DeskBotStack Dynamic Layout Upgrade: Visual Robotics Carousel + Tool Filter Search + LittleG
 (function () {
 
   // =========================================================================
-  // 1. REORGANIZE HEADER: HOVER MINI-CAROUSEL CARDS + SEARCH REPOSITION
+  // 1. REORGANIZE HEADER: INSERT VISUAL PLATFORM CAROUSEL & SAFE SEARCH MOVE
   // =========================================================================
   function reorganizeLayout() {
     // Hide the old bulky empty hero text to save space
-    const heroTitle = Array.from(document.querySelectorAll('h1, h2, div')).find(el => 
-      el.textContent && el.textContent.trim().startsWith('Build Your Own Desk Companion') && el.children.length <= 2
-    );
-    if (heroTitle && heroTitle.parentElement) {
-      heroTitle.parentElement.style.display = "none";
-    }
+    try {
+      const heroTitle = Array.from(document.querySelectorAll('h1, h2, div')).find(el => 
+        el.textContent && el.textContent.trim().startsWith('Build Your Own Desk Companion') && el.children.length <= 2
+      );
+      if (heroTitle && heroTitle.parentElement) {
+        heroTitle.parentElement.style.display = "none";
+      }
+    } catch (e) {}
 
     // A. Insert the Visual Commercial Carousel (if not already present)
     if (!document.getElementById('commercial-robot-carousel')) {
+      // Find the Starter Blueprints container card safely
       const allCards = Array.from(document.querySelectorAll('section, div'));
       const blueprintsCard = allCards.find(el => {
         const heading = el.querySelector('h2, h3, div');
         return heading && heading.textContent.includes('Starter Blueprints') && el.classList.contains('border');
       }) || document.querySelector('[id*="starter"], [class*="blueprint"]');
 
-      if (blueprintsCard) {
+      if (blueprintsCard && blueprintsCard.parentElement) {
         const carouselSection = document.createElement('section');
         carouselSection.id = 'commercial-robot-carousel';
         carouselSection.className = 'my-6 px-4 max-w-7xl mx-auto w-full';
@@ -33,7 +36,7 @@
                 display: flex;
                 width: 400%;
                 height: 100%;
-                transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+                transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
               }
               .hover-carousel-strip img {
                 width: 25%;
@@ -49,7 +52,7 @@
                 transition: all 0.2s ease;
               }
               .carousel-dot.active {
-                background: var(--cyan, #38bdf8);
+                background: #38bdf8;
                 width: 14px;
                 border-radius: 4px;
               }
@@ -83,7 +86,6 @@
                   <div class="absolute bottom-2.5 right-2.5 bg-slate-950/90 border border-emerald-500/50 text-[11px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded shadow">
                     $13,500 USD
                   </div>
-                  <!-- Mini Progress Dots -->
                   <div class="absolute bottom-2.5 left-3 flex items-center gap-1.5" id="dots-g1">
                     <span class="carousel-dot active"></span>
                     <span class="carousel-dot"></span>
@@ -174,24 +176,25 @@
       }
     }
 
-    // B. Place Search Bar alongside the Category Filters (All, Brains, Ears)
-    const searchBar = document.getElementById('search-input')?.closest('div.relative, div.w-full, div') ||
-                      document.querySelector('input[placeholder*="Search"]')?.closest('div');
+    // B. Safely Place Search Bar alongside the Category Filters (All, Brains, Ears)
+    try {
+      const searchInput = document.getElementById('search-input') || document.querySelector('input[placeholder*="Search"]');
+      const searchBox = searchInput ? searchInput.closest('div.relative, div') : null;
 
-    const allPill = Array.from(document.querySelectorAll('button, div')).find(el => 
-      el.textContent && el.textContent.trim() === 'All' && el.parentElement
-    );
-    const filterRow = allPill ? allPill.closest('div.flex, div') : null;
+      const allPill = Array.from(document.querySelectorAll('button, div')).find(el => 
+        el.textContent && el.textContent.trim() === 'All' && el.parentElement
+      );
+      const filterRow = allPill ? allPill.closest('div.flex, div') : null;
 
-    if (searchBar && filterRow && !filterRow.querySelector('input')) {
-      searchBar.style.display = "block";
-      searchBar.className = "w-full sm:w-64 relative";
-      filterRow.className = "flex flex-wrap items-center justify-between gap-3 mb-6";
-      filterRow.appendChild(searchBar);
-    }
+      if (searchBox && filterRow && !filterRow.contains(searchBox)) {
+        searchBox.style.display = "block";
+        searchBox.className = "w-full sm:w-64 relative";
+        filterRow.appendChild(searchBox);
+      }
+    } catch (e) {}
   }
 
-  // Helper to attach auto-scrolling on mouse hover
+  // Smooth hover carousel binding
   function bindHoverCarousels() {
     const setupCard = (cardId, stripId, dotsId) => {
       const card = document.getElementById(cardId);
@@ -217,12 +220,12 @@
         timer = setInterval(() => {
           currentIndex = (currentIndex + 1) % totalImages;
           setIndex(currentIndex);
-        }, 1200); // Cycles every 1.2s smoothly on hover
+        }, 1200);
       });
 
       card.addEventListener('mouseleave', () => {
         clearInterval(timer);
-        setIndex(0); // Reset to front image on mouse exit
+        setIndex(0);
       });
     };
 
@@ -342,4 +345,54 @@
     const toolsData = window.tools || window.toolsData || [];
     let activeIds = [];
 
-    if (window.userBuild && typeof window
+    if (window.userBuild && typeof window.userBuild.forEach === 'function') {
+      window.userBuild.forEach(id => activeIds.push(id));
+    } else {
+      try {
+        const saved = localStorage.getItem('deskbot_user_build');
+        if (saved) activeIds = JSON.parse(saved);
+      } catch (e) {}
+    }
+
+    const wireParts = activeIds
+      .map(id => toolsData.find(t => t.id === id))
+      .filter(t => t && t.specs && t.specs.wiring);
+
+    if (wireParts.length === 0) {
+      asciiBox.textContent = "┌──────────────────────────────────────────────┐\n│ Select hardware modules to view live pinouts │\n└──────────────────────────────────────────────┘";
+      return;
+    }
+
+    let schematic = "┌──────────────────────────────────────────────┐\n";
+    schematic += "│           HOST CONTROLLER / ESP32            │\n";
+    schematic += "└──────────────────────┬───────────────────────┘\n";
+
+    wireParts.forEach((part, idx) => {
+      const isLast = idx === wireParts.length - 1;
+      const branch = isLast ? " └──► " : " ├──► ";
+      const cleanWiring = part.specs.wiring.replace(/\s+/g, ' ');
+      schematic += `${branch}[${part.name}]\n`;
+      schematic += `       Pinout: ${cleanWiring}\n`;
+      if (!isLast) schematic += " │\n";
+    });
+
+    schematic += " └─────────────────────────────────────────────► Common GND & 5V Rail";
+    asciiBox.textContent = schematic;
+  }
+
+  function loop() {
+    reorganizeLayout();
+    attachButtonToLittleGTile();
+    updateDiagram();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loop);
+  } else {
+    loop();
+  }
+
+  setInterval(loop, 400);
+
+  window.renderBuildWiringDiagram = updateDiagram;
+})();
