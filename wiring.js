@@ -1,4 +1,4 @@
-// DeskBotStack Dynamic Layout: Commercial Robotics Carousel + LittleG Suite
+// DeskBotStack Dynamic Layout: Commercial Robotics Carousel (Local G1 Photos) + LittleG Suite
 (function () {
 
   // =========================================================================
@@ -60,16 +60,16 @@
         <!-- 3 Interactive Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-          <!-- 1. Unitree G1 Humanoid -->
+          <!-- 1. Unitree G1 Humanoid (Wired to your local uploaded photography) -->
           <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+G1+Humanoid+Robot" target="_blank" rel="noopener noreferrer" 
              id="card-unitree-g1"
              class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-cyan-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
             <div class="relative w-full h-48 bg-slate-900/80 overflow-hidden">
               <div class="hover-carousel-strip" id="strip-g1">
-                <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 Full Body">
-                <img src="https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 Head & Vision">
-                <img src="https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 Joint Mechanics">
-                <img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=600&q=80" alt="Unitree G1 In Action">
+                <img src="g1-1.png" alt="Unitree G1 Full Body">
+                <img src="g1-2.png" alt="Unitree G1 Head & Vision Visor">
+                <img src="g1-3.png" alt="Unitree G1 Waist Mechanics">
+                <img src="g1-4.png" alt="Unitree G1 In Action">
               </div>
               <div class="absolute top-2.5 left-2.5 bg-indigo-950/90 border border-indigo-400/40 text-[9px] font-mono font-bold uppercase text-indigo-300 px-2 py-0.5 rounded shadow">
                 Humanoid Biped
@@ -128,8 +128,8 @@
 
           <!-- 3. Elephant Robotics myCobot 280 -->
           <a href="https://www.aliexpress.com/wholesale?SearchText=Elephant+Robotics+myCobot+280" target="_blank" rel="noopener noreferrer" 
-                 id="card-mycobot-280"
-                 class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
+             id="card-mycobot-280"
+             class="group relative rounded-xl border border-slate-800 bg-slate-950 overflow-hidden hover:border-amber-400 transition-all flex flex-col justify-between shadow-lg cursor-pointer">
             <div class="relative w-full h-48 bg-slate-900/80 overflow-hidden">
               <div class="hover-carousel-strip" id="strip-mycobot">
                 <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80" alt="myCobot 280 Full Reach">
