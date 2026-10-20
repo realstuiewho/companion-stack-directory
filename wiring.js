@@ -1,7 +1,120 @@
-// DeskBotStack Dynamic Wiring & LittleG Popup Clean
+// DeskBotStack Dynamic Layout Upgrade: Commercial Carousel + In-Card Search + LittleG
 (function () {
 
-  // 1. Technical Exploded Blueprint Modal with Direct Etsy Listing Link
+  // =========================================================================
+  // 1. REORGANIZE HEADER: MOVE SEARCH INTO BLUEPRINTS & INSERT CAROUSEL
+  // =========================================================================
+  function reorganizeLayout() {
+    if (document.getElementById('commercial-robot-carousel')) return;
+
+    // Locate the Starter Blueprints container card
+    const allCards = Array.from(document.querySelectorAll('section, div'));
+    const blueprintsCard = allCards.find(el => {
+      const heading = el.querySelector('h2, h3, div');
+      return heading && heading.textContent.includes('Starter Blueprints') && el.classList.contains('border');
+    }) || document.querySelector('[id*="starter"], [class*="blueprint"]');
+
+    if (!blueprintsCard) return;
+
+    // Locate the original headline text & search input bar above the blueprints
+    const searchBar = document.getElementById('search-input')?.closest('div.relative, div.w-full, div') ||
+                      document.querySelector('input[placeholder*="Search"]')?.closest('div');
+    
+    const heroTitle = Array.from(document.querySelectorAll('h1, h2, div')).find(el => 
+      el.textContent && el.textContent.trim().startsWith('Build Your Own Desk Companion') && el.children.length <= 2
+    );
+
+    // Reposition search bar inside the top of the Starter Blueprints card
+    const recipeBadge = Array.from(blueprintsCard.querySelectorAll('span, div')).find(el => 
+      el.textContent && el.textContent.includes('READY-TO-BUILD RECIPES')
+    );
+
+    if (searchBar && recipeBadge) {
+      const recipeRow = recipeBadge.parentElement;
+      if (recipeRow && !recipeRow.querySelector('input')) {
+        recipeRow.className = "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2";
+        searchBar.className = "w-full sm:w-72 relative";
+        recipeRow.appendChild(searchBar);
+      }
+    }
+
+    if (heroTitle && heroTitle.parentElement) {
+      heroTitle.parentElement.style.display = "none";
+    }
+
+    // Build the Commercial & Embodied AI Platform Ribbon
+    const carouselSection = document.createElement('section');
+    carouselSection.id = 'commercial-robot-carousel';
+    carouselSection.className = 'my-6 px-4 max-w-7xl mx-auto w-full';
+    carouselSection.innerHTML = `
+      <div class="relative overflow-hidden rounded-2xl border border-indigo-500/30 bg-slate-900/90 p-4 sm:p-5 shadow-xl">
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-indigo-500/20">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300">Commercial &amp; Research Platforms</span>
+          </div>
+          <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest hidden sm:inline">Embodied AI Showcase</span>
+        </div>
+
+        <!-- Horizontal Scroll Ticker -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          <!-- Platform 1: Unitree G1 -->
+          <div class="relative p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[9px] font-mono font-bold uppercase text-indigo-300 bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-500/30">Humanoid Biped</span>
+                <span class="text-[11px] font-mono text-emerald-400 font-bold">From $13.5K USD</span>
+              </div>
+              <h4 class="text-sm font-bold text-white tracking-wide">Unitree G1 Humanoid</h4>
+              <p class="text-[11px] text-slate-400 font-mono mt-1 leading-relaxed">23–43 DOF biped, 2m/s walking speed, 3D LiDAR &amp; depth vision array. Official research platform.</p>
+            </div>
+            <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+G1+Humanoid+Robot" target="_blank" rel="noopener noreferrer" class="mt-3 w-full py-1.5 px-3 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 font-mono text-xs font-bold text-center transition-all">
+              Explore Platform &rarr;
+            </a>
+          </div>
+
+          <!-- Platform 2: Unitree Go2 -->
+          <div class="relative p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[9px] font-mono font-bold uppercase text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-500/30">AI Quadruped</span>
+                <span class="text-[11px] font-mono text-emerald-400 font-bold">From $2,350 USD</span>
+              </div>
+              <h4 class="text-sm font-bold text-white tracking-wide">Unitree Go2 Robot Dog</h4>
+              <p class="text-[11px] text-slate-400 font-mono mt-1 leading-relaxed">Ultra-wide 4D LiDAR, 3.7m/s agility, auto-stair climb, companion voice &amp; ROS2 secondary development.</p>
+            </div>
+            <a href="https://www.aliexpress.com/wholesale?SearchText=Unitree+Go2+Quadruped+Robot" target="_blank" rel="noopener noreferrer" class="mt-3 w-full py-1.5 px-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-mono text-xs font-bold text-center transition-all">
+              Explore Platform &rarr;
+            </a>
+          </div>
+
+          <!-- Platform 3: Elephant Robotics myCobot 280 -->
+          <div class="relative p-3.5 rounded-xl border border-slate-800 bg-slate-950/70 hover:border-cyan-500/40 transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[9px] font-mono font-bold uppercase text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-500/30">Desktop Cobot Arm</span>
+                <span class="text-[11px] font-mono text-emerald-400 font-bold">From $649 USD</span>
+              </div>
+              <h4 class="text-sm font-bold text-white tracking-wide">myCobot 280 Workspace Arm</h4>
+              <p class="text-[11px] text-slate-400 font-mono mt-1 leading-relaxed">6-axis articulated desk arm, 280mm reach, 250g payload, brained on Raspberry Pi 4B &amp; ROS.</p>
+            </div>
+            <a href="https://www.aliexpress.com/wholesale?SearchText=Elephant+Robotics+myCobot+280" target="_blank" rel="noopener noreferrer" class="mt-3 w-full py-1.5 px-3 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-mono text-xs font-bold text-center transition-all">
+              Explore Platform &rarr;
+            </a>
+          </div>
+
+        </div>
+      </div>
+    `;
+
+    // Insert carousel directly above the blueprints card
+    blueprintsCard.insertAdjacentElement('beforebegin', carouselSection);
+  }
+
+  // =========================================================================
+  // 2. MODAL & LITTLE G BLUEPRINT BUTTON
+  // =========================================================================
   function getModal() {
     let modal = document.getElementById('little-g-modal');
     if (!modal) {
@@ -23,8 +136,7 @@
           <div class="p-4 border-t border-slate-800 bg-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3">
             <span class="text-xs text-slate-400 font-mono">Drawing No: DBS-LG-001</span>
             
-            <!-- Direct Live Etsy Listing Link -->
-            <a href="https://www.etsy.com/au/listing/4598641631/littleg-tri-arm-desktop-robot-companion?ref=shop_home_active_1&pro=1&dd=1" target="_blank" rel="noopener noreferrer" id="btn-modal-checkout" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider font-mono rounded-lg text-center shadow-lg shadow-cyan-500/20 transition-all cursor-pointer">
+            <a href="https://www.etsy.com/au/listing/4598641631/littleg-tri-arm-desktop-robot-companion?ref=shop_home_active_1&pro=1&dd=1" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs uppercase tracking-wider font-mono rounded-lg text-center shadow-lg shadow-cyan-500/20 transition-all cursor-pointer">
               🛒 Get Complete Maker Pack (Etsy) &rarr;
             </a>
 
@@ -45,7 +157,6 @@
     return modal;
   }
 
-  // 2. Put the button directly INSIDE the LittleG Tile
   function attachButtonToLittleGTile() {
     if (document.getElementById('btn-tile-blueprint-view')) return;
 
@@ -69,7 +180,9 @@
     littleGCard.appendChild(btn);
   }
 
-  // 3. Dynamic Build Tray Pinouts
+  // =========================================================================
+  // 3. BUILD TRAY DYNAMIC WIRING SCHEMATIC
+  // =========================================================================
   function getWorkbenchDrawer() {
     const buttons = Array.from(document.querySelectorAll('button'));
     const checklistBtn = buttons.find(b => 
@@ -146,6 +259,7 @@
   }
 
   function loop() {
+    reorganizeLayout();
     attachButtonToLittleGTile();
     updateDiagram();
   }
